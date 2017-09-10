@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="さて、Web APIを利用して話し言葉をブラウザで認識させ、返事を選択させるところまで辿り着きました。今回は「Speech Synthesis API」を利用してブラウザに言葉を喋らせてみます。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】">
+<meta property="og:url" content="https://pondad.github.io/bot/2015/12/27/speech-synthesis-api.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="さて、Web APIを利用して話し言葉をブラウザで認識させ、返事を選択させるところまで辿り着きました。今回は「Speech Synthesis API」を利用してブラウザに言葉を喋らせてみます。">
+<meta property="og:image" content="https://cldup.com/EigW9CjhTV.png">
+<meta property="og:image" content="https://cldup.com/BE5dz_1fhA.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】">
+<meta name="twitter:description" content="さて、Web APIを利用して話し言葉をブラウザで認識させ、返事を選択させるところまで辿り着きました。今回は「Speech Synthesis API」を利用してブラウザに言葉を喋らせてみます。">
+<meta name="twitter:image" content="https://cldup.com/EigW9CjhTV.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/mvtoc8hojN.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/mvtoc8hojN.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/mvtoc8hojN.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2015-12-27T22:00:00+09:00">
+	
+		    2015/12/27
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        hasCoverCaption">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <span class="post-header-cover-caption caption">Photo credit - w i n t e r t w i n e d</span>
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>さて、Web APIを利用して話し言葉をブラウザで認識させ、返事を選択させるところまで辿り着きました。今回は「Speech Synthesis API」を利用してブラウザに言葉を喋らせてみます。</p>
+<a id="more"></a>
+<h2 id="言葉の一部分を読み取らせる（Speech-Recognition-APIの補足）"><a href="#言葉の一部分を読み取らせる（Speech-Recognition-APIの補足）" class="headerlink" title="言葉の一部分を読み取らせる（Speech Recognition APIの補足）"></a>言葉の一部分を読み取らせる（Speech Recognition APIの補足）</h2><p>前回記事の補足です。条件分岐で話し言葉を読み取らせる際、複数の単語で判別したい場合の工夫です。</p>
+<p>今回の場合、映画パルプ・フィクションの一場面風に「Royale with cheese.」と話すとサミュエル・L・ジャクソンよろしく「Royale with cheese?」と返事をする様にしたかったのですが…。</p>
+<p>なかなか複数の英単語を正確に発音してブラウザに読み取らせるのは難しい事に気付きました。</p>
+<p>そこでJavaScriptの <code>String.prototype.indexOf()</code> メソッドを利用することにしました。[^1]</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str.indexOf(searchValue[, fromIndex])</div></pre></td></tr></table></figure>
+<p>  このメソッドを利用すると検索したい文字列（<code>str</code>）の中から、抽出したい単語（<code>searchValue</code>）が含まれている文字数を返してくれます。</p>
+<p>これを利用して今回は</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (value.indexOf(<span class="string">'cheese'</span>) &gt;= <span class="number">0</span>)</div></pre></td></tr></table></figure>
+<p>という条件分岐を行いました。[^2] これで文字列の中に「cheese」という単語が含まれていれば「Royale with cheese?」と返事をさせることが出来ます。</p>
+<p>下手な英語の発音でも大丈夫。ということです。</p>
+<h2 id="Speech-Synthesis-API"><a href="#Speech-Synthesis-API" class="headerlink" title="Speech Synthesis API"></a>Speech Synthesis API</h2><p>さて、本題です。以前「 <a href="http://www.pondad.com/?p=8734" target="_blank" rel="external">えっ、ブラウザが喋った！スピーチAPIを試してみたよ。【HTML5／Web Speech API】 - フタパパ</a>  」で試した通り、「Speech Synthesis API」を利用することで簡単にブラウザにテキストを読み上げさせることが出来ます。</p>
+<p>今回はサミュエル・L・ジャクソン特有の喋り方をブラウザに喋らせることが出来ないか考えてみたのですが…これは現時点ではひどく難しく、思ったように行きませんでした。</p>
+<h2 id="SpeechSynthesis-getVoices"><a href="#SpeechSynthesis-getVoices" class="headerlink" title="SpeechSynthesis.getVoices()"></a>SpeechSynthesis.getVoices()</h2><p><code>Speech Synthesis API</code>の中で、<code>SpeechSynthesis.getVoices()</code>というメソッドを利用することで使用OSの音声エンジンを利用することが出来ます。[^3]</p>
+<p>実はこれを今まで知らずに、音声エンジンはブラウザが実装しているものだと思っていました。指定可能な音声はOSに依存されます。上記の<code>SpeechSynthesis.getVoices()</code>を利用して音声リストを抽出することも可能です。[^4]</p>
+<p><img src="https://cldup.com/EigW9CjhTV.png" alt=""></p>
+<p>Chromebookで指定可能な音声はこのようになります。男性の音声はもとより、今のところ日本語エンジンも未対応とちょっと寂しい対応状況です。</p>
+<p>それと比較してやはり一番多くの音声エンジンを搭載しているのはMacです。</p>
+<p><img src="https://cldup.com/BE5dz_1fhA.png" alt=""></p>
+<p>その数なんと83種類！視聴覚が不自由な方向けのナビゲーションにこだわってきたMacらしい対応だと関心しました。</p>
+<p><iframe src="https://vine.co/v/iA9O75F236g/embed/simple" width="300" height="300" frameborder="0"></iframe><script src="https://platform.vine.co/static/scripts/embed.js"></script></p>
+
+<p>このサンプル動画はMacの音声エンジン「Ralph」さんを利用しました。サンプルコードは以下の通り。</p>
+<p><script type="text/javascript" src="http://jsdo.it/blogparts/Cgl5/js?width=100%&height=496&view=screenshot"></script></p>
+
+<p><code>Speech Synthesis API</code>を利用して音声を指定することが出来ます。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> voices = speechSynthesis.getVoices();</div><div class="line">u.voice = voices[<span class="number">64</span>];</div></pre></td></tr></table></figure>
+<p>ここではMacの64番目の音声エンジンを指定しています。</p>
+<p>※ Chromeのバグだと思うのですが、音声エンジンの読み取りの初回がデフォルト音声になってしまいます。これを避けるためにボタンをクリックした際にテキスト指定なしの音声を一度発話させるように指定しました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>ちょっと長くなりましたが、今回は「サミュエル・L・ジャクソン」風の音声を再現するのに一番苦労しました。</p>
+<p>ちょっと癖のあるアクセントで早口でまくし立てる「Mother F*cker」を再現するのは難しかったです。</p>
+<p>どちらかというと、「ブレイキング・バッド」に出演した渋い脇役マイクを演じたジョナサン・バンクスさんの声に近いかな。</p>
+<p>まあこの方も好きな役者さんなので良しとしましょう。そのうち音声エンジンにマシンガントークが得意な「Samuel」が出来ることを期待しつつ。</p>
+<p>（この記事つづく）</p>
+<hr>
+<p>[^1]: <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf" target="_blank" rel="external">String.prototype.indexOf() - Mozilla Developer Network</a></p>
+<p>[^2]: <a href="http://jsdo.it/wakasamasao/dayxmas" target="_blank" rel="external">2015年のクリスマスまでの日付を教えてくれるブラウザ -     wakasamasao</a></p>
+<p>[^3]: <a href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices" target="_blank" rel="external">SpeechSynthesis.getVoices() - Mozilla Developer Network</a></p>
+<p>[^4]: <a href="http://www.cyokodog.net/blog/web-speechi-api/" target="_blank" rel="external">ブラウザのみで音声認識とテキスト読み上げを実現する Web Speech API- CYOKODOG</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/web-api/">web-api</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/30/samuel-l-9000.html"  data-tooltip="相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/27/speech-recogmition-api.html" data-tooltip="相棒（AI-Bot）をつくる。~  その2【Speech Recognition API】">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/27/speech-synthesis-api.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/27/speech-synthesis-api.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/30/samuel-l-9000.html"  data-tooltip="相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/27/speech-recogmition-api.html" data-tooltip="相棒（AI-Bot）をつくる。~  その2【Speech Recognition API】">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/27/speech-synthesis-api.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/27/speech-synthesis-api.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/27/speech-synthesis-api.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/27/speech-synthesis-api.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2015/12/27/speech-synthesis-api.html';
+                 
+                    this.page.identifier = 'bot/2015/12/27/speech-synthesis-api.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

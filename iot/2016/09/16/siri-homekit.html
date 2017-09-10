@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>iOS10の「Home」アプリでお手軽IoT。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="先日iOS10リリースに合わせて公開された「Home」アプリを早速試してみました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="iOS10の「Home」アプリでお手軽IoT。">
+<meta property="og:url" content="https://pondad.github.io/iot/2016/09/16/siri-homekit.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="先日iOS10リリースに合わせて公開された「Home」アプリを早速試してみました。">
+<meta property="og:image" content="https://cldup.com/DOmK6uZh5z.png">
+<meta property="og:image" content="https://cldup.com/7FhRL108vJ.jpg">
+<meta property="og:image" content="https://cldup.com/9oOkbKqzs3.jpg">
+<meta property="og:image" content="https://cldup.com/sv_BGYEkDI.jpg">
+<meta property="og:image" content="https://cldup.com/ibgAgw35oa.jpg">
+<meta property="og:image" content="https://cldup.com/iF0RhgB2Lr.jpg">
+<meta property="og:image" content="https://cldup.com/y9q7G8TmII.jpg">
+<meta property="og:image" content="https://cldup.com/FYrJGHBXYp.png">
+<meta property="og:image" content="https://cldup.com/A9933_86lT.jpg">
+<meta property="og:image" content="https://cldup.com/EIujQ4iUc9.jpg">
+<meta property="og:updated_time" content="2016-09-17T04:53:00.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="iOS10の「Home」アプリでお手軽IoT。">
+<meta name="twitter:description" content="先日iOS10リリースに合わせて公開された「Home」アプリを早速試してみました。">
+<meta name="twitter:image" content="https://cldup.com/DOmK6uZh5z.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/xRWdW6s7sG.gif"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/xRWdW6s7sG.gif" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/xRWdW6s7sG.gif');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            iOS10の「Home」アプリでお手軽IoT。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-09-16T20:30:00+09:00">
+	
+		    2016/09/16
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/iot/">iot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>先日iOS10リリースに合わせて公開された「Home」アプリを早速試してみました。</p>
+<a id="more"></a>
+<p>IoT関連の製品やサービスは、日常的に使える様になるにはもう少し時間がかかるかな。と思っていましたが、「Home」アプリは実用に耐えられそうに感じました。</p>
+<p>まるで日頃使い慣れたアプリを立ち上げる様に家電を制御出来ます。さすがAppleといったところです。</p>
+<h2 id="iOSホーム"><a href="#iOSホーム" class="headerlink" title="iOSホーム"></a>iOSホーム</h2><p><img src="https://cldup.com/DOmK6uZh5z.png" alt=""></p>
+<p><a href="http://www.apple.com/jp/ios/home/" target="_blank" rel="external">iOS - ホーム - Apple（日本）</a></p>
+<p>iOS8の頃から利用は出来たようですが、対応している家電も少なく（しかもお高い）実際試してみるには至りませんでした。</p>
+<p>最近ではRaspberryPiをはじめとしたシングルボードコンピューターを利用して、手軽に家電を制御することも可能になっています。</p>
+<p>先日RaspberryPiに学習リモコンを接続し、家電を制御出来る様になりました。そこで新しい「ホーム」アプリを早速試してみました。</p>
+<p><img src="https://cldup.com/7FhRL108vJ.jpg" alt=""></p>
+<p>自宅に名前をつけ、アクセサリ（接続する家電）を登録します。</p>
+<p><img src="https://cldup.com/9oOkbKqzs3.jpg" alt=""></p>
+<p>ここではスマート家電として設定したRaspberryPiをアクセサリとして登録します。</p>
+<p><img src="https://cldup.com/sv_BGYEkDI.jpg" alt=""></p>
+<p>市販のスマート家電ではカメラの文字認識を利用してをペアリングするものもある様です。ここは自作のものなので自分で設定したコードを入力します。</p>
+<p><img src="https://cldup.com/ibgAgw35oa.jpg" alt=""></p>
+<p>ペアリングに成功すればアクセサリとして登録されます。利用する場所の登録を設定することが出来ます。まずはパパの部屋に設定しました。</p>
+<p><img src="https://cldup.com/iF0RhgB2Lr.jpg" alt=""></p>
+<p>照明と合わせて赤外線で動くR2D2のおもちゃを登録したので、実行アクセサリとして認識されています。</p>
+<p>「ホーム」アプリの面白いところはSiriと連携できるところです。</p>
+<p><img src="https://cldup.com/y9q7G8TmII.jpg" alt=""></p>
+<p>R2D2のおもちゃ（私の滑舌が悪いのかR2D2と認識してくれないのでドロイドと登録しています）をオンにしてみます。</p>
+<div class="video-container"><iframe src="//www.youtube.com/embed/UOG2ERlucS4" frameborder="0" allowfullscreen></iframe></div>
+<p>動きました。</p>
+<h2 id="ローカルネットワーク外から操作する。"><a href="#ローカルネットワーク外から操作する。" class="headerlink" title="ローカルネットワーク外から操作する。"></a>ローカルネットワーク外から操作する。</h2><p>自宅サーバーを立てる際に一番面倒なのは、DSN設定と合わせてルーターのポートを解放することではないでしょうか？</p>
+<p>家電操作を外出先からコントロールしてみようとすると、そこらへんからぐっと敷居が高くなります。</p>
+<p>個人的にはホームアプリで一番衝撃を受けたのが外部回線からのリモートアクセスが異常に簡単なところです。</p>
+<p><img src="https://cldup.com/FYrJGHBXYp.png" alt=""></p>
+<p><a href="https://support.apple.com/ja-jp/HT204893" target="_blank" rel="external">HomeKit 対応アクセサリを iPhone、iPad、および iPod touch で使う - Apple（日本）</a></p>
+<p>なんと。AppleTV（第３世代以降）をiCloudに接続するだけで外出先の4G回線などから自宅のスマート家電にアクセスできる様になります。</p>
+<p>??</p>
+<p>どういうこと？</p>
+<p><img src="https://cldup.com/A9933_86lT.jpg" alt=""></p>
+<p>確かに管理画面を確認すると、ホームハブとしてAppleTVが認識されています。ありえないほど簡単です。</p>
+<p><img src="https://cldup.com/EIujQ4iUc9.jpg" alt=""></p>
+<p>iOS10ではコントロールセンターにホームが追加されました。</p>
+<p>iTunesで音楽を聞くのと同じ操作で自宅の家電を操作することが可能になります。ちょっとこの使い勝手は他では真似できないな、と感じました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>こんなことを書いている時にふとネットを見ているとこんなツイートが。</p>
+<p><blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr"><a href="https://twitter.com/lexgardner419" target="_blank" rel="external">@lexgardner419</a> We want to help. iOS 10 &amp; HomeKit hubs are now only compatible with AppleTv 4th Gen. Check this out: <a href="https://t.co/2DyWMh9Smz" target="_blank" rel="external">https://t.co/2DyWMh9Smz</a></p>&mdash; Apple Support (@AppleSupport) <a href="https://twitter.com/AppleSupport/status/776622372988346369" target="_blank" rel="external">2016年9月16日</a></blockquote></p>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>そりゃないよ。。</p>
+<h2 id="追記-2016年9月17日"><a href="#追記-2016年9月17日" class="headerlink" title="追記 2016年9月17日"></a>追記 2016年9月17日</h2><p>一時的に接続出来なかった様ですが、今日試したら４Gから接続できました。上記ツイートは削除されています。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/homebridge/">homebridge</a> <a class="tag tag--primary tag--small t-link" href="/tags/irmagician/">irmagician</a> <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/10/09/arduino-johnny-five.html"  data-tooltip="【JavaScript Robotics】ロボット作ってみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/09/10/siri-irmagician.html" data-tooltip="Siriさんに電気をつけてもらう。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/09/16/siri-homekit.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/09/16/siri-homekit.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=iOS10の「Home」アプリでお手軽IoT。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/10/09/arduino-johnny-five.html"  data-tooltip="【JavaScript Robotics】ロボット作ってみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/09/10/siri-irmagician.html" data-tooltip="Siriさんに電気をつけてもらう。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/09/16/siri-homekit.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/09/16/siri-homekit.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=iOS10の「Home」アプリでお手軽IoT。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/09/16/siri-homekit.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/09/16/siri-homekit.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=iOS10の「Home」アプリでお手軽IoT。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/iot/2016/09/16/siri-homekit.html';
+                 
+                    this.page.identifier = 'iot/2016/09/16/siri-homekit.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

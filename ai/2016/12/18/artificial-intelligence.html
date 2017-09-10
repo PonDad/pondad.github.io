@@ -1,0 +1,625 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>人工知能はチーズバーガーの夢を見るか - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="自分の中で、今年の流行語大賞は「PPMP（パイソンパイセン、マジパネエ）」。ポンダッドです。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="人工知能はチーズバーガーの夢を見るか">
+<meta property="og:url" content="https://pondad.github.io/ai/2016/12/18/artificial-intelligence.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="自分の中で、今年の流行語大賞は「PPMP（パイソンパイセン、マジパネエ）」。ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/s7SVHJ5CQ9.jpg">
+<meta property="og:image" content="https://cldup.com/Ry8p2qMA4R.png">
+<meta property="og:image" content="https://cldup.com/M0AWz_qd4Y.png">
+<meta property="og:image" content="https://cldup.com/7Tim75jBl9.png">
+<meta property="og:image" content="https://cldup.com/dEWfth85_Y.png">
+<meta property="og:image" content="https://cldup.com/lP_5Wk2Cff.jpg">
+<meta property="og:updated_time" content="2017-01-02T13:00:16.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="人工知能はチーズバーガーの夢を見るか">
+<meta name="twitter:description" content="自分の中で、今年の流行語大賞は「PPMP（パイソンパイセン、マジパネエ）」。ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/s7SVHJ5CQ9.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/s7SVHJ5CQ9.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/s7SVHJ5CQ9.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/s7SVHJ5CQ9.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            人工知能はチーズバーガーの夢を見るか
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-12-18T08:15:00+09:00">
+	
+		    2016/12/18
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/ai/">ai</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>自分の中で、今年の流行語大賞は「PPMP（パイソンパイセン、マジパネエ）」。ポンダッドです。</p>
+<a id="more"></a>
+<p>「人工無脳（Bot）と人工知能(AI)の違いとはなんだろう。」そんな事について感じたことを書いてみます。ただのポエムです。</p>
+<h2 id="チーズ・バーガーとバイオレンス"><a href="#チーズ・バーガーとバイオレンス" class="headerlink" title="チーズ・バーガーとバイオレンス"></a>チーズ・バーガーとバイオレンス</h2><p><img src="https://cldup.com/s7SVHJ5CQ9.jpg" alt=""></p>
+<p>映画「パルプフィクション」の中で、こんな印象的なシーンがあります。</p>
+<p>組織の裏切り者の自宅に、ギャング２人組が乗り込みます。サミュエル・L・ジャクソン演じる「ジュールス・ウィンフィールド」とジョン・トラボルタ演じる「ヴィンセント・ベガ」の２人組です。</p>
+<p>組織にとって重要なものを盗んだ裏切り者のグループは、明らかに悪そうな二人組に対し震え上がります。</p>
+<p>ジュールスはそんな相手に対し、目もくれず気さくな口調で話しかけます。</p>
+<p>「No, no-no-no-no, where’d you get them? McDonald’s, Wendy’s, Jack-in-the-Box, where?(ああ、違う違う！どこで買ったんだ、マクドナルド？ウェンズディ？ジャックインザボックス？)」</p>
+<p>「Big Kahuna Burger! That’s that Hawaiian burger joint. I hear they got some tasty burgers. Ain’t never had one myself. How are they?(ビッグカフナバーガー！ハワイ風のやつだな。俺は食ったことねぇけどイケるそうじゃねぇか。)」</p>
+<p>「You mind if I try one of yours?(食べても？)」</p>
+<p>「Mm-hmm! This is a tasty burger!(んん！こいつはイケる！)」</p>
+<p>一連の会話は一見日常よくみられる他愛無い会話ですが、サミュエル・L・ジャクソン演じる「ジュールス」が冷徹な眼付きでハンバーガーを頬張る姿に観客は恐怖を覚えるはずです。</p>
+<p>クエンティン・タランティーノの演出の妙により、静かに暴力の予感を感じさせる名シーンの一つでもあります。</p>
+<h2 id="無脳と知能"><a href="#無脳と知能" class="headerlink" title="無脳と知能"></a>無脳と知能</h2><p>さて、人工知能の話です。ここしばらく人工無脳（Bot）づくりに凝っていたのですが、いつもふと思うところがありました。</p>
+<p>「人工無脳（Bot）と人工知能(AI)の違いとはなんだろう。」</p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4040800206/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">人工知能は人間を超えるか ディープラーニングの先にあるもの (角川EPUB選書) - Amazon.co.jp</a> こちらの書籍、最初に読んだ時は内容が少し難しくなかなか理解できなかったのですが、機械学習を少し独学したのちに読み直してみたところ、成る程と腑に落ちました。</p>
+<p>著書の中で過去の人工知能ブームを振り返り、なぜその後停滞してしまったかを振り返ります。</p>
+<p>1960年代の第1次人工知能ブームでは迷路やパズル、ゲームなど分野で成果を発揮しました。しかし限定的なルールの中でしか問題解決が出来ない事が判明しました。</p>
+<p>1980年代の第2次人工知能ブームでは数多くのデータを入力する事により、一見すると人間の様々な問題を解決出来るかに見えました。しかし膨大なデータ蓄積するだけでは人間が持つ知識を理解することは叶いませんでした。</p>
+<p>※ いわゆる人工無脳（Elizaなど）はこの第2次人工知能ブームに含まれる様です。</p>
+<p>膨大なデータを知識として利用するには、機械に「知能」を持たすしかない。その様な研究は初期段階から盛んに行われてきた様ですが、コンンピューターの処理能力や膨大なデータの収集などの問題により実現には至りませんでした。</p>
+<p>2000年代の第3次人工知能ブームにより大きな変化が訪れます。「機械学習」によりプログラム自身が学習する事が可能になったのです。</p>
+<p>これにより、レコメンドシステムなどが実用的なレベルで利用可能になりました。しかしながら学習の精度を上げるためには（特徴量を設計するには）最終的に人間の高度な知識と経験が必要となり、そこには限界があります。</p>
+<p>近年、その限界を突破する技術が現れました。それが深層学習（ディープラーニング）です。</p>
+<h2 id="深層学習（ディープラーニング）"><a href="#深層学習（ディープラーニング）" class="headerlink" title="深層学習（ディープラーニング）"></a>深層学習（ディープラーニング）</h2><p>特徴量を機械が自動的に計算する事により、機械が「概念」を理解し始めたという話も最近では聞かれる様になりました。では、深層学習とはどんな仕組みになっているのでしょうか。</p>
+<p>深層学習では「ニューラル・ネットワーク」という仕組みを利用します。</p>
+<p><img src="https://cldup.com/Ry8p2qMA4R.png" alt=""></p>
+<p>人間の神経細胞を図で表すとこんな風になる様です。このニューロンは生後10ヶ月で形成され、以降増えることは無いといいます。140億個といわれるニューロン同士を繋ぐ情報伝達物質はシナプスと呼ばれます。一つのニューロンから8000ものシナプスが生まれますがこれは３歳までしか発達しないといわれています。（参考：<a href="http://www.e-ikuji.info/childcare/synapse.html" target="_blank" rel="external">e-育児</a>）</p>
+<p>「三つ子の魂百まで」そんな格言は科学的にも正しいんだな、と思ったことのある方も多いかと思います。親の愛情を一身に受け112兆ものシナプスが私たちの脳の中にはあるということです。</p>
+<p>さて、この神経細胞を模して作られたのがニューラル・ネットワークです。図で表すとこんな風になります。</p>
+<p><img src="https://cldup.com/M0AWz_qd4Y.png" alt=""></p>
+<p>この図の一つの円を一つの細胞とみなします。こちらから細胞の一つを取り出してみます。</p>
+<p><img src="https://cldup.com/7Tim75jBl9.png" alt=""></p>
+<p>入力が<code>x1</code>、<code>x2</code>、<code>x3</code>…出力が<code>y</code>となります。入力される情報は全て重要だとは限りません。そこで、それぞれの入力に対し<code>w1</code>、<code>w2</code>、<code>w3</code>…という様に重要度の重りを設定します。これが神経細胞におけるシナプスに相当します。</p>
+<p>事前にしきい値<code>bias</code>を決めておけば、入力<code>x</code>に対して出力<code>y</code>を決定づける事が出来ます。</p>
+<p>この様な神経細胞を複数組み合わせる事でニューラルネットワークは出来ています。さらに深層学習ではこれを複数層重ね合わせる事で精度を高めることができるそうです。</p>
+<p>（参考：<a href="http://itpro.nikkeibp.co.jp/atcl/column/14/112000106/111100057/" target="_blank" rel="external">JavaScriptで簡単に実践できる深層学習（1）- IT pro</a>）</p>
+<p>…ここはかのブルース・リー師父の言葉に従う事にします。</p>
+<p>「Don’t think.Feel.（考えるな。感じろ。）」</p>
+<p>特徴量を機械が自分で計算する事により、人間が計算したものよりはるかに高い精度の機械学習が行える事が出来る様になった。という事を理解できた様に感じました。</p>
+<h2 id="CNNとRNN"><a href="#CNNとRNN" class="headerlink" title="CNNとRNN"></a>CNNとRNN</h2><p>深層学習の深さを感じることは出来ましたが、では実際にどうな事が実現されているのでしょうか。機械が「概念」を持つとはどんな事なのでしょうか。</p>
+<p>最近こんな記事を読んでちょっとどきりとしました。</p>
+<p><a href="http://jp.techcrunch.com/2016/11/23/20161122googles-ai-translation-tool-seems-to-have-invented-its-own-secret-internal-language/" target="_blank" rel="external">GoogleのAI翻訳ツールは独自の内部的言語を発明したようだ、そうとしか言えない不思議な現象が - TechCrunch Japan </a></p>
+<p>Googleの翻訳ツールの精度が上がったとは聞いていたのですが、どうも翻訳AIが人間には理解できない中間言語を持ち始めたというのです。</p>
+<p>清水亮さんが深層学習に関して過去のブログでこんな記事を書かれていました。</p>
+<blockquote>
+<p>今流行ってるディープラーニングは画像が主流(従来技術では画像認識が一番難しかった)だが、学習できるものは画像だけに限らない。(中略）</p>
+<p>CNN(コンボリューションニューラルネットワーク)に代表されるニューラルネットワークは内部状態を持たず、学習結果がネットワークそのものに保存される。つまり、ある時点のニューラルネットワークに同じ入力を与えれば常に同じ出力が返ってくる。</p>
+<p>これに対し、RNN(リカレントニューラルネットワーク)は内部状態を持ち、同じ入力を与えても文脈によって出力が異なる。</p>
+<p>イメージ的にはCNNが数学上の関数に近い(同じ入力に対しては常に同じ答え)のに対し、RNNはコンピュータや動物に近い。</p>
+<p><a href="http://d.hatena.ne.jp/shi3z/20150531/1433032775" target="_blank" rel="external">ディープラーニングがなんなのか簡単に知りたい人はこれを読もう - shi3zの長文日記</a></p>
+</blockquote>
+<p>深層学習にはいくつかモデルが存在し、それらを組み合わせる事で更に高度な学習が行える様です。</p>
+<p>イメージキャプショニングと呼ばれる技術が開発されていますが、これは画像から深層学習により文章を生成することの出来る技術です。</p>
+<p><img src="https://cldup.com/dEWfth85_Y.png" alt=""></p>
+<p>画像引用：<a href="https://research.googleblog.com/2016/09/show-and-tell-image-captioning-open.html" target="_blank" rel="external">Show and Tell: image captioning open sourced in TensorFlow　- Google Research Blog</a></p>
+<p>これはCNN(コンボリューションニューラルネットワーク)→RNN(リカレントニューラルネットワーク)を使って実現しているのですが、<strong>逆の生成も出来る</strong> そうなのです。</p>
+<p>つまり、ある言葉を元にして機械が持つ「概念」を画像や他言語を通じて具体化出来る様になった。ということです。</p>
+<p>(参考：<a href="http://www.amazon.co.jp/exec/obidos/ASIN/B01M3OH87R/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">よくわかる人工知能　最先端の人だけが知っているディープラーニングのひみつ - Amazon.co.jp</a>）</p>
+<p>…妖怪ウォッチに出てくる「コマさん」ならずともこんな感想を持つことでしょう。</p>
+<p>「いやー、オラ、おったまげただ〜。」</p>
+<p>「無脳」と「知能」の違いとは、機械が「概念」を持つか否かである。という事も出来るのではないでしょうか。</p>
+<h2 id="人工知能はチーズバーガーの夢を見るか"><a href="#人工知能はチーズバーガーの夢を見るか" class="headerlink" title="人工知能はチーズバーガーの夢を見るか"></a>人工知能はチーズバーガーの夢を見るか</h2><p><img src="https://cldup.com/lP_5Wk2Cff.jpg" alt=""></p>
+<p>さて、冒頭のパルプフィクションのシーンに戻ります。</p>
+<p>パルプ・フィクションをはじめとしたクエンティン・タランティーノ監督作品を人工知能が見続けたとしたら、チーズバーガーを頬張り、スプライトで流し込むサミュエル・L・ジャクソンを見てこんな概念を持つかもしれません。</p>
+<p>「ああ、前作『レザボア・ドッグス』と同じだ。タランティーノはこうやってファストフードを画面に出す事、つまりは日常にありふれた物を画面に持ち出すことで観客の心を緩ませるんだ。不穏な場面をより効果的に見せる演出なんだ。ここで気を許しちゃいけない。この後想像を超えるバイオレンスシーンが待ち受けているぞ…。」</p>
+<p>こんなオタク丸出しの人工知能が現れるのも、もうすぐなのかもしれませんね。ではまた。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/deep-learning/">deep-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/23/keras-inceptionv3.html"  data-tooltip="深層学習やってみる - InceptionV3で画像認識">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/12/11/scikit-learn-mnist.html" data-tooltip="はじめてのPython - 機械学習で手書き数字認識（MNIST）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/18/artificial-intelligence.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/18/artificial-intelligence.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=人工知能はチーズバーガーの夢を見るか">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/23/keras-inceptionv3.html"  data-tooltip="深層学習やってみる - InceptionV3で画像認識">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/12/11/scikit-learn-mnist.html" data-tooltip="はじめてのPython - 機械学習で手書き数字認識（MNIST）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/18/artificial-intelligence.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/18/artificial-intelligence.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=人工知能はチーズバーガーの夢を見るか">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/18/artificial-intelligence.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/18/artificial-intelligence.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=人工知能はチーズバーガーの夢を見るか">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/ai/2016/12/18/artificial-intelligence.html';
+                 
+                    this.page.identifier = 'ai/2016/12/18/artificial-intelligence.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

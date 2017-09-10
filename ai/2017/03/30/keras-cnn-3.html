@@ -1,0 +1,613 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>感情モデルを考える〜プルチック感情の輪 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="人工知能に（擬似的な）感情を持たすことが出来ないだろうか？そんなことを考えて見ました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="感情モデルを考える〜プルチック感情の輪">
+<meta property="og:url" content="https://pondad.github.io/ai/2017/03/30/keras-cnn-3.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="人工知能に（擬似的な）感情を持たすことが出来ないだろうか？そんなことを考えて見ました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/tr9NJy8hzy.png">
+<meta property="og:image" content="https://cldup.com/ZvgruVVe7A.png">
+<meta property="og:image" content="https://cldup.com/nPsynofN59.png">
+<meta property="og:image" content="https://cldup.com/hum0bSpsMe.gif">
+<meta property="og:updated_time" content="2017-04-08T23:25:08.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="感情モデルを考える〜プルチック感情の輪">
+<meta name="twitter:description" content="人工知能に（擬似的な）感情を持たすことが出来ないだろうか？そんなことを考えて見ました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/tr9NJy8hzy.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/g5cs7eim-V.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/g5cs7eim-V.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/g5cs7eim-V.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            感情モデルを考える〜プルチック感情の輪
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-03-30T23:30:00+09:00">
+	
+		    2017/03/30
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/ai/">ai</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>人工知能に（擬似的な）感情を持たすことが出来ないだろうか？そんなことを考えて見ました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。</p>
+<a id="more"></a>
+<h2 id="脳の色のはなし"><a href="#脳の色のはなし" class="headerlink" title="脳の色のはなし"></a>脳の色のはなし</h2><p>かれこれ３年ほど前になりますが、こんなブログ記事を書いたことがありました。</p>
+<p><a href="https://pondad.net/culture/2014/05/17/brain.html" target="_blank" rel="external">脳の色のはなし</a></p>
+<p>以前勤めていた会社で受けた研修が非常に印象深かったので感想をまとめたものです。その後、折を見て調べていたのですが、どうもこの感情モデルは<a href="https://www.herrmann.co.jp/about.html" target="_blank" rel="external">ハーマンモデル</a>と呼ばれる脳の感情モデルが元になっているようです。</p>
+<p>その後、ピクサーの映画<a href="https://ja.wikipedia.org/wiki/%E3%82%A4%E3%83%B3%E3%82%B5%E3%82%A4%E3%83%89%E3%83%BB%E3%83%98%E3%83%83%E3%83%89" target="_blank" rel="external">インサイド・ヘッド</a>でもそのモデルが使われていました。まとめてみるとこんな感じです。</p>
+<p><img src="https://cldup.com/tr9NJy8hzy.png" alt=""></p>
+<p>映画で言うところの「Disgust（ムカムカ）」がちょっと異なりますが、概ね4色（ないし５色）で脳の感情モデルを表すとこんな感じになると思います。</p>
+<p>大脳辺縁系は身体に直結してより具体的な反応になり、大脳新皮質はヒトが進化する中で大きく発達した部分になるのでより抽象的な反応を示します。</p>
+<p>日本古来の言葉でも「喜怒哀楽」と言う言葉がありますのでそれに当てはめて見ました。ポイントになるのはその感情推移の順番です。</p>
+<p>「哀→喜」や「怒→楽」の様に対極にある感情へダイレクトに変化することは出来ません。図で表すとこんな感じです。</p>
+<p><img src="https://cldup.com/ZvgruVVe7A.png" alt=""></p>
+<p>これは脳の構造上左脳と右脳を繋ぐ「脳梁」を経由するためだと思われます。</p>
+<p>感情の推移としては「喜怒哀楽」は自然な変化に思えますが、逆の「楽哀怒」へと向かう感情は外部からのストレスなどが原因の様に思います。</p>
+<p>さて、この様な感情推移をさらにわかりやすくまとめた感情モデルがあります。それが「プルチックの感情の輪」です。</p>
+<h2 id="プルチックの感情の輪"><a href="#プルチックの感情の輪" class="headerlink" title="プルチックの感情の輪"></a>プルチックの感情の輪</h2><p>以前人工無脳を作った時に参考にさせてもらったサイト<a href="http://www.ycf.nanet.co.jp/~skato/muno/article4/01emotion1.html" target="_blank" rel="external">人工無脳は考える</a>の中で紹介されていたのを見て知りました。</p>
+<p><img src="https://cldup.com/nPsynofN59.png" alt=""></p>
+<p>上の図では緑の感情を「Calm（安定・楽・オダヤカ）」で示しましたが、この状態から「哀（不安定・哀・カナシミ）」経由で「Angry（怒・イカリ）」に向かう際は大きなストレスが掛かっているため、「Fear（怖・ビビリ）」や「Disgust（ムカムカ）」などの感情を経由して変化します。</p>
+<p>ハーマンモデルを更に細分化したしたものと見ることも出来ますね。</p>
+<p>さて、ではこれらの感情の変化は何故起きるのでしょうか。現在では内分泌ホルモンによりその変化が起きることが分かっています。</p>
+<p>深層学習を利用した感情認識エンジンの開発も進んできている様です。以下はPepperの感情認識エンジンを開発された東京大学大学院特任講師の光吉俊二氏の論文です。</p>
+<p><a href="http://www.agi-web.co.jp/docs/Univ-Tokyo.pdf" target="_blank" rel="external">心を定量計測する技術 - AGI</a></p>
+<p>複雑なモデルを自作するのは難しいため、まずは人工無脳プログラムを参考にPythonで感情モデルを作ってみることにします。</p>
+<p><a href="http://amzn.to/2mT6yET" target="_blank" rel="external">恋するプログラム—Rubyでつくる人工無脳</a></p>
+<p>こちらの書籍を参考にします。</p>
+<h2 id="感情モデルを考える"><a href="#感情モデルを考える" class="headerlink" title="感情モデルを考える"></a>感情モデルを考える</h2><p>人工無脳「ノビィ」の感情モデルを参考に、こんなモデルを考えてみました。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">action</span><span class="params">(input)</span>:</span></div><div class="line">    MOOD_DOPAMINE = <span class="number">5</span></div><div class="line">    MOOD_NORADRENALIN = <span class="number">-5</span></div><div class="line">    <span class="keyword">if</span> input == <span class="string">"joy"</span>:</div><div class="line">        <span class="keyword">return</span> MOOD_DOPAMINE</div><div class="line">    <span class="keyword">elif</span> input == <span class="string">"fear"</span>:</div><div class="line">        <span class="keyword">return</span> MOOD_NORADRENALIN</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    MOOD = <span class="number">0</span></div><div class="line">    MOOD_MIN = <span class="number">-15</span></div><div class="line">    MOOD_MAX = <span class="number">15</span></div><div class="line">    MOOD_SEROTONIN = <span class="number">0.5</span></div><div class="line">    EMOTION = [<span class="string">"LIKE"</span>,<span class="string">"DISLIKE"</span>]</div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        inputs = input(<span class="string">'&gt; '</span>)</div><div class="line">        <span class="keyword">if</span> MOOD &gt;= <span class="number">0</span>:</div><div class="line">            MOOD = MOOD + action(inputs)</div><div class="line">            MOOD -= MOOD_SEROTONIN</div><div class="line">            <span class="keyword">if</span> MOOD &gt; MOOD_MAX:</div><div class="line">                MOOD = MOOD_MAX</div><div class="line">            print(EMOTION[<span class="number">0</span>], MOOD)</div><div class="line">        <span class="keyword">elif</span> MOOD &lt; <span class="number">0</span>:</div><div class="line">            MOOD = MOOD + action(inputs)</div><div class="line">            MOOD += MOOD_SEROTONIN</div><div class="line">            <span class="keyword">if</span> MOOD &lt; MOOD_MIN:</div><div class="line">                MOOD = MOOD_MIN</div><div class="line">            print(EMOTION[<span class="number">1</span>], MOOD)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure>
+<p>擬似的に「ドーパミン」「ノルアドレナリン」「セロトニン」を分泌させることで感情を変化させます。</p>
+<p>試しに「擬似ドーパミン」<code>joy</code>を分泌させてみましょう。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">$ python app.py</div><div class="line">&gt; joy</div><div class="line">LIKE 4.5</div><div class="line">&gt;</div><div class="line">LIKE 4.0</div><div class="line">&gt;</div><div class="line">LIKE 3.5</div><div class="line">&gt; joy</div><div class="line">LIKE 8.0</div><div class="line">&gt; joy</div><div class="line">LIKE 12.5</div><div class="line">&gt; joy</div><div class="line">LIKE 15</div><div class="line">&gt;</div><div class="line">LIKE 14.5</div><div class="line">&gt;</div><div class="line">LIKE 14.0</div><div class="line">&gt;</div><div class="line">LIKE 13.5</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p><code>joy</code>コマンドを実行することで、感情がプラスに変化します。ここでは<code>joy</code>が一つ与えられるたびに擬似ドーパミンが+5分泌されます。</p>
+<p>感情が必要以上に活性化しすぎない様に、活性化を抑える働きをする分泌ホルモンにセロトニンがあります。ここでは時間経過に合わせて擬似セロトニンが-0.5分泌されて、過剰な興奮を抑えます。</p>
+<p>ここでは感情の上限を15に設定しました。本当は擬似ドーパミンの分泌量に合わせて擬似セロトニンの分泌量を増やす方が処理的には正しいかもしれません。</p>
+<p>さて、続いて「擬似ノルアドレナリン」<code>fear</code>を分泌させてみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">$ python app.py</div><div class="line">&gt; fear</div><div class="line">LIKE -5.5</div><div class="line">&gt;</div><div class="line">DISLIKE -5.0</div><div class="line">&gt;</div><div class="line">DISLIKE -4.5</div><div class="line">&gt;</div><div class="line">DISLIKE -4.0</div><div class="line">&gt;</div><div class="line">DISLIKE -3.5</div><div class="line">&gt; fear</div><div class="line">DISLIKE -8.0</div><div class="line">&gt; fear</div><div class="line">DISLIKE -12.5</div><div class="line">&gt; fear</div><div class="line">DISLIKE -15</div><div class="line">&gt;</div><div class="line">DISLIKE -14.5</div><div class="line">&gt;</div><div class="line">DISLIKE -14.0</div><div class="line">&gt;</div><div class="line">DISLIKE -13.5</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p>「擬似ドーパミン」<code>joy</code>とは真逆の反応になります。感情は「LIKE（ハーマンモデルで言うところの緑-Calm）」から「DISLIKE（同じく赤-Angry）」へと変化します。</p>
+<p>「擬似セロトニン」の分泌により時間経過とともに平常に戻ります。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>極々簡単なものですが感情モデルが出来ました。次回はこれを自作ロボットに組み込んでみようと思います。（つづく）</p>
+<h2 id="追記-2017-04-09"><a href="#追記-2017-04-09" class="headerlink" title="追記(2017/04/09)"></a>追記(2017/04/09)</h2><p>ロボットに上記の感情モデルを組み込んでみました。</p>
+<p><img src="https://cldup.com/hum0bSpsMe.gif" alt=""></p>
+<p><a href="http://qiita.com/PonDad/items/4e978ee6d08e5840295f" target="_blank" rel="external">Raspberry Pi 人工無脳ロボットに感情モデルを持たせる - Qiita</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/deep-learning/">deep-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/04/09/qlearning-tutrial.html"  data-tooltip="Q学習やってみた - まずは試してみる">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/03/keras-cnn-2.html" data-tooltip="深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その2">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/03/30/keras-cnn-3.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/03/30/keras-cnn-3.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=感情モデルを考える〜プルチック感情の輪">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/04/09/qlearning-tutrial.html"  data-tooltip="Q学習やってみた - まずは試してみる">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/03/keras-cnn-2.html" data-tooltip="深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その2">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/03/30/keras-cnn-3.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/03/30/keras-cnn-3.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=感情モデルを考える〜プルチック感情の輪">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/03/30/keras-cnn-3.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/03/30/keras-cnn-3.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=感情モデルを考える〜プルチック感情の輪">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/ai/2017/03/30/keras-cnn-3.html';
+                 
+                    this.page.identifier = 'ai/2017/03/30/keras-cnn-3.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

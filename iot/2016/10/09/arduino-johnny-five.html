@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>【JavaScript Robotics】ロボット作ってみたよ。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="子供の頃誰しもが憧れるロボット作り。そんな永遠の夢をちょっとだけ実現出来ましたのでまとめてみます。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="【JavaScript Robotics】ロボット作ってみたよ。">
+<meta property="og:url" content="https://pondad.github.io/iot/2016/10/09/arduino-johnny-five.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="子供の頃誰しもが憧れるロボット作り。そんな永遠の夢をちょっとだけ実現出来ましたのでまとめてみます。">
+<meta property="og:image" content="https://cldup.com/2mrYr3xfG0.png">
+<meta property="og:image" content="https://cldup.com/00-W82P3dh.gif">
+<meta property="og:image" content="https://cldup.com/7WmBi2LBHd.gif">
+<meta property="og:image" content="https://cldup.com/ocfIYQRWiR.png">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/51iAi2nqgyL.jpg">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/514yBJuzjNL.jpg">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/41u%2BOt%2BZn3L.jpg">
+<meta property="og:image" content="https://cldup.com/Y-HgGAa6Is.png">
+<meta property="og:image" content="https://cldup.com/uWCcv6Ax1S.gif">
+<meta property="og:image" content="https://cldup.com/sUA_UQQD13.gif">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/51g%2B3jHoesL.jpg">
+<meta property="og:image" content="https://cldup.com/YLCNx7mHlJ.jpg">
+<meta property="og:updated_time" content="2016-10-09T05:49:38.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="【JavaScript Robotics】ロボット作ってみたよ。">
+<meta name="twitter:description" content="子供の頃誰しもが憧れるロボット作り。そんな永遠の夢をちょっとだけ実現出来ましたのでまとめてみます。">
+<meta name="twitter:image" content="https://cldup.com/2mrYr3xfG0.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/00-W82P3dh.gif"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/00-W82P3dh.gif" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/00-W82P3dh.gif');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            【JavaScript Robotics】ロボット作ってみたよ。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-10-09T10:04:00+09:00">
+	
+		    2016/10/09
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/iot/">iot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>子供の頃誰しもが憧れるロボット作り。そんな永遠の夢をちょっとだけ実現出来ましたのでまとめてみます。</p>
+<a id="more"></a>
+<p><img src="https://cldup.com/2mrYr3xfG0.png" alt=""></p>
+<p>名付けて「ポンボット1号」です。これから機能を拡充していきたいのですが、とりあえず今出来ることは…。</p>
+<p><img src="https://cldup.com/00-W82P3dh.gif" alt=""></p>
+<p>回ります。</p>
+<p><img src="https://cldup.com/7WmBi2LBHd.gif" alt=""></p>
+<p>アームをぐるぐるします。</p>
+<p>これだけ。</p>
+<p>プログラミングはJavaScriptだけ、はんだ付けはもちろん、ブレッドボードを使った配線なども行なっていません。</p>
+<h2 id="きっかけ"><a href="#きっかけ" class="headerlink" title="きっかけ"></a>きっかけ</h2><p>結構前の事ですが、<a href="http://www.pondad.com/?p=1468" target="_blank" rel="external">こんな記事
+</a> を書いた事がありました。大ファンなんでよね、クラタス（及び製作者の倉田光吾郎さん）。このクラタス、アマゾンで購入することも出来るのですが</p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B00H6V3BWA/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">クラタス スターターキット - Amazon</a></p>
+<p>価格が1億2千万円とちょっとお高く、</p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B00Y9G5T3Y/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">ガガンガン 水道橋重工 人型四脚陸戦型トイロボット クラタスモデル - Amazon</a></p>
+<p>こちらを購入するのが精一杯でした。。このクラタス（おもちゃの方です）の敵ロボットを自作出来ないだろうか？という誠にどうでも良い事がきっかけでロボット作りを始めることにしました。</p>
+<h2 id="JavaScript-Robotics"><a href="#JavaScript-Robotics" class="headerlink" title="JavaScript Robotics"></a>JavaScript Robotics</h2><p>本格的なロボットは上級言語を利用してプログラミングしなければならない様ですが、最近ではそれらを比較的利用しやすいJavaScriptにラッピングしたライブラリが公開されています。</p>
+<p><img src="https://cldup.com/ocfIYQRWiR.png" alt=""></p>
+<p><a href="http://johnny-five.io/" target="_blank" rel="external">Johnny Five</a></p>
+<p>小型のマイコンボードを利用する際、ArduinoであればC/C++言語（の簡易版）を利用します。</p>
+<p>Johnny-fiveをNode.jsにインストールする事でJavaScriptで小型マイコンボードを操作する事が可能になります。</p>
+<p>まだ少し試しただけなのですが、JavaScriptを使ってWebサイト上のアイテムをアニメーションさせるのと同じ感覚でロボットを操作出来ます。</p>
+<p>これはなかなか新鮮な感覚です。</p>
+<p>ブラウザベースのインターフェース（ボタンとか）を利用してロボットを操作するのも比較的容易に行えそうです。</p>
+<h2 id="ArduinoのGroveシステム"><a href="#ArduinoのGroveシステム" class="headerlink" title="ArduinoのGroveシステム"></a>ArduinoのGroveシステム</h2><p>電子工作でもう一つ敷居が高いのが、様々なセンサーを利用した配線です。そこでコネクタを接続するだけで配線を行えるシステムキットを利用することにしました。</p>
+<p><img src="http://ecx.images-amazon.com/images/I/51iAi2nqgyL.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B010CHG6WG/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">GROVE - スターターキットV3</a></p>
+<p>少々割高になりますが、コネクタに差し込んですぐにセンサー類を使用する事が出来ます。</p>
+<p>モーターを利用する際には、モータードライバモジュールを利用する事が出来ます。</p>
+<p><img src="http://ecx.images-amazon.com/images/I/514yBJuzjNL.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B00D3YL34M/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">GROVE - I2C モータードライバ</a></p>
+<p>このドライバにモーター用の電源とモーター2個を接続する事が出来ます。</p>
+<p>また、特にロボット作りに欠かせないサーボモーターもコネクタを差し込むだけで利用する事が出来ます。</p>
+<p><img src="http://ecx.images-amazon.com/images/I/41u%2BOt%2BZn3L.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B00YUFN8C8/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">GROVE - サーボモータ</a></p>
+<p>これらを組み合わせる事で比較的簡単にセンサーやモーターを利用する事が出来ます。</p>
+<p><img src="https://cldup.com/Y-HgGAa6Is.png" alt=""></p>
+<p>コネクタが沢山ありますが、A0〜A3が「アナログ接続」D2〜D8が「デジタル接続」I2Cが「I2C接続」になっています。</p>
+<p>この3種類の接続だけ気をつけれて接続すれば良いのです。</p>
+<h2 id="やってみる"><a href="#やってみる" class="headerlink" title="やってみる"></a>やってみる</h2><p>Node.jsとJohnny-fiveをインストールしたPC（ここではMac）にArduino、Grove、I2C モータードライバ、モーター、モーター用の電源を接続します。</p>
+<p>※Arduinoへのプログラミングは必要ないのですが、一つだけ<a href="http://firmata.org/wiki/Download" target="_blank" rel="external">PingFirmata</a>が必要になるのでダウンロードして読み込んで下さい。</p>
+<p><img src="https://cldup.com/uWCcv6Ax1S.gif" alt=""></p>
+<p>サンプルコードがGitHubに公開されているのでそのまま利用します。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> five = <span class="built_in">require</span>(<span class="string">"johnny-five.js"</span>);</div><div class="line"><span class="keyword">var</span> board = <span class="keyword">new</span> five.Board();</div><div class="line"></div><div class="line">board.on(<span class="string">"ready"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> a = <span class="keyword">new</span> five.Motor(&#123;</div><div class="line">    controller: <span class="string">"GROVE_I2C_MOTOR_DRIVER"</span>,</div><div class="line">    pin: <span class="string">"A"</span>,</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  <span class="keyword">var</span> b = <span class="keyword">new</span> five.Motor(&#123;</div><div class="line">    controller: <span class="string">"GROVE_I2C_MOTOR_DRIVER"</span>,</div><div class="line">    pin: <span class="string">"B"</span>,</div><div class="line">  &#125;);</div><div class="line"></div><div class="line"></div><div class="line">  <span class="keyword">this</span>.wait(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"REVERSE"</span>);</div><div class="line"></div><div class="line">    a.rev(<span class="number">127</span>);</div><div class="line">    b.rev(<span class="number">127</span>);</div><div class="line"></div><div class="line">    <span class="keyword">this</span>.wait(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">"STOP"</span>);</div><div class="line">      a.stop();</div><div class="line">      b.stop();</div><div class="line"></div><div class="line">      <span class="keyword">this</span>.wait(<span class="number">1000</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        process.emit(<span class="string">"SIGINT"</span>);</div><div class="line">      &#125;);</div><div class="line">    &#125;.bind(<span class="keyword">this</span>));</div><div class="line">  &#125;.bind(<span class="keyword">this</span>));</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"FORWARD"</span>);</div><div class="line">  a.fwd(<span class="number">127</span>);</div><div class="line">  b.fwd(<span class="number">127</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>モーター2個がくるくる回りました。</p>
+<p>続いてサーボモータをデジタル端子に接続します。</p>
+<p><img src="https://cldup.com/sUA_UQQD13.gif" alt=""></p>
+<p>こちらもGitHubサンプルコードをそのまま利用します。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> five = <span class="built_in">require</span>(<span class="string">"johnny-five"</span>);</div><div class="line"><span class="keyword">var</span> board = <span class="keyword">new</span> five.Board();</div><div class="line"></div><div class="line">  board.on(<span class="string">"ready"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> servo_1 = <span class="keyword">new</span> five.Servo(<span class="number">2</span>);</div><div class="line">  <span class="keyword">var</span> servo_2 = <span class="keyword">new</span> five.Servo(<span class="number">3</span>);</div><div class="line">  servo_1.sweep();</div><div class="line">  servo_2.sweep();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>サーボモータがグリグリ動きました。</p>
+<h2 id="本体など"><a href="#本体など" class="headerlink" title="本体など"></a>本体など</h2><p>PC部分はMacからRaspberryPiに変更すれば簡単にロボットを無線化する事が出来ます。（「３」になってWiFiが標準になってから以前より接続が楽になりました。）</p>
+<p>肝心の本体は、アマゾンで異常にお買い得だった少々怪しい中国製ロボット購入しました。（なんか色々入ってるのにArduino UNO本体より安い…本当に大丈夫なのだろうかと思いながら購入）</p>
+<p><img src="http://ecx.images-amazon.com/images/I/51g%2B3jHoesL.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B01I792AKI/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">ANBE Arduino Starter KIT スマートカー用 改善版 UNO R3 KIT―UNOR3互換ボード ケーブル付き スマートカーシャーシ SG90サーボ FPVカメラマウント 距離センサー電池ホルダーなど全部含む・お得セット</a></p>
+<p>説明書はこんな感じです。</p>
+<p><img src="https://cldup.com/YLCNx7mHlJ.jpg" alt=""></p>
+<p>怪しい（笑）。けどまあ、中身はいたって普通に組み立て出来ました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>まあ、なんやかんやでとりあえず動く様になりました。</p>
+<p>RaspberryPiをSSHで接続してコマンドで動く様になったのですが、次回はこれをローカルブラウザ経由で動かしてみたいと思います。</p>
+<p>つづく。（のか？）</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/arduino/">arduino</a> <a class="tag tag--primary tag--small t-link" href="/tags/johnny-five/">johnny-five</a> <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/10/16/auruino-socket-io.html"  data-tooltip="【JavaScript Robotics】Socket.ioでロボットを操作する。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/09/16/siri-homekit.html" data-tooltip="iOS10の「Home」アプリでお手軽IoT。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/10/09/arduino-johnny-five.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/10/09/arduino-johnny-five.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=【JavaScript Robotics】ロボット作ってみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/10/16/auruino-socket-io.html"  data-tooltip="【JavaScript Robotics】Socket.ioでロボットを操作する。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/09/16/siri-homekit.html" data-tooltip="iOS10の「Home」アプリでお手軽IoT。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/10/09/arduino-johnny-five.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/10/09/arduino-johnny-five.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=【JavaScript Robotics】ロボット作ってみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/10/09/arduino-johnny-five.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/10/09/arduino-johnny-five.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=【JavaScript Robotics】ロボット作ってみたよ。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/iot/2016/10/09/arduino-johnny-five.html';
+                 
+                    this.page.identifier = 'iot/2016/10/09/arduino-johnny-five.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

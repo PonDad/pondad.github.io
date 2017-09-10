@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="昨年末よりブラウザで会話する人工無能（AI-Bot）を作ってきたのですが、超小型マイコンボード「Raspberry Pi」に移植してみました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+<meta property="og:url" content="https://pondad.github.io/iot/2016/03/05/raspberrypi-samuell9000.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="昨年末よりブラウザで会話する人工無能（AI-Bot）を作ってきたのですが、超小型マイコンボード「Raspberry Pi」に移植してみました。">
+<meta property="og:image" content="https://cldup.com/PbvgjBn-lw.gif">
+<meta property="og:image" content="https://cldup.com/fAorB7GtSO.jpg">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+<meta name="twitter:description" content="昨年末よりブラウザで会話する人工無能（AI-Bot）を作ってきたのですが、超小型マイコンボード「Raspberry Pi」に移植してみました。">
+<meta name="twitter:image" content="https://cldup.com/PbvgjBn-lw.gif">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/PbvgjBn-lw.gif"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/PbvgjBn-lw.gif" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/PbvgjBn-lw.gif');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-03-05T17:01:00+09:00">
+	
+		    2016/03/05
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/iot/">iot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>昨年末よりブラウザで会話する人工無能（AI-Bot）を作ってきたのですが、超小型マイコンボード「Raspberry Pi」に移植してみました。</p>
+<a id="more"></a>
+<p><a href="https://chrome.google.com/webstore/detail/samuel-l-9000/nandojgoojiihniaoijodgebljbgbbkp" target="_blank" rel="external">Samuel L 9000 - Chromeウェブストア</a></p>
+<p>ブラウザ版をChromeの拡張機能として公開しています。絶賛配信中で現在のユーザー数は<strong>９名</strong> となっています。</p>
+<p>この人工無能の機能を少し拡張してRaspberry Piで動かしてみます。</p>
+<h2 id="こんな感じ"><a href="#こんな感じ" class="headerlink" title="こんな感じ"></a>こんな感じ</h2><div class="video-container"><iframe src="//www.youtube.com/embed/r5HUAlgA9bU" frameborder="0" allowfullscreen></iframe></div>
+<p>以前と同様に基本話しかけるとサミュエル・L・ジャクソンばりに「Mother F*cker」と返事をしてくれます。</p>
+<p>今回は登録したYouTubeを再生してくれる機能を追加しました。</p>
+<h2 id="OK-Samuel"><a href="#OK-Samuel" class="headerlink" title="OK Samuel"></a>OK Samuel</h2><p>某著名人工知能の呼びかけに答える様を模倣して、「OK、サミュエル」を合図に画面が立ち上がるようにしてみました。</p>
+<p><img src="https://cldup.com/PbvgjBn-lw.gif" alt=""></p>
+<p>Raspberry Piはlinuxベースの独自OS（私はRaspbianを使用）で動いています。このOSにChromium（Chromeの開発者版）を入れる事が可能です。</p>
+<p>Chromium（Chrome）には「キオスクモード」と呼ばれるブラウザのメニューバーなどを表示せずフルスクリーンで表示させる事の出来る機能があるのです。</p>
+<p><a href="https://support.google.com/chrome/a/answer/3316168?hl=en" target="_blank" rel="external">Create a Chrome kiosk app - Chrome for Work and Education Help</a></p>
+<p>デジタルサイネージ（電子看板）などで利用されるこの機能を「OK、サミュエル」を発火点として起動させてみました。</p>
+<h2 id="ラズパイに話しかける"><a href="#ラズパイに話しかける" class="headerlink" title="ラズパイに話しかける"></a>ラズパイに話しかける</h2><p><img src="https://cldup.com/fAorB7GtSO.jpg" alt=""></p>
+<p>音声認識はHTML5の<code>Web Speech Recognition API</code>　を利用します。Chromeブラウザ（除くiOS版）から利用可能です。今回はChromeBookから音声認識をさせ、読み取った言葉をRaspberry Piに送信する形にしています。</p>
+<p><a href="https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html" target="_blank" rel="external">Web Speech API Specification</a></p>
+<p>raspberry Piでローカルサーバーを立ち上げるのですが、これはサーバーサイドJavaScriptとして近年注目を集める<code>node.js</code> と呼ばれるJavaScript実行環境を利用しました。</p>
+<h2 id="ラズパイに喋らせる"><a href="#ラズパイに喋らせる" class="headerlink" title="ラズパイに喋らせる"></a>ラズパイに喋らせる</h2><p>MacやWindows、iOSやAndroidには標準で音声発話エンジンが搭載されていますがRaspberry Piにはありません。</p>
+<p>GoogleをはじめとしたWeb APIを利用する方法もありますが、今回はLinuxのパッケージソフト<code>espeak</code> を利用しました。</p>
+<p><a href="http://espeak.sourceforge.net/" target="_blank" rel="external">eSpeak text to speech</a></p>
+<p>パッケージをインストールすれば簡単にコマンドラインから合成音声を喋べらせる事が出来ます。今回はこれをJavaScriptから起動させてみました。</p>
+<h2 id="YouTubeストリーミングを声で操作する"><a href="#YouTubeストリーミングを声で操作する" class="headerlink" title="YouTubeストリーミングを声で操作する"></a>YouTubeストリーミングを声で操作する</h2><p>これもLinuxパッケージソフトをJavaScriptから操作することで可能です。</p>
+<p>YouTube音源のダウンロードは、</p>
+<p><a href="https://rg3.github.io/youtube-dl/" target="_blank" rel="external">youtube-dl</a></p>
+<p>で可能になります。音源のストリーミング再生は</p>
+<p><a href="http://www.mplayerhq.hu/design7/news.html" target="_blank" rel="external">MPlayer</a></p>
+<p>をパイプ（連結）させることで実行可能になります。</p>
+<p>※ とはいえ、正直なところ現段階ではあまり上手くいっていません。ストリーミングを音声で中断させる処理が上手くいかず、エラーがよく発生しています。何か良い方法がないか考えてはいるのですが…。</p>
+<h2 id="サンプルコード"><a href="#サンプルコード" class="headerlink" title="サンプルコード"></a>サンプルコード</h2><p>音声認識の送信がエラーになったりとまだ不具合が解消出来ていないのですがサンプルとしてコードを載せておきます。</p>
+<p><a href="https://gist.github.com/PonDad/f954be622764b67067cc" target="_blank" rel="external">PonDad/app.js - GitHubGist</a></p>
+<p><a href="https://gist.github.com/PonDad/fe0a0e385f84524f490a" target="_blank" rel="external">PonDad/control.ejs - GitHubGist</a></p>
+<p><a href="https://gist.github.com/PonDad/e86dfe20bcc75aec9471" target="_blank" rel="external">PonDad/samuel.ejs - GitHubGist</a></p>
+<p><code>Node.js</code> のインストールとパッケージマネージャーより <code>express</code> ・<code>ejs</code> はダウンロード済みとします。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>Raspberry Piは構造がシンプルなだけに様々な形で機能を拡張出来るところが魅力です。少しづつ機能を追加してみようかなと思っています。では。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/03/20/cloud-vision-api.html"  data-tooltip="Cloud Vision API 使ってみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/03/01/raspberrypi-radio.html" data-tooltip="Raspberry Piでインターネットラジオを聴く。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/03/05/raspberrypi-samuell9000.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/03/05/raspberrypi-samuell9000.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/03/20/cloud-vision-api.html"  data-tooltip="Cloud Vision API 使ってみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/03/01/raspberrypi-radio.html" data-tooltip="Raspberry Piでインターネットラジオを聴く。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/03/05/raspberrypi-samuell9000.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/03/05/raspberrypi-samuell9000.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/03/05/raspberrypi-samuell9000.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/03/05/raspberrypi-samuell9000.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/iot/2016/03/05/raspberrypi-samuell9000.html';
+                 
+                    this.page.identifier = 'iot/2016/03/05/raspberrypi-samuell9000.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

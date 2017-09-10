@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="新年より少し経ってしまいましたが、明けましておめでとうございます。皆さんいかがお過ごしでしょうか？ポンダッドです。
+子供向けの対話型ボットが作れないかあれこれと考えていたのですが、手始めに足し算アプリをつくってみました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。">
+<meta property="og:url" content="https://pondad.github.io/bot/2016/01/11/oshaberi+.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="新年より少し経ってしまいましたが、明けましておめでとうございます。皆さんいかがお過ごしでしょうか？ポンダッドです。
+子供向けの対話型ボットが作れないかあれこれと考えていたのですが、手始めに足し算アプリをつくってみました。">
+<meta property="og:image" content="https://cldup.com/601dY7GyvW.png">
+<meta property="og:image" content="https://cldup.com/saGuS6hyeo.png">
+<meta property="og:image" content="https://cldup.com/mPoZkxFdtM.png">
+<meta property="og:image" content="https://cldup.com/mTmBz5ol89.png">
+<meta property="og:image" content="https://cldup.com/S4El8Q1Don.png">
+<meta property="og:image" content="https://cldup.com/ddkvahcNvY.png">
+<meta property="og:image" content="https://cldup.com/jYZ9L1cZa4.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。">
+<meta name="twitter:description" content="新年より少し経ってしまいましたが、明けましておめでとうございます。皆さんいかがお過ごしでしょうか？ポンダッドです。
+子供向けの対話型ボットが作れないかあれこれと考えていたのですが、手始めに足し算アプリをつくってみました。">
+<meta name="twitter:image" content="https://cldup.com/601dY7GyvW.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/iEMg7-4mth.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/iEMg7-4mth.png" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/iEMg7-4mth.png');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-01-11T20:00:00+09:00">
+	
+		    2016/01/11
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>新年より少し経ってしまいましたが、明けましておめでとうございます。皆さんいかがお過ごしでしょうか？ポンダッドです。</p>
+<p>子供向けの対話型ボットが作れないかあれこれと考えていたのですが、手始めに足し算アプリをつくってみました。</p>
+<a id="more"></a>
+<h2 id="おしゃべりたしざん"><a href="#おしゃべりたしざん" class="headerlink" title="おしゃべりたしざん"></a>おしゃべりたしざん</h2><p>使用したWeb APIがChromeにしか対応していない為、今回もChromeウェブストアで公開してみました。</p>
+<p>対象ブラウザ外でご覧の方も多いと思います。動画をつくりましたので御覧下さい。</p>
+<div class="video-container"><iframe src="//www.youtube.com/embed/QHKcg57tDjI" frameborder="0" allowfullscreen></iframe></div>
+<p>Chrome拡張として公開したので以下のリンクよりダウンロードして下さい。</p>
+<p><img src="https://cldup.com/601dY7GyvW.png" alt=""></p>
+<p><a href="https://chrome.google.com/webstore/detail/%E3%81%8A%E3%81%97%E3%82%83%E3%81%B9%E3%82%8A%E3%81%9F%E3%81%97%E3%81%96%E3%82%93/adhdfljekbldcdebhfmhaiakjmebdaaf?utm_source=chrome-app-launcher" target="_blank" rel="external">おしゃべりたしざん - Chromeウェブストア</a></p>
+<p>ダウンロード後に拡張機能を追加するとツールバーにアイコンが出てきます。アイコンをクリックして下さい。</p>
+<p><img src="https://cldup.com/saGuS6hyeo.png" alt=""></p>
+<p>新しいタブにアプリが開かれます。マイクを利用する許可をして下さい。</p>
+<p><img src="https://cldup.com/mPoZkxFdtM.png" alt=""></p>
+<p>マイクボタンをクリックするとブラウザが質問を読み上げます。一緒に問題を表示させています。</p>
+<p><img src="https://cldup.com/mTmBz5ol89.png" alt=""></p>
+<p>マイクがオンになっていますので、答えをマイクに向かって話しかけて下さい。</p>
+<p>答えが正解の場合は「あたり。正解はXXだよ。」と答えます。</p>
+<p><img src="https://cldup.com/S4El8Q1Don.png" alt=""></p>
+<p>答えが不正解の場合は。「はずれ。正解はXXだよ。」と答えます。</p>
+<p><img src="https://cldup.com/ddkvahcNvY.png" alt=""></p>
+<p>好きなだけ足し算の練習をしてみましょう。</p>
+<h2 id="開発秘話"><a href="#開発秘話" class="headerlink" title="開発秘話"></a>開発秘話</h2><p>秘話という程のことは無いですが、制作でハマった点が一つありましたので紹介します。</p>
+<p>音声入力の<code>Web Speech Recognition API</code> をボタンクリックアクションで呼び起こすと、その都度許可を求められて操作が非常に面倒になります。</p>
+<p>こちらの記事（ <a href="http://kesin.hatenablog.com/entry/2013/08/27/Web%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AB%E9%AB%98%E6%A9%9F%E8%83%BD%E3%81%AA%E9%9F%B3%E5%A3%B0%E8%AA%8D%E8%AD%98%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8BWeb_Speech_API" target="_blank" rel="external">Webアプリに高機能な音声認識を追加するWeb Speech API - Kesin’s diary</a> ）で解説されていた、<code>recognition.continuous = true</code> というメソッドが解消のきっかけとなりました。</p>
+<p><script src="https://gist.github.com/PonDad/c7428fa176d47d396ebc.js"></script></p>
+
+<p>画面読み込み時にこの指定をすることで、音声認識を継続して行うことが出来ます。上記記事でも書かれているように、バックグラウンドで音声認識を継続して行うので、読み込まれた音声を発火点にして実行処理を行うことが出来ます。</p>
+<p>今回は足し算の「あたり」と「はずれ」の判定だけでしたが、上手くプログラムを組めば音声コマンドで様々な処理を行うことが可能だと思いました。</p>
+<p>コードはGitHubにて公開しています。（<a href="https://github.com/PonDad/Ohaberi-Tashizan" target="_blank" rel="external"> PonDad/Ohaberi-Tashizan - GitHub</a> ）よろしければ御覧下さい。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>4歳の子供（双子）と試してみたところ、発音がはっきりしないのでブラウザに認識させるのが一苦労といった感じでした。</p>
+<p>子供が利用する場合は部分一致で判定出来るように工夫が必要かもしれません。処理が思いついたらアップデートしてみようと思います。ではまた。</p>
+<p><a href="https://chrome.google.com/webstore/detail/%E3%81%8A%E3%81%97%E3%82%83%E3%81%B9%E3%82%8A%E3%81%9F%E3%81%97%E3%81%96%E3%82%93/adhdfljekbldcdebhfmhaiakjmebdaaf?utm_source=chrome-app-launcher" target="_blank" rel="external"><img src="https://cldup.com/jYZ9L1cZa4.png" alt="おしゃべりたしざん - Chromeウェブストア"></a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/chrome-extension/">chrome-extension</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/07/raspberry-pi-coder.html"  data-tooltip="Raspberry Pi2買ってみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/30/samuel-l-9000.html" data-tooltip="相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/01/11/oshaberi+.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/01/11/oshaberi+.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/07/raspberry-pi-coder.html"  data-tooltip="Raspberry Pi2買ってみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/30/samuel-l-9000.html" data-tooltip="相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/01/11/oshaberi+.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/01/11/oshaberi+.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/01/11/oshaberi+.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/01/11/oshaberi+.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2016/01/11/oshaberi+.html';
+                 
+                    this.page.identifier = 'bot/2016/01/11/oshaberi+.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

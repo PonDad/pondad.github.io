@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="会話型の人工無脳を改良してみようとアレコレ調べてみたところ、面白いフレームワークを見つけたので紹介してみます。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。">
+<meta property="og:url" content="https://pondad.github.io/bot/2016/03/27/hubot-raspberry-pi.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="会話型の人工無脳を改良してみようとアレコレ調べてみたところ、面白いフレームワークを見つけたので紹介してみます。">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://hubot.github.com/">
+<meta property="og:image" content="https://cldup.com/8-xQHo9UhI.png">
+<meta property="og:image" content="https://cldup.com/9nTN9sF8Kg.png">
+<meta property="og:image" content="https://cldup.com/__wtPogRKW.png">
+<meta property="og:image" content="https://cldup.com/L6qm6PHMjN.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。">
+<meta name="twitter:description" content="会話型の人工無脳を改良してみようとアレコレ調べてみたところ、面白いフレームワークを見つけたので紹介してみます。">
+<meta name="twitter:image" content="http://capture.heartrails.com/400x300?https://hubot.github.com/">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/8-xQHo9UhI.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/8-xQHo9UhI.png" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/8-xQHo9UhI.png');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-03-27T17:01:00+09:00">
+	
+		    2016/03/27
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>会話型の人工無脳を改良してみようとアレコレ調べてみたところ、面白いフレームワークを見つけたので紹介してみます。</p>
+<a id="more"></a>
+<h2 id="HUBOT"><a href="#HUBOT" class="headerlink" title="HUBOT"></a>HUBOT</h2><p><img src="http://capture.heartrails.com/400x300?https://hubot.github.com/" alt=""></p>
+<p><a href="https://hubot.github.com/" target="_blank" rel="external">HUBOT</a></p>
+<p>GitHub社がMITライセンスで公開しているNode.js製フレームワークです。様々なチャットツールに対応しており、拡張も比較的簡単に行えます。</p>
+<p>Node.js製のアプリケーションになるので”heroku”への公開がデフォルトになっていますが、ローカル環境でも実行可能です。</p>
+<p>今回はMacのローカル環境で試した後Raspberry Piで実行してみました。</p>
+<p>連携させるチャットアプリは、アカウントだけ作ったものの使いみちもなく放置していたSlackを利用しました。</p>
+<h2 id="インストール"><a href="#インストール" class="headerlink" title="インストール"></a>インストール</h2><p>思ったより試されている方が多く情報が豊富にあるのでそれ程迷わずに導入出来ます。</p>
+<p>Node.jsはインストール済みとして始めます。（Raspberry Piでv4.0.0以降のNode.jsをインストールするには　<a href="http://qiita.com/PonDad/items/e780de6942b997712964" target="_blank" rel="external">Raspberry Piに最新版Node.jsをダウンロード</a> この方法が簡単だと思います）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install -g hubot hubot-slack yo generator-hubot coffee-script</div></pre></td></tr></table></figure>
+<p>私の環境では <code>sudo</code> からのインストールで上手くいきました。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> work</div><div class="line">$ mkdir samuell9000</div><div class="line">$ bin/hubot</div></pre></td></tr></table></figure>
+<p>ディレクトリを作り実行コマンドでこんなロボットが出てきたら</p>
+<p><img src="https://cldup.com/8-xQHo9UhI.png" alt=""></p>
+<p>インストール成功です。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">? Owner pon_dad</div><div class="line">? Bot name samuell9000</div><div class="line">? Description Super Cool Bot</div><div class="line">? Bot adapter (campfire) slackgot back <span class="literal">false</span></div><div class="line">? Bot adapter slack</div></pre></td></tr></table></figure>
+<p>対話型の質問に答えます。<code>Bot adapter</code> は後で変更も出来ますがここでslackを指定することも出来ます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ bin/hubot</div></pre></td></tr></table></figure>
+<p>でサーバーが起動します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">samuell9000&gt; samuell9000 ping</div><div class="line">samuell9000&gt; PONG</div></pre></td></tr></table></figure>
+<p>コマンドラインでBotと会話が出来る様になりました。</p>
+<h2 id="SlackでHUBOTを登録する"><a href="#SlackでHUBOTを登録する" class="headerlink" title="SlackでHUBOTを登録する"></a>SlackでHUBOTを登録する</h2><p>Slackのチームページにて Apps&amp;integrations&gt;Hubot&gt;Configureを選択し、<code>HUBOT_SLACK_TOKEN=</code> を確認します。</p>
+<p><img src="https://cldup.com/9nTN9sF8Kg.png" alt=""></p>
+<p>トークンを指定してアプリを起動すれば、</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ HUBOT_SLACK_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxx</div><div class="line">$./bin/hubot --adapter slack</div></pre></td></tr></table></figure>
+<p>Slack側のHubotがオンラインになります。</p>
+<p>※ トークンを都度入力しない様に<code>sh</code> ファイルに実行権限を与えると良い様です。</p>
+<h2 id="で、こんな感じ"><a href="#で、こんな感じ" class="headerlink" title="で、こんな感じ"></a>で、こんな感じ</h2><p>会話部分は、Hubotの<code>script</code> フォルダにモジュールとして記述すれば指定した通りに返事をしてくれます。</p>
+<p>単語辞書を作ってもう少し会話らしくしたいのですがとりあえず３パターンのみ登録してみました。</p>
+<p><code>hello.coffee</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = (robot) -&gt;</div><div class="line">  robot.hear /hey siri/i, (msg) -&gt;</div><div class="line">    msg.send <span class="string">"Mother fucker."</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'say:Mother fucker.'</span>);</div><div class="line">  robot.respond /Le Big Mac/i, (msg) -&gt;</div><div class="line">    msg.send <span class="string">"Le Big Mac!"</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'say:Le Big Mac!'</span>);</div><div class="line">  robot.hear /what/i, (msg) -&gt;</div><div class="line">    msg.send <span class="string">"Ezekiel 25:17.The path of the righteous man is beset on all sides .And I will strike down upon thee with great vengeance and furious anger those who would attempt to poison and destroy my brothers. And you will know my name is the Lord when I lay my vengeance upon thee."</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'say:Ezekiel 25:17.'</span>);</div></pre></td></tr></table></figure>
+<p>Macのブラウザからだとこんな感じ。</p>
+<p><img src="https://cldup.com/__wtPogRKW.png" alt=""></p>
+<p>iPhoneアプリからも気の利いた返事をしてくれます。</p>
+<p><img src="https://cldup.com/L6qm6PHMjN.png" alt=""></p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>とりあえずSlackを使って会話することが出来ました。</p>
+<p>Raspberry Piを利用する場合には、実行スクリプトを記述することも出来る様です。（HubotとSlackを使ってRaspberry Piにエアコンのスイッチを入れさせる。みたいな事も出来る様です）</p>
+<p>もう少し色々試してみたいですね。では。</p>
+<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="http://www.tapun.net/raspi/raspberry-pi-raspberry-pi-slack-hubot-install" target="_blank" rel="external">Raspberry Pi 自作Slackボットを作ろう~その2~　HubotのインストールとSlack連携（Herokuは使わない）- たぷん日記</a></p>
+<p><a href="https://www.seeds-std.co.jp/seedsblog/2125.html" target="_blank" rel="external">HubotでSlackのボットを作成する- SEEDS BLOG</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/hubot/">hubot</a> <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/04/03/hubot-scripts.html"  data-tooltip="HUBOTスクリプトでRaspberry Piと戯れる。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/03/20/cloud-vision-api.html" data-tooltip="Cloud Vision API 使ってみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/03/27/hubot-raspberry-pi.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/03/27/hubot-raspberry-pi.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/04/03/hubot-scripts.html"  data-tooltip="HUBOTスクリプトでRaspberry Piと戯れる。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/03/20/cloud-vision-api.html" data-tooltip="Cloud Vision API 使ってみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/03/27/hubot-raspberry-pi.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/03/27/hubot-raspberry-pi.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/03/27/hubot-raspberry-pi.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/03/27/hubot-raspberry-pi.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2016/03/27/hubot-raspberry-pi.html';
+                 
+                    this.page.identifier = 'bot/2016/03/27/hubot-raspberry-pi.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

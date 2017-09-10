@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>人工無脳ReudyをHubotで動かす。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="人工無脳と一言で言っても様々なものが過去開発されています。今回は「ログ型」と呼ばれる人工無脳「Reudy（ロイディ）」を試してみることにします。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="人工無脳ReudyをHubotで動かす。">
+<meta property="og:url" content="https://pondad.github.io/bot/2016/06/18/reudy-hubot.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="人工無脳と一言で言っても様々なものが過去開発されています。今回は「ログ型」と呼ばれる人工無脳「Reudy（ロイディ）」を試してみることにします。">
+<meta property="og:image" content="https://cldup.com/D3vDXUwMQY.png">
+<meta property="og:image" content="https://cldup.com/BN5oBTpmLp.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="人工無脳ReudyをHubotで動かす。">
+<meta name="twitter:description" content="人工無脳と一言で言っても様々なものが過去開発されています。今回は「ログ型」と呼ばれる人工無脳「Reudy（ロイディ）」を試してみることにします。">
+<meta name="twitter:image" content="https://cldup.com/D3vDXUwMQY.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            人工無脳ReudyをHubotで動かす。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-06-18T18:10:00+09:00">
+	
+		    2016/06/18
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>人工無脳と一言で言っても様々なものが過去開発されています。今回は「ログ型」と呼ばれる人工無脳「Reudy（ロイディ）」を試してみることにします。</p>
+<a id="more"></a>
+<h2 id="人工無能-ロイディ"><a href="#人工無能-ロイディ" class="headerlink" title="人工無能 ロイディ"></a>人工無能 ロイディ</h2><p>先日試してみた「傾聴型」人工無脳「Eliza（イライザ）」は1966年に作られましたが、そこから時代の推移を経て2003年にロイディは誕生しました。</p>
+<p>製作者は当時、東京工業大学ロボット技術研究会に所属していた市川 宙さんです。人間同士のチャットのやり取りから文章を自動生成します。</p>
+<p>このプログラムすごいなあと思うのは独自のアルゴリズムを元に単語解析を独自にプログラムに埋め込んでいるところです。</p>
+<p>そこから抽出した単語を自動的に記録し、文章を生成していきます。ログ次第で返答が大きく変化するので育てる楽しさもある訳です。</p>
+<p>（ 参照：<a href="http://gimite.net/archive/RubyKaigi2006Reudy.pdf" target="_blank" rel="external">RubyKaigi2006Reudy.pdf</a> ）</p>
+<h2 id="人工無能-Reudy-ロイディ-1-9"><a href="#人工無能-Reudy-ロイディ-1-9" class="headerlink" title="人工無能 Reudy (ロイディ) 1.9"></a>人工無能 Reudy (ロイディ) 1.9</h2><p>10年以上前のものなのですが、現在でも利用できるよう改変したものが公開されています。<a href="https://github.com/mmasaki" target="_blank" rel="external">mmasaki</a>さんが大学生の頃作られたものがGitHubで公開されています。</p>
+<p><a href="https://github.com/mmasaki/Reudy19" target="_blank" rel="external">mmasaki/Reudy19</a></p>
+<p>こちらは最新版Rubyでも動かすことが出来ます。また、上記の様に独自で単語抽出している部分をオプションを利用することで形態素解析エンジン「mecab」を利用することが出来るようになっています。</p>
+<h2 id="使ってみる"><a href="#使ってみる" class="headerlink" title="使ってみる"></a>使ってみる</h2><p>Rubyで書かれているということで（全然分からない）難しそうだなと思っていたのですが、以下のブログ記事で導入を公開されているので、それに沿ってダウンロードしていけばhubotで利用することが出来ました。</p>
+<p><a href="http://qiita.com/Ets/items/4a0466843c8d98d74295" target="_blank" rel="external">口下手なチームメイトを1日で教育した話 - Qiita</a></p>
+<p>こちらの記事内では「mecab」の辞書を直近の単語に対応させるため「はてなキーワード」と「Wikipedia日本語版」から単語抽出する方法も解説されています。</p>
+<p>これによってロイディの覚える単語がより正確になります。こんな感じです。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ mecab</div><div class="line">そして父になる</div><div class="line">そして	接続詞,*,*,*,*,*,そして,ソシテ,ソシテ</div><div class="line">父	名詞,一般,*,*,*,*,父,チチ,チチ</div><div class="line">に	助詞,格助詞,一般,*,*,*,に,ニ,ニ</div><div class="line">なる	動詞,自立,*,*,五段・ラ行,基本形,なる,ナル,ナル</div><div class="line">EOS</div><div class="line">妖怪ウォッチ</div><div class="line">妖怪	名詞,一般,*,*,*,*,妖怪,ヨウカイ,ヨーカイ</div><div class="line">ウォッチ	名詞,一般,*,*,*,*,*</div><div class="line">EOS</div></pre></td></tr></table></figure>
+<p>デフォルトの辞書だと通常の形態素に分類されてしまいますが、</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ mecab -u custom.dic</div><div class="line">そして父になる</div><div class="line">そして父になる	名詞,一般,*,*,*,*,そして父になる,*,*,wikipedia</div><div class="line">EOS</div><div class="line">妖怪ウォッチ</div><div class="line">妖怪ウォッチ	名詞,一般,*,*,*,*,妖怪ウォッチ,*,*,wikipedia</div><div class="line">EOS</div></pre></td></tr></table></figure>
+<p>オプションのカスタム辞書を利用することで作品タイトルが名詞として解析されます。</p>
+<p>こちらの導入チュートリアルはlinux環境でhubotアダプターはHipChatを利用されています。今回はMac環境でアダプターはSlackを利用します。</p>
+<p>ほぼそのままダウンロードやサンプルプログラムを利用させて頂けば導入出来るのですが、パスがちょっと違ったりするのでそこだけ注釈として残しておきます。</p>
+<p>「mecab」の辞書生成インデックスはこちら</p>
+<p><code>/usr/local/libexec/mecab/mecab-dict-index</code></p>
+<p>「mecab」のデフォルト辞書「ipadic」はこちら</p>
+<p><code>/usr/local/lib/mecab/dic/ipadic</code></p>
+<p>「Reudy19」でカスタム辞書を使う際のパス（ここでは「Work」フォルダに設置しています）</p>
+<p><code>/Users/ユーザー名/Work/Reudy19/mecab-dict/custom.dic</code></p>
+<p>「hubot」のパス</p>
+<p><code>/Users/ユーザー名/Work/reudy-hubot</code></p>
+<hr>
+<p>その他ちょっとした注意点ですが、Mac環境で利用する際に必要なパッケージソフトなど列挙しておきます。</p>
+<p><a href="http://brew.sh/index_ja.html" target="_blank" rel="external">Homebrew-OS X 用パッケージマネージャー</a></p>
+<p>mecabをクローンする際に必要になります。</p>
+<p><a href="https://itunes.apple.com/jp/app/xcode/id497799835?mt=12" target="_blank" rel="external">Xcode-開発: Apple</a></p>
+<p>mecabをRubyで利用する際に「gcc-c++」というC++言語をコンパイルするソフトが必要になるみたいです（ごめんなさい良く分かっていません）Macで利用する際は開発ツール「Xcode」をダウンロードすると使えるみたいです。</p>
+<p><a href="http://codenote.net/mac/homebrew/1747.html" target="_blank" rel="external">[Mac] nkf を Homebrew でインストール</a></p>
+<p>Wikipedia、はてなキーワードをダウンロードする際にエラーが出ないよう必要になります。</p>
+<p>設置が完了すれば、「Reudy19」のディレクトリでコマンドを実行すればこの様に返信されるはずです。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ ruby -W0 stdio_reudy.rb -m</div><div class="line">妖怪ウォッチばっかり見ないんだよ。</div><div class="line">(単語「妖怪ウォッチ」を記憶した。)</div><div class="line">(単語「ばっかり」を記憶した。)</div><div class="line">こんにちは</div></pre></td></tr></table></figure>
+<p>ロイディにキーワードが登録されました。</p>
+<h2 id="Hubot・Slackで利用する"><a href="#Hubot・Slackで利用する" class="headerlink" title="Hubot・Slackで利用する"></a>Hubot・Slackで利用する</h2><p>HubotをSlackで利用する詳細は省きます。hubot scriptに以下のように記述し、Hubotと同じディレクトリに設置したReudyをコマンドで実行します。</p>
+<p>node.jsの<code>child_process.exec</code> コマンドを利用します。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">child_process = <span class="built_in">require</span>(<span class="string">'child_process'</span>)</div><div class="line"><span class="built_in">module</span>.exports = (robot) -&gt;</div><div class="line">  robot.respond /(.*)/i, (msg) -&gt;</div><div class="line">    text = msg.message.text.replace(<span class="regexp">/\n/g</span>, <span class="string">""</span>)</div><div class="line">    dirpath = <span class="string">'../Reudy19/'</span></div><div class="line">    cmd = <span class="string">"bash -c 'echo #&#123;text&#125; | ( cd \"#&#123;dirpath&#125;\"; ruby -W0 stdio_reudy.rb -m)'"</span></div><div class="line"></div><div class="line">    child_process.exec cmd, (error, stdout, stderr) -&gt;</div><div class="line">      msg.reply(stdout)</div><div class="line">      <span class="keyword">return</span></div></pre></td></tr></table></figure>
+<p>こんな感じで投稿された文章をロイディに渡し、ロイディからの戻り値をslackに投稿します。</p>
+<hr>
+<p>(単語「XX」を記憶した。)　の表示を消すには、</p>
+<p><code>Reudy19/lib/reudy/reudy.rb</code></p>
+<p>528行目</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@client.outputInfo(<span class="string">"単語「#&#123;wordStr&#125;」を記憶した。"</span>)</div></pre></td></tr></table></figure>
+<p>をコメントアウトしてください。</p>
+<p><img src="https://cldup.com/D3vDXUwMQY.png" alt=""></p>
+<p>まだ大した返事はしませんが。</p>
+<p><img src="https://cldup.com/BN5oBTpmLp.png" alt=""></p>
+<p><code>public/log.yml</code> にログが格納されているのが分かります。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>「ログ型」の人工無脳の面白さは、無脳の会話を学習させられるところだと思います。</p>
+<p>通常だとTwitterなどのSNSで学習させるのだと思いますが、他に何か方法がありそうな気もするので色々試してみたいですね。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/hubot/">hubot</a> <a class="tag tag--primary tag--small t-link" href="/tags/reudy/">reudy</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/25/reudy-bot-machine-learning.html"  data-tooltip="はじめての機械学習（？）人工無脳に映画を観せてみた。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/11/eliza-bot.html" data-tooltip="Eliza型人工無脳をhubotで動かす。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/18/reudy-hubot.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/18/reudy-hubot.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=人工無脳ReudyをHubotで動かす。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/25/reudy-bot-machine-learning.html"  data-tooltip="はじめての機械学習（？）人工無脳に映画を観せてみた。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/11/eliza-bot.html" data-tooltip="Eliza型人工無脳をhubotで動かす。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/18/reudy-hubot.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/18/reudy-hubot.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=人工無脳ReudyをHubotで動かす。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/18/reudy-hubot.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/18/reudy-hubot.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=人工無脳ReudyをHubotで動かす。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2016/06/18/reudy-hubot.html';
+                 
+                    this.page.identifier = 'bot/2016/06/18/reudy-hubot.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

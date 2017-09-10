@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>Raspberry PiでYouTubeを再生してみたよ。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="Node.jsを利用して喋れるようになったRaspberry Piですが、機能を追加してYouTubeを再生出来るようにしてみました。
+合成音声の発話で試したのと同様にNPM（ノード・パッケージ・マネージャー）を利用します。
+パッケージを利用することでプログラムの記述は必要最低限（それも主にドキュメントを記述するだけ）で実装出来ました。方法を紹介します。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Raspberry PiでYouTubeを再生してみたよ。">
+<meta property="og:url" content="https://pondad.github.io/iot/2016/02/14/raspberrypi-youtube.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="Node.jsを利用して喋れるようになったRaspberry Piですが、機能を追加してYouTubeを再生出来るようにしてみました。
+合成音声の発話で試したのと同様にNPM（ノード・パッケージ・マネージャー）を利用します。
+パッケージを利用することでプログラムの記述は必要最低限（それも主にドキュメントを記述するだけ）で実装出来ました。方法を紹介します。">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/youtube-dl">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/node-omxplayer">
+<meta property="og:image" content="https://cldup.com/vimHVIPnqE.png">
+<meta property="og:image" content="https://cldup.com/BA89965fbg.jpg">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/simple-mplayer">
+<meta property="og:image" content="https://cldup.com/CJcnhDUo6m.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Raspberry PiでYouTubeを再生してみたよ。">
+<meta name="twitter:description" content="Node.jsを利用して喋れるようになったRaspberry Piですが、機能を追加してYouTubeを再生出来るようにしてみました。
+合成音声の発話で試したのと同様にNPM（ノード・パッケージ・マネージャー）を利用します。
+パッケージを利用することでプログラムの記述は必要最低限（それも主にドキュメントを記述するだけ）で実装出来ました。方法を紹介します。">
+<meta name="twitter:image" content="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/youtube-dl">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Raspberry PiでYouTubeを再生してみたよ。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-02-14T17:00:00+09:00">
+	
+		    2016/02/14
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/iot/">iot</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Node.jsを利用して喋れるようになったRaspberry Piですが、機能を追加してYouTubeを再生出来るようにしてみました。</p>
+<p>合成音声の発話で試したのと同様にNPM（ノード・パッケージ・マネージャー）を利用します。</p>
+<p>パッケージを利用することでプログラムの記述は必要最低限（それも主にドキュメントを記述するだけ）で実装出来ました。方法を紹介します。</p>
+<a id="more"></a>
+<h2 id="Raspberry-Piの動画再生"><a href="#Raspberry-Piの動画再生" class="headerlink" title="Raspberry Piの動画再生"></a>Raspberry Piの動画再生</h2><p>最初は、Chromium（Chromeの開発版）を入れて、それで再生すれば良いかな。などと思っていたのですがスムーズな再生は出来ませんでした。</p>
+<p>Raspberry Piで動画再生をするのはブラウザを使わずにパッケージソフトomxplayerを利用して再生するのが良いと思われます。</p>
+<p>Macで例えるなら、動画再生をブラウザのChromeなどで再生せずに同梱アプリのQuick Time Playerを使って再生するようなものですね。</p>
+<h2 id="youtube-dl"><a href="#youtube-dl" class="headerlink" title="youtube-dl"></a>youtube-dl</h2><p><img src="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/youtube-dl" alt=""></p>
+<p><a href="https://www.npmjs.com/package/youtube-dl" target="_blank" rel="external">youtube-dl - npm</a></p>
+<p>linux系のコマンドラインツールでYoutubeダウンローダーと言えば  <a href="https://rg3.github.io/youtube-dl/" target="_blank" rel="external">youtube-dl</a> というツールが広く利用されています。これはPythonという言語で書かれています。</p>
+<p>このコマンドラインツールをJavaScriptで実行してくれるパッケージソフトがこの　<code>youtube-dl</code>　(npm版) です。</p>
+<p>任意のディレクトリにインストールします。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install youtube-dl</div></pre></td></tr></table></figure>
+<p>YouTubeをダウンロードするドキュメントはこのように書かれています。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">var</span> youtubedl = <span class="built_in">require</span>(<span class="string">'youtube-dl'</span>);</div><div class="line"><span class="keyword">var</span> video = youtubedl(<span class="string">'http://www.youtube.com/watch?v=90AiXO1pAiA'</span>,</div><div class="line">  <span class="comment">// Optional arguments passed to youtube-dl.</span></div><div class="line">  [<span class="string">'--format=18'</span>],</div><div class="line">  <span class="comment">// Additional options can be given for calling `child_process.execFile()`.</span></div><div class="line">  &#123; cwd: __dirname &#125;);</div><div class="line"></div><div class="line"><span class="comment">// Will be called when the download starts.</span></div><div class="line">video.on(<span class="string">'info'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">info</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Download started'</span>);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'filename: '</span> + info.filename);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'size: '</span> + info.size);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">video.pipe(fs.createWriteStream(<span class="string">'myvideo.mp4'</span>));</div></pre></td></tr></table></figure>
+<p>YouTubeのアドレスを指定してダウンロードします。</p>
+<p>その後Node.jsの <code>fs</code> メソッドを利用して任意の場所に保存することが可能になります。</p>
+<h2 id="node-omxplayer"><a href="#node-omxplayer" class="headerlink" title="node-omxplayer"></a>node-omxplayer</h2><p><img src="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/node-omxplayer" alt=""></p>
+<p><a href="https://www.npmjs.com/package/node-omxplayer" target="_blank" rel="external">node-omxplayer  - npm</a></p>
+<p>Raspberry Piで動画再生する場合、コマンドラインツールの<a href="http://omxplayer.sconde.net/" target="_blank" rel="external">omxplayer</a> を利用するのが一般的です。</p>
+<p>処理速度も速くフルHD動画もスムーズに再生が出来る様です。</p>
+<p>npmで検索するとこの<code>omxplayer</code> をJavaScriptでコントロール出来るパッケージが公開されていました。</p>
+<p>インストールから。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install node-omxplayer</div></pre></td></tr></table></figure>
+<p>ドキュメントはシンプルです。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Import the module.</span></div><div class="line"><span class="keyword">var</span> Omx = <span class="built_in">require</span>(<span class="string">'node-omxplayer'</span>);</div><div class="line"></div><div class="line"><span class="comment">// Create an instance of the player with the source.</span></div><div class="line"><span class="keyword">var</span> player = Omx(<span class="string">'my-video.mp4'</span>);</div></pre></td></tr></table></figure>
+<p>モジュールを読み込んで、ファイルを指定するだけで再生されます。</p>
+<h2 id="やってみる"><a href="#やってみる" class="headerlink" title="やってみる"></a>やってみる</h2><p><img src="https://cldup.com/vimHVIPnqE.png" alt=""></p>
+<p>モジュールと同じ階層に <code>pontube.js</code> というファイルを作りこんな風に記述しました。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//youtube-dlを呼び出します。</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">var</span> youtubedl = <span class="built_in">require</span>(<span class="string">'youtube-dl'</span>);</div><div class="line"><span class="comment">//ここで読み込みURLを指定します</span></div><div class="line"><span class="keyword">var</span> video = youtubedl(<span class="string">'https://www.youtube.com/watch?v=c0LBi1MHoaU'</span>,</div><div class="line">  [<span class="string">'--format=18'</span>],</div><div class="line">  &#123; cwd: __dirname &#125;);</div><div class="line"></div><div class="line">video.on(<span class="string">'info'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">info</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Download started'</span>);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'filename: '</span> + info.filename);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'size: '</span> + info.size);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">video.pipe(fs.createWriteStream(<span class="string">'./samuel.mp4'</span>));</div><div class="line"></div><div class="line">video.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Download end'</span>);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Play start'</span>);</div><div class="line"></div><div class="line">  <span class="comment">//node-omxplayerを呼び出します</span></div><div class="line">  <span class="keyword">var</span> Omx = <span class="built_in">require</span>(<span class="string">'node-omxplayer'</span>);</div><div class="line">  <span class="keyword">var</span> player = Omx(<span class="string">'samuel.mp4'</span>);</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>Raspberry Piからはこんな実行コマンド一発でダウンロード後に再生されます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ node pontube.js</div></pre></td></tr></table></figure>
+<p>試しにYouTubeより「 <a href="https://www.youtube.com/watch?v=c0LBi1MHoaU" target="_blank" rel="external">Every Samuel L. Jackson “Motherf*cker”…Ever - YouTube</a> 」<br>のアドレスを入力し、Raspberry PiをHDMI接続で居間のテレビにつないでみました。</p>
+<p>SSHでNode.jsの実行コマンドを入力。</p>
+<p><img src="https://cldup.com/BA89965fbg.jpg" alt=""></p>
+<p>無事再生されました。</p>
+<h2 id="USBスピーカーを使う"><a href="#USBスピーカーを使う" class="headerlink" title="USBスピーカーを使う"></a>USBスピーカーを使う</h2><p>このomxplayerを利用すれば動画関連はほぼいけそうなのですが、残念な事に出力先がHDMIか3.5mmプラグにしか対応していません。</p>
+<p>USBスピーカーから出力出来ないか調べてみました。</p>
+<h2 id="simple-mplayer"><a href="#simple-mplayer" class="headerlink" title="simple-mplayer"></a>simple-mplayer</h2><p><img src="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/simple-mplayer" alt=""></p>
+<p><a href="https://www.npmjs.com/package/simple-mplayer" target="_blank" rel="external">simple-mplayer  - npm</a></p>
+<p> omxplayerと同様にコマンドラインから動画を再生できる <a href="http://www.mplayerhq.hu/design7/news.html" target="_blank" rel="external">MPlayer</a> というlinux系パッケージソフトがあります。</p>
+<p>検索で調べたところ、Raspberry PiでMPlayerを利用して動画再生すると動画にカクつきがあるようで動画再生はomxplayerをするのが良さそうです。</p>
+<p>しかしながら、この<code>MPlayer</code> はUSBスピーカー出力に対応しているので、音声再生だけならどうだろうかと思い試してみました。</p>
+<p>NPMよりJavaScript用のパッケージが複数公開されています。一番シンプルなものを選んでインストールしてみました。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install simple-mplayer</div></pre></td></tr></table></figure>
+<p>ドキュメントはシンプルです。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Sound = <span class="built_in">require</span>(<span class="string">'simple-mplayer'</span>);</div><div class="line"></div><div class="line"><span class="comment">// with ability to pause/resume/stop:</span></div><div class="line"><span class="keyword">var</span> music = <span class="keyword">new</span> Sound(<span class="string">'./trumpet.wav'</span>);</div><div class="line">music.play(&#123;loop: <span class="number">0</span>&#125;); <span class="comment">// send "-loop 0" to MPlayer to loop the soundtrack forever</span></div></pre></td></tr></table></figure>
+<p>パッケージを読み込み、ファイルを指定して再生させることが出来ます。</p>
+<h2 id="やってみる-1"><a href="#やってみる-1" class="headerlink" title="やってみる"></a>やってみる</h2><p><img src="https://cldup.com/CJcnhDUo6m.png" alt=""></p>
+<p>先程と同様に配置します。JavaScriptも同様に記述します。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//youtube-dlを呼び出します。</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">var</span> youtubedl = <span class="built_in">require</span>(<span class="string">'youtube-dl'</span>);</div><div class="line"><span class="comment">//ここで読み込みURLを指定します</span></div><div class="line"><span class="keyword">var</span> video = youtubedl(<span class="string">'https://www.youtube.com/watch?v=c0LBi1MHoaU'</span>,</div><div class="line">  [<span class="string">'--format=18'</span>],</div><div class="line">  &#123; cwd: __dirname &#125;);</div><div class="line"></div><div class="line">video.on(<span class="string">'info'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">info</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Download started'</span>);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'filename: '</span> + info.filename);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'size: '</span> + info.size);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">video.pipe(fs.createWriteStream(<span class="string">'./samuel.mp4'</span>));</div><div class="line"></div><div class="line">video.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Download end'</span>);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Play start'</span>);</div><div class="line"></div><div class="line">　<span class="comment">//simple-mplayerを呼び出します</span></div><div class="line">  <span class="keyword">var</span> Sound = <span class="built_in">require</span>(<span class="string">'simple-mplayer'</span>);</div><div class="line">  <span class="keyword">var</span> music = <span class="keyword">new</span> Sound(<span class="string">'samuel.mp4'</span>);</div><div class="line">  music.play();</div><div class="line"></div><div class="line">  <span class="comment">//node-omxplayerを呼び出します</span></div><div class="line">  <span class="comment">//var Omx = require('node-omxplayer');</span></div><div class="line">  <span class="comment">//var player = Omx('samuel.mp4');</span></div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>実行コマンド。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ node pontube.js</div></pre></td></tr></table></figure>
+<p>ダウンロード後、再生されます。</p>
+<p><iframe src="https://vine.co/v/in2Y5iQMOdK/embed/simple" width="300" height="300" frameborder="0"></iframe><script src="https://platform.vine.co/static/scripts/embed.js"></script></p>
+<p>敬愛するサミュエル・L・ジャクソンのキレのある「Mother F*cker」をRaspberry Piで聞くことが出来ました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>検索プログラムと上手く組み合わせれば検索から再生も可能です。Raspberry Piらしく音声で検索出来るといいなと思います。</p>
+<p>楽しみはつきませんが、ではまた。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/03/01/raspberrypi-radio.html"  data-tooltip="Raspberry Piでインターネットラジオを聴く。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/13/raspberrypi-voice-text-web-api.html" data-tooltip="Raspberry Piをしゃべらせてみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/14/raspberrypi-youtube.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/14/raspberrypi-youtube.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Raspberry PiでYouTubeを再生してみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/03/01/raspberrypi-radio.html"  data-tooltip="Raspberry Piでインターネットラジオを聴く。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/13/raspberrypi-voice-text-web-api.html" data-tooltip="Raspberry Piをしゃべらせてみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/14/raspberrypi-youtube.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/14/raspberrypi-youtube.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Raspberry PiでYouTubeを再生してみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/14/raspberrypi-youtube.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/14/raspberrypi-youtube.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=Raspberry PiでYouTubeを再生してみたよ。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/iot/2016/02/14/raspberrypi-youtube.html';
+                 
+                    this.page.identifier = 'iot/2016/02/14/raspberrypi-youtube.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

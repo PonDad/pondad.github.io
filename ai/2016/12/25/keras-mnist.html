@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>深層学習やってみる - Kerasで手書き数字認識（MNIST） - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="メリークリスマス。皆さんいかがお過ごしでしょうか。ポンダッドです。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+<meta property="og:url" content="https://pondad.github.io/ai/2016/12/25/keras-mnist.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="メリークリスマス。皆さんいかがお過ごしでしょうか。ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/QBPtUNGDXh.jpg">
+<meta property="og:image" content="https://cldup.com/Mctj22mt2r.png">
+<meta property="og:image" content="https://cldup.com/t1jaFZWoQA.png">
+<meta property="og:image" content="https://cldup.com/jVHiIeibPM.png">
+<meta property="og:image" content="https://cldup.com/Ka0spzkbRf.png">
+<meta property="og:image" content="https://cldup.com/uqJDfg5ewB.png">
+<meta property="og:image" content="https://images-fe.ssl-images-amazon.com/images/I/512ru2i5gyL._SL160_.jpg">
+<meta property="og:image" content="https://images-fe.ssl-images-amazon.com/images/I/51JRd4eIGqL._SL160_.jpg">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/61sxmRFvyfL._SL160_.jpg">
+<meta property="og:updated_time" content="2017-01-02T13:08:06.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+<meta name="twitter:description" content="メリークリスマス。皆さんいかがお過ごしでしょうか。ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/QBPtUNGDXh.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/QBPtUNGDXh.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/QBPtUNGDXh.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/QBPtUNGDXh.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            深層学習やってみる - Kerasで手書き数字認識（MNIST）
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-12-25T15:18:00+09:00">
+	
+		    2016/12/25
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/ai/">ai</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>メリークリスマス。皆さんいかがお過ごしでしょうか。ポンダッドです。</p>
+<a id="more"></a>
+<p>今回は、深層学習（ディープラーニング）の画像分類で主流となっている「畳み込みニューラルネットワーク（CNN、Convolutional Neural Network）」を利用して数字認識を試してみました。</p>
+<p><img src="https://cldup.com/QBPtUNGDXh.jpg" alt=""></p>
+<p>なんだかもの凄く難しそうな感じがしますが、深層学習ライブラリ「<a href="https://keras.io/ja/" target="_blank" rel="external">Keras</a>」と学習済みモデルを利用しますので気軽に試す事が出来ます。</p>
+<p>さて、実際に試してみましょう。</p>
+<p><img src="https://cldup.com/Mctj22mt2r.png" alt=""></p>
+<p>私が手書きした数字の5（下手くそな字ですね）を人工知能に見せてみます。</p>
+<p><img src="https://cldup.com/t1jaFZWoQA.png" alt=""></p>
+<p>手書き文字をバイナリ化しました。以前<code>scikit-learn</code>で試した時は8×8ピクセルだったのですが、今回は28×28ピクセルです。試しにCSVデータにしてエクセルで見てみましょう。</p>
+<p><img src="https://cldup.com/jVHiIeibPM.png" alt=""></p>
+<p>こんな感じでズラッと数字が784セル分並んでいます。0が黒で255が白となる256段階の数値が格納されています。</p>
+<p>今回利用するモデルは、Kerasのメイン開発者<a href="https://github.com/fchollet" target="_blank" rel="external">François Chollet</a>さんが公開している<a href="https://github.com/fchollet/keras/blob/master/examples/mnist_cnn.py" target="_blank" rel="external">mnist_cnn.py - GitHub</a>を利用しました。</p>
+<p>認識率99.25%というスコアを出しているモデルです。「畳み込みニューラルネットワーク」の構造はこの様になっています。</p>
+<p><img src="https://cldup.com/Ka0spzkbRf.png" alt=""></p>
+<p>パッと見ただけでは何をしているのか良く分からないですが、元となる画像データを何層もフィルタをかけているのが見て取れます。</p>
+<p>通常の機械学習では、特徴量を分類する仕組みを人間が指定しますが、深層学習ではデータから機械が自ら特徴量を学習していきます。</p>
+<p>ここでは訓練データ60,000とテストデータ10,000を元した学習結果を元に、指定されたデータが何の数字を示すのか推測します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ python3 mnist_cnn2.py</div><div class="line">Using TensorFlow backend.</div><div class="line">1/1 [==============================] - 0s</div><div class="line">テストラベル:  5</div><div class="line">予測ラベル:  5</div></pre></td></tr></table></figure>
+<p>数字「5」を正しく判別できました。</p>
+<p>プログラムは事前に学習したモデルを読み込んでいるので意外とコンパクトです。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">np.random.seed(<span class="number">1337</span>)</div><div class="line"><span class="keyword">from</span> keras.datasets <span class="keyword">import</span> mnist</div><div class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential ,model_from_json</div><div class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense, Dropout, Activation, Flatten</div><div class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Convolution2D, MaxPooling2D</div><div class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> np_utils</div><div class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> backend <span class="keyword">as</span> K</div><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</div><div class="line"></div><div class="line">(X_train, y_train), (X_test, y_test) = mnist.load_data()</div><div class="line"></div><div class="line">X_train = X_train.reshape(<span class="number">60000</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line">X_test = X_test.reshape(<span class="number">10000</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line">input_shape = (<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line"></div><div class="line">X_train = X_train.astype(<span class="string">'float32'</span>)</div><div class="line">X_test = X_test.astype(<span class="string">'float32'</span>)</div><div class="line">X_train /= <span class="number">255</span></div><div class="line">X_test /= <span class="number">255</span></div><div class="line"></div><div class="line">Y_train = np_utils.to_categorical(y_train, <span class="number">10</span>)</div><div class="line">Y_test = np_utils.to_categorical(y_test, <span class="number">10</span>)</div><div class="line"></div><div class="line">model = model_from_json(open(<span class="string">'mnist_cnn_model.json'</span>).read())</div><div class="line">model.load_weights(<span class="string">'mnist_cnn_weights.hdf5'</span>)</div><div class="line"></div><div class="line">image = Image.open(<span class="string">"test5.png"</span>).convert(<span class="string">'L'</span>)</div><div class="line">image = image.resize((<span class="number">28</span>, <span class="number">28</span>), Image.ANTIALIAS)</div><div class="line">data = np.asarray(image, dtype=float)</div><div class="line"></div><div class="line">data = data.reshape(<span class="number">1</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line">input_shape = (<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line">data = data.astype(<span class="string">'float32'</span>)</div><div class="line">data /= <span class="number">255</span></div><div class="line"></div><div class="line">classes = model.predict_classes(data, batch_size=<span class="number">32</span>)</div><div class="line">print(<span class="string">"テストラベル: "</span>, <span class="string">"5"</span>)</div><div class="line">print(<span class="string">"予測ラベル: "</span>, classes[<span class="number">0</span>])</div></pre></td></tr></table></figure>
+<h2 id="仕組み"><a href="#仕組み" class="headerlink" title="仕組み"></a>仕組み</h2><p>上記の仕組みをざっくり説明するとこんな感じになります。</p>
+<ul>
+<li>訓練データとテストデータを読み込む</li>
+<li>学習済みモデルを読み込む</li>
+<li>予測データを読み込む</li>
+<li>学習済みモデルから予測する</li>
+</ul>
+<p>もう少し詳しくまとめてみます。</p>
+<h3 id="訓練データとテストデータを読み込む"><a href="#訓練データとテストデータを読み込む" class="headerlink" title="訓練データとテストデータを読み込む"></a>訓練データとテストデータを読み込む</h3><p><code>Keras</code>ではデフォルトでMNIST（エムニストって読むみたいですね。最近知った）データを読み込むことが出来ます。</p>
+<p><img src="https://cldup.com/uqJDfg5ewB.png" alt=""></p>
+<p>こんなデータが訓練データ60,000・テストデータ10,000あります。これを白黒（1次元）28×28ピクセルで読み込みます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(X_train, y_train), (X_test, y_test) = mnist.load_data()</div><div class="line"></div><div class="line">X_train = X_train.reshape(<span class="number">60000</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line">X_test = X_test.reshape(<span class="number">10000</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line">input_shape = (<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div></pre></td></tr></table></figure>
+<p>ちょっと注意が必要なのが、学習しやすい型に事前に変換しなければならない点です。ここでは<code>float32</code>型（浮動小数点数32ビット）に変換します。</p>
+<p>色調256段階は計算しやすい様に0〜1に正規化します。（色調<code>120</code>は<code>0.470...</code>となります）</p>
+<p>また、ラベルとなる数字0〜9も計算しやすい様に、10次元へと正規化します。（ラベルの数字<code>5</code>は10次元配列に直すと<code>[0,0,0,0,1,0,0,0,0,0]</code>になります）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">X_train = X_train.astype(<span class="string">'float32'</span>)</div><div class="line">X_test = X_test.astype(<span class="string">'float32'</span>)</div><div class="line">X_train /= <span class="number">255</span></div><div class="line">X_test /= <span class="number">255</span></div><div class="line"></div><div class="line">Y_train = np_utils.to_categorical(y_train, <span class="number">10</span>)</div><div class="line">Y_test = np_utils.to_categorical(y_test, <span class="number">10</span>)</div></pre></td></tr></table></figure>
+<h3 id="学習済みモデルを読み込む"><a href="#学習済みモデルを読み込む" class="headerlink" title="学習済みモデルを読み込む"></a>学習済みモデルを読み込む</h3><p>上述の<a href="https://github.com/fchollet/keras/blob/master/examples/mnist_cnn.py" target="_blank" rel="external">mnist_cnn.py - GitHub</a>で事前に学習したモデルは以下を追記する事でデータ化（<code>json</code>ファイルと<code>hdf5</code>ファイル）出来ます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">model_json_str = model.to_json()</div><div class="line">open(<span class="string">'mnist_cnn_model.json'</span>, <span class="string">'w'</span>).write(model_json_str)</div><div class="line">model.save_weights(<span class="string">'mnist_cnn_weights.hdf5'</span>)</div></pre></td></tr></table></figure>
+<p>データ化した学習モデルは、</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> model_from_json</div><div class="line">model = model_from_json(open(<span class="string">'mnist_cnn_model.json'</span>).read())</div><div class="line">model.load_weights(<span class="string">'mnist_cnn_weights.hdf5'</span>)</div></pre></td></tr></table></figure>
+<p>この様に読み込み、そのまま再利用が可能だという訳です。</p>
+<h3 id="予測データを読み込む"><a href="#予測データを読み込む" class="headerlink" title="予測データを読み込む"></a>予測データを読み込む</h3><p>手書き文字データをバイナリ化するのには画像処理データライブラリ<code>PIL</code>を利用しました。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</div><div class="line">image = Image.open(<span class="string">"test5.png"</span>).convert(<span class="string">'L'</span>)</div><div class="line">image = image.resize((<span class="number">28</span>, <span class="number">28</span>), Image.ANTIALIAS)</div><div class="line">data = np.asarray(image, dtype=float)</div></pre></td></tr></table></figure>
+<p>画像を28×28ピクセル、白黒画像で読み込み<code>numpy</code>の<code>float</code>型にします。</p>
+<p>学習モデルに合わせて正規化することで、予測データとして利用出来る様になります。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">data = data.reshape(<span class="number">1</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line">input_shape = (<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</div><div class="line">data = data.astype(<span class="string">'float32'</span>)</div><div class="line">data /= <span class="number">255</span></div></pre></td></tr></table></figure>
+<h3 id="学習済みモデルから予測する"><a href="#学習済みモデルから予測する" class="headerlink" title="学習済みモデルから予測する"></a>学習済みモデルから予測する</h3><p><code>Keras</code>の特徴は<a href="https://elix-tech.github.io/ja/2016/06/02/kaggle-facial-keypoints-ja.html" target="_blank" rel="external">こちらのブログ</a>でズバリまとめられています。</p>
+<blockquote>
+<p>Kerasはレゴブロックを組み合わせるかのようにして、簡単にディープラーニングのモデルを作成できる便利なライブラリです。これを使って楽しく開発できるのではないかと思います。</p>
+<p><a href="https://elix-tech.github.io/ja/2016/06/02/kaggle-facial-keypoints-ja.html" target="_blank" rel="external">Elix Tech Blog</a></p>
+</blockquote>
+<p>「レゴブロック（！）」の様に、様々なメソッドが用意されています。ここで使用する<code>model.predict_classes()</code>メソッドなど、まさにそんな感じです。</p>
+<p><a href="https://keras.io/ja/models/sequential/" target="_blank" rel="external">Sequentialモデルの API - Keras Documentation</a></p>
+<p>学習済みモデルに予測データを追加することで、そのラベルが何か推測してくれます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">classes = model.predict_classes(data, batch_size=<span class="number">32</span>)</div></pre></td></tr></table></figure>
+<p>これだけです。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>深層学習ライブラリ<code>Keras</code>の使い方を少しまとめてみました。</p>
+<p>「畳み込みニューラルネットワーク」に関して、正直「ブラックボックスでいいや。」と思っていたのですが、中身にも興味が出てきたので少し学習してみようかな。と思っています。</p>
+<p>機械に勉強させるのも楽じゃないですね（笑）。ではまた。</p>
+<h2 id="参考書籍"><a href="#参考書籍" class="headerlink" title="参考書籍"></a>参考書籍</h2><p><img src="https://images-fe.ssl-images-amazon.com/images/I/512ru2i5gyL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873117585/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">ゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装 - Amazon.co.jp</a></p>
+<p><img src="https://images-fe.ssl-images-amazon.com/images/I/51JRd4eIGqL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4774185345/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">はじめての深層学習（ディープラーニング）プログラミング - Amazon.co.jp</a></p>
+<p><img src="http://ecx.images-amazon.com/images/I/61sxmRFvyfL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4802610793/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">Pythonによるスクレイピング&amp;機械学習 開発テクニック BeautifulSoup,scikit-learn,TensorFlowを使ってみよう - Amazon.co.jp</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/deep-learning/">deep-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/02/keras-neural-network.html"  data-tooltip="深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/23/keras-inceptionv3.html" data-tooltip="深層学習やってみる - InceptionV3で画像認識">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/25/keras-mnist.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/25/keras-mnist.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/02/keras-neural-network.html"  data-tooltip="深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/23/keras-inceptionv3.html" data-tooltip="深層学習やってみる - InceptionV3で画像認識">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/25/keras-mnist.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/25/keras-mnist.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/25/keras-mnist.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/25/keras-mnist.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/ai/2016/12/25/keras-mnist.html';
+                 
+                    this.page.identifier = 'ai/2016/12/25/keras-mnist.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>はじめてのPython -「リスト」と「辞書型」 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="機械学習を始めるにあたり、Pythonを学習してみようと思いました。どうせはじめてなので新しいものの方が良いと思いPython3で試してみました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="はじめてのPython -「リスト」と「辞書型」">
+<meta property="og:url" content="https://pondad.github.io/web/2016/11/26/python-natural-language.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="機械学習を始めるにあたり、Pythonを学習してみようと思いました。どうせはじめてなので新しいものの方が良いと思いPython3で試してみました。">
+<meta property="og:image" content="https://cldup.com/3f-Eyjh_9x.jpg">
+<meta property="og:image" content="https://cldup.com/wEf3Z1Dlba.jpg">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/61RAoGqmOBL._SL160_.jpg">
+<meta property="og:updated_time" content="2017-01-01T03:45:19.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="はじめてのPython -「リスト」と「辞書型」">
+<meta name="twitter:description" content="機械学習を始めるにあたり、Pythonを学習してみようと思いました。どうせはじめてなので新しいものの方が良いと思いPython3で試してみました。">
+<meta name="twitter:image" content="https://cldup.com/3f-Eyjh_9x.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/3f-Eyjh_9x.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/3f-Eyjh_9x.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/3f-Eyjh_9x.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            はじめてのPython -「リスト」と「辞書型」
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-11-26T19:29:00+09:00">
+	
+		    2016/11/26
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/web/">web</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>機械学習を始めるにあたり、Pythonを学習してみようと思いました。どうせはじめてなので新しいものの方が良いと思いPython3で試してみました。</p>
+<a id="more"></a>
+<h2 id="「リスト」と「辞書型」"><a href="#「リスト」と「辞書型」" class="headerlink" title="「リスト」と「辞書型」"></a>「リスト」と「辞書型」</h2><p>教科書片手にサンプルを写経しはじめたところなのですが、JavaScriptと比較するとカッコが少なくていいなあ。などと感想が初心者丸出しです。</p>
+<p>JavaScriptで言う所の「配列」や「連想配列」の処理がシンプルに出来そうなので、サンプルを元にこんなものを書いてみました。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> MeCab</div><div class="line"></div><div class="line">text = <span class="string">"""</span></div><div class="line">心正しき者の歩む道は、心悪しき者のよこしまな利己と暴虐によって行く手を阻まれる。</div><div class="line">愛と善意の名において暗黒の谷で弱き者を導く者は幸いなり。なぜなら、彼こそは真に兄弟を守り、迷い子達を救う羊飼いなり。</div><div class="line">よって我は、怒りに満ちた懲罰と大いなる復讐をもって、我が兄弟を毒し、滅ぼそうとする汝に制裁を下すのだ。</div><div class="line">そして、我が汝に復讐する時、汝は我が主である事を知るだろう。</div><div class="line">"""</div><div class="line"></div><div class="line">mecab = MeCab.Tagger (<span class="string">'-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd -O wakati'</span>)</div><div class="line"></div><div class="line">text = text.replace(<span class="string">"。"</span>, <span class="string">""</span>)</div><div class="line">text = text.replace(<span class="string">"、"</span>, <span class="string">""</span>)</div><div class="line">text = mecab.parse(text)</div><div class="line">words = text.split()</div><div class="line"></div><div class="line">counter = &#123;&#125;</div><div class="line"><span class="keyword">for</span> word <span class="keyword">in</span> words:</div><div class="line">    <span class="keyword">if</span> word <span class="keyword">in</span> counter:</div><div class="line">        counter[word] += <span class="number">1</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        counter[word] = <span class="number">1</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> key,value <span class="keyword">in</span> sorted(counter.items(), key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>],reverse=<span class="keyword">True</span>):</div><div class="line">    <span class="keyword">if</span> value &gt;= <span class="number">3</span>:</div><div class="line">        print(key, value)</div></pre></td></tr></table></figure>
+<p>ターミナルで実行してみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ python3 work.py</div><div class="line">を 8</div><div class="line">の 5</div><div class="line">は 5</div><div class="line">者 4</div><div class="line">と 4</div><div class="line">汝 3</div><div class="line">我が 3</div><div class="line">に 3</div></pre></td></tr></table></figure>
+<p><code>mecab</code>でかわち書きした形態素を多い順に書き出しました。（助詞を除いていないのでイマイチですが）</p>
+<h2 id="Pythonの「リスト」"><a href="#Pythonの「リスト」" class="headerlink" title="Pythonの「リスト」"></a>Pythonの「リスト」</h2><p><img src="https://cldup.com/3f-Eyjh_9x.jpg" alt=""></p>
+<p>JavaScriptで言うところの「配列」はPythonでは「リスト」と呼ぶそうです。（「タプル」・「集合型」と言うものもある様ですがここでは割愛）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">points = [<span class="number">25</span>, <span class="number">42</span>, <span class="number">76</span>, <span class="number">57</span>, <span class="number">84</span>, <span class="number">11</span>]</div><div class="line"></div><div class="line">sum_v = <span class="number">0</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> points:</div><div class="line">    sum_v += i</div><div class="line">    print(i,<span class="string">"合計は"</span>, sum_v)</div><div class="line">ave_v = sum_v / len(points)</div><div class="line">print(<span class="string">"平均は"</span>, ave_v)</div><div class="line"></div><div class="line">points.sort()</div><div class="line">points.reverse()</div><div class="line"><span class="keyword">print</span> (points)</div></pre></td></tr></table></figure>
+<p>ターミナルで実行します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ python3 work2.py</div><div class="line">25 合計は 25</div><div class="line">42 合計は 67</div><div class="line">76 合計は 143</div><div class="line">57 合計は 200</div><div class="line">84 合計は 284</div><div class="line">11 合計は 295</div><div class="line">平均は 49.166666666666664</div><div class="line">[84, 76, 57, 42, 25, 11]</div></pre></td></tr></table></figure>
+<p>リスト（配列）内の数値をループ処理したり、要素の数を抽出したり、降順・昇順でソートしたり、と言ったことがシンプルに記述出来ます。</p>
+<p>リスト（配列）は文字列も扱えます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> random</div><div class="line"></div><div class="line">vincent_quote = [</div><div class="line">    <span class="string">"パリでクォーターパウンダー・チーズを何て呼んでるか知ってるか？"</span>,</div><div class="line">    <span class="string">"ロイヤル・ウィズ・チーズ"</span>,</div><div class="line">    <span class="string">"ビッグマックはビッグマック。"</span>,</div><div class="line">    <span class="string">"奴らはこう呼ぶのさ、ル・ビッグマック。"</span>]</div><div class="line"></div><div class="line">i = random.randint(<span class="number">0</span>, len(vincent_quote)<span class="number">-1</span>)</div><div class="line"></div><div class="line">print( vincent_quote[i] )</div></pre></td></tr></table></figure>
+<p>実行します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ python3 work3.py</div><div class="line">奴らはこう呼ぶのさ、ル・ビッグマック。</div></pre></td></tr></table></figure>
+<p>ここではリスト内の文字列をランダムで表示させてみました。</p>
+<h2 id="Pythonの「辞書型」"><a href="#Pythonの「辞書型」" class="headerlink" title="Pythonの「辞書型」"></a>Pythonの「辞書型」</h2><p><img src="https://cldup.com/wEf3Z1Dlba.jpg" alt=""></p>
+<p>JavaScriptで言うところの「連想配列」はPythonでは「辞書型」と呼ぶそうです。</p>
+<p>辞書型（連想配列）の値を取り出すにはこの様に記述します。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">emotion = &#123;</div><div class="line">    <span class="string">'happy'</span>: <span class="number">0.0001</span>,</div><div class="line">    <span class="string">'sad'</span>: <span class="number">0.0077</span>,</div><div class="line">    <span class="string">'angry'</span>: <span class="number">0.0002</span>,</div><div class="line">    <span class="string">'fear'</span>: <span class="number">0.2071</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> emotion.keys():</div><div class="line">    emotion_value = emotion[i]</div><div class="line">    result = <span class="string">"&#123;0&#125;は、&#123;1&#125;です。"</span>.format(i, emotion_value )</div><div class="line">    print(result)</div></pre></td></tr></table></figure>
+<p>実行します。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ python3 work4.py</div><div class="line">fearは、0.2071です。</div><div class="line">angryは、0.0002です。</div><div class="line">sadは、0.0077です。</div><div class="line">happyは、0.0001です。</div></pre></td></tr></table></figure></p>
+<p>キーに対応する値を取り出しました。</p>
+<p>辞書型（連想配列）のキー、値（バリュー）を両方取り出したい場合に、<code>items()</code>というメソッドがあります。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">emotion = &#123;</div><div class="line">    <span class="string">'happy'</span>: <span class="number">0.0001</span>,</div><div class="line">    <span class="string">'sad'</span>: <span class="number">0.0077</span>,</div><div class="line">    <span class="string">'angry'</span>: <span class="number">0.0002</span>,</div><div class="line">    <span class="string">'fear'</span>: <span class="number">0.2071</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> emotion.items():</div><div class="line">    result = <span class="string">"&#123;0&#125;は、&#123;1&#125;です。"</span>.format(i, j)</div><div class="line">    print(result)</div></pre></td></tr></table></figure>
+<p>実行します。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ python3 work5.py</div><div class="line">sadは、0.0077です。</div><div class="line">happyは、0.0001です。</div><div class="line">fearは、0.2071です。</div><div class="line">angryは、0.0002です。</div></pre></td></tr></table></figure></p>
+<p>結果は同じなのですが、<code>for</code>ループに変数を複数指定することが出来ます。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>「リスト」「辞書型」の基本を学習してみました。</p>
+<p>以前<code>node.js</code>を使ってマルコフ連鎖の文書生成を試したことがあったんですけど、（<a href="https://pondad.net/bot/2016/05/30/markov.html" target="_blank" rel="external">TinySegmenterでマルコフ連鎖。</a>）実は辞書生成の部分が良く理解出来なかったので、Pyhonで再チャレンジしてみようかな、と思っています。では。</p>
+<h2 id="参考書籍"><a href="#参考書籍" class="headerlink" title="参考書籍"></a>参考書籍</h2><p><img src="http://ecx.images-amazon.com/images/I/61RAoGqmOBL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B01M29DK5W/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">実践力を身につける Pythonの教科書 - Amazon.co.jp</a></p>
+<p>クジラ飛行机先生のパイソン本が発売になったので、こちらを教科書に学習をはじめました。</p>
+<p>難しい言い回しを避け、初学者にも理解しやすい書籍です。機械学習の章もあるので、基本が少し理解出来たら試してみたいですね。</p>
+<h2 id="追記（2016-11-27）"><a href="#追記（2016-11-27）" class="headerlink" title="追記（2016-11-27）"></a>追記（2016-11-27）</h2><p>冒頭のサンプルを書き換えました。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> MeCab</div><div class="line"></div><div class="line">text = <span class="string">"""</span></div><div class="line">心正しき者の歩む道は、心悪しき者のよこしまな利己と暴虐によって行く手を阻まれる。</div><div class="line">愛と善意の名において暗黒の谷で弱き者を導く者は幸いなり。なぜなら、彼こそは真に兄弟を守り、迷い子達を救う羊飼いなり。</div><div class="line">よって我は、怒りに満ちた懲罰と大いなる復讐をもって、我が兄弟を毒し、滅ぼそうとする汝に制裁を下すのだ。</div><div class="line">そして、我が汝に復讐する時、汝は我が主である事を知るだろう。</div><div class="line">"""</div><div class="line"></div><div class="line">mecab = MeCab.Tagger (<span class="string">'-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd '</span>)</div><div class="line"></div><div class="line">mecab.parse(<span class="string">''</span>) <span class="comment"># これが無いとデコードエラーが出る。</span></div><div class="line"></div><div class="line">text = text.replace(<span class="string">"。"</span>, <span class="string">""</span>)</div><div class="line">text = text.replace(<span class="string">"、"</span>, <span class="string">""</span>)</div><div class="line">text = text.replace(<span class="string">"\n"</span>, <span class="string">""</span>)</div><div class="line"></div><div class="line">node = mecab.parseToNode(text)</div><div class="line">target = [<span class="string">'名詞'</span>,<span class="string">'動詞'</span>,<span class="string">'形容詞'</span>]</div><div class="line">words = []</div><div class="line"><span class="keyword">while</span> node:</div><div class="line">    <span class="keyword">if</span> node.feature.split(<span class="string">','</span>)[<span class="number">0</span>] <span class="keyword">in</span> target:</div><div class="line">        words.append(node.surface)</div><div class="line">    node = node.next</div><div class="line"></div><div class="line">counter = &#123;&#125;</div><div class="line"><span class="keyword">for</span> word <span class="keyword">in</span> words:</div><div class="line">    <span class="keyword">if</span> word <span class="keyword">in</span> counter:</div><div class="line">        counter[word] += <span class="number">1</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        counter[word] = <span class="number">1</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> key,value <span class="keyword">in</span> sorted(counter.items(), key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>],reverse=<span class="keyword">True</span>):</div><div class="line">    <span class="keyword">if</span> value &gt;= <span class="number">2</span>:</div><div class="line">        print(key, value)</div></pre></td></tr></table></figure>
+<p>分かち書きの抽出を「名詞」「動詞」「形容詞」のみにしてみました。実行してみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ python3 work6.py</div><div class="line">者 4</div><div class="line">汝 3</div><div class="line">する 2</div><div class="line">復讐 2</div><div class="line">心 2</div><div class="line">兄弟 2</div></pre></td></tr></table></figure>
+<p>以上です。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/natural-language/">natural-language</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/11/28/python-lambda.html"  data-tooltip="はじめてのPython -無名関数「ラムダ（lambda）」">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/11/06/bot-book.html" data-tooltip="書評　あるいは（無脳がもたらす予期せぬ奇跡）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/11/26/python-natural-language.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/11/26/python-natural-language.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=はじめてのPython -「リスト」と「辞書型」">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/11/28/python-lambda.html"  data-tooltip="はじめてのPython -無名関数「ラムダ（lambda）」">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/11/06/bot-book.html" data-tooltip="書評　あるいは（無脳がもたらす予期せぬ奇跡）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/11/26/python-natural-language.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/11/26/python-natural-language.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=はじめてのPython -「リスト」と「辞書型」">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/11/26/python-natural-language.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/11/26/python-natural-language.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=はじめてのPython -「リスト」と「辞書型」">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/web/2016/11/26/python-natural-language.html';
+                 
+                    this.page.identifier = 'web/2016/11/26/python-natural-language.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

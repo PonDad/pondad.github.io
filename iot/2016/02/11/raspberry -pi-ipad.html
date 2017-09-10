@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>Raspberry PiをiPadであそんでみる。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="先日購入した超小型コンピュータRaspberry Piを使った遊び方のご紹介をします。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Raspberry PiをiPadであそんでみる。">
+<meta property="og:url" content="https://pondad.github.io/iot/2016/02/11/raspberry -pi-ipad.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="先日購入した超小型コンピュータRaspberry Piを使った遊び方のご紹介をします。">
+<meta property="og:image" content="https://cldup.com/qbdh9-gIA2.jpg">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://itunes.apple.com/jp/app/webssh-pro-best-ssh-terminal/id497714887?mt=8">
+<meta property="og:image" content="https://cldup.com/MBrhbMIxvK.png">
+<meta property="og:image" content="https://cldup.com/DScfyeVNOm.png">
+<meta property="og:image" content="https://cldup.com/2BQ41se17d.png">
+<meta property="og:image" content="https://cldup.com/IIdii6s65s.png">
+<meta property="og:image" content="https://cldup.com/Du8xHbTro6.png">
+<meta property="og:image" content="https://cldup.com/H9vdIMpgvU.png">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://itunes.apple.com/jp/app/vnc-viewer/id352019548?mt=8">
+<meta property="og:image" content="https://cldup.com/HMeOES4DHF.jpg">
+<meta property="og:image" content="https://cldup.com/rOdzbtZDQB.png">
+<meta property="og:image" content="https://cldup.com/Arssdm1FxS.png">
+<meta property="og:image" content="https://cldup.com/IZPgzWgMUQ.png">
+<meta property="og:image" content="https://cldup.com/5X5Sh2OofF.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Raspberry PiをiPadであそんでみる。">
+<meta name="twitter:description" content="先日購入した超小型コンピュータRaspberry Piを使った遊び方のご紹介をします。">
+<meta name="twitter:image" content="https://cldup.com/qbdh9-gIA2.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/HMeOES4DHF.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/HMeOES4DHF.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/HMeOES4DHF.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Raspberry PiをiPadであそんでみる。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-02-11T02:00:00+09:00">
+	
+		    2016/02/11
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/iot/">iot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>先日購入した超小型コンピュータRaspberry Piを使った遊び方のご紹介をします。</p>
+<a id="more"></a>
+<h2 id="Raspberry-Piのセッティング"><a href="#Raspberry-Piのセッティング" class="headerlink" title="Raspberry Piのセッティング"></a>Raspberry Piのセッティング</h2><p>前回記事ではGoogle製の <a href="https://googlecreativelab.github.io/coder/" target="_blank" rel="external">Coder for Raspberry Pi</a> を利用して手軽にセッティングを行いました。</p>
+<p>その後、Raspberry PiのOSなども試したくなり独自でセッティングを行い、無線LAN接続や音声の入出力まで出来るようになりました。</p>
+<p>少々マニアックな内容になるのでQiitaにまとめましたのでご興味のある方は御覧ください。</p>
+<ol>
+<li><a href="http://qiita.com/PonDad/items/bfb1cc6ddc18ccf08208" target="_blank" rel="external">Raspberry Pi をMacでセットアップ忘備録 １ - 初期設定</a></li>
+<li><a href="http://qiita.com/PonDad/items/c0f559962d4108774424" target="_blank" rel="external">Raspberry Pi をMacでセットアップ忘備録 2 - 無線LANと接続</a></li>
+<li><a href="http://qiita.com/PonDad/items/516e0ef5295f47228a5c" target="_blank" rel="external">Raspberry Pi をMacでセットアップ忘備録 3 - SFTPと接続</a></li>
+<li><a href="http://qiita.com/PonDad/items/80fb3abebb5adaa7888d" target="_blank" rel="external">Raspberry Pi をMacでセットアップ忘備録 4 - USBスピーカーと接続</a></li>
+<li><a href="http://qiita.com/PonDad/items/565f816dc1ebcbe2467e#_reference-1eb175e9fb0f012169b6" target="_blank" rel="external">Raspberry Pi をMacでセットアップ忘備録 5 - USBマイクと接続</a></li>
+<li><a href="http://qiita.com/PonDad/items/232f1aacbef2c4fcb746" target="_blank" rel="external">Raspberry Pi をMacでセットアップ忘備録 6 - VNCでリモートデスクトップ</a></li>
+</ol>
+<p>私は少々時間が掛かりましたが、PCを自作したことのある方ならそれ程難しくないかもしれません。</p>
+<p>ともあれサーバーとしてだけはなく、超小型PCとして利用出来るようになりました。</p>
+<h2 id="Raspberry-Piに追加したもの"><a href="#Raspberry-Piに追加したもの" class="headerlink" title="Raspberry Piに追加したもの"></a>Raspberry Piに追加したもの</h2><p><img src="https://cldup.com/qbdh9-gIA2.jpg" alt=""></p>
+<ul>
+<li><p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B016U0VZFM/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">サンワサプライ USBスピーカー(ブラック) MM-SPU8BK</a></p>
+</li>
+<li><p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B0027WPY82/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">SANWA SUPPLY MM-MCUSB16 USBマイクロホン</a></p>
+</li>
+</ul>
+<p>Raspberry Pi本体から音声の入出力をさせるためにUSBマイクとスピーカーを購入しました。GPIO （汎用の入出力端子）を利用することも出来ますが今回は手軽に利用出来るUSB接続のものを利用することにしました。</p>
+<p>これでキーボードマウスとモニターがあればパソコンとして利用出来ますが、専用のものを購入するのも勿体無いので今回はiPad miniをキーボードマウス・モニター代わりに使ってみます。</p>
+<h2 id="SSH接続"><a href="#SSH接続" class="headerlink" title="SSH接続"></a>SSH接続</h2><p>Raspberry PiをiMacでセッティングするのにあれこれ試しているうちに外部PCにリモート接続するのもようやく慣れてきました。</p>
+<p>iPhone/iPad向けにSSH/SFTP接続出来るアプリがあるので、今回はそちらを使ってiPad miniからRaspberry Piにリモート接続してみます。</p>
+<p><img src="http://capture.heartrails.com/400x300?https://itunes.apple.com/jp/app/webssh-pro-best-ssh-terminal/id497714887?mt=8" alt=""></p>
+<p><a href="https://itunes.apple.com/jp/app/webssh-pro-best-ssh-terminal/id497714887?mt=8" target="_blank" rel="external">WebSSH Pro - Best SSH / Terminal / Shell - iTunes</a></p>
+<p>有料（記事時点600円）ですが多機能な為こちらを購入してみました。</p>
+<p><img src="https://cldup.com/MBrhbMIxvK.png" alt=""></p>
+<p>ホーム画面右上「+」をタップし接続先を設定します。Raspberry Piのホスト名とユーザー名・パスワードを登録します。</p>
+<p><img src="https://cldup.com/DScfyeVNOm.png" alt=""></p>
+<p>このように登録されます。サーバーをタップしてSSHに接続します。</p>
+<p><img src="https://cldup.com/2BQ41se17d.png" alt=""></p>
+<p>シェルコマンドの入力が可能になりました。</p>
+<p>試しにRaspberry Piのデスク上に置いたmp3ファイルを再生させてみます。（ダウンロード済みの<code>mpg321</code> というLinuxのパッケージソフトを利用します）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mpg321 /home/pi/Desktop/osanpobiyori.mp3</div></pre></td></tr></table></figure>
+<p><img src="https://cldup.com/IIdii6s65s.png" alt=""></p>
+<p>再生されました。</p>
+<p>こんな感じです。</p>
+<p><iframe src="https://vine.co/v/i1ElUMd92Ue/embed/simple" width="300" height="300" frameborder="0"></iframe><script src="https://platform.vine.co/static/scripts/embed.js"></script></p>
+
+<p>この様にしてRaspberry Piの操作をiPad miniから行うことが可能になりました。</p>
+<p>マイクに関しても同じ様にシェルコマンドから録音・再生が可能です。</p>
+<h2 id="SFTP接続"><a href="#SFTP接続" class="headerlink" title="SFTP接続"></a>SFTP接続</h2><p>あまりiPhoneやiPadからファイル操作をすることはないと思いますが、アプリを使いSFTP接続することも可能です。</p>
+<p><img src="https://cldup.com/Du8xHbTro6.png" alt=""></p>
+<p>ホーム画面下、SFTPを選択しSSH接続と同様に設定します。</p>
+<p><img src="https://cldup.com/H9vdIMpgvU.png" alt=""></p>
+<p>Raspberry piのファイルに接続されました。</p>
+<h2 id="リモートデスクトップ"><a href="#リモートデスクトップ" class="headerlink" title="リモートデスクトップ"></a>リモートデスクトップ</h2><p><img src="http://capture.heartrails.com/400x300?https://itunes.apple.com/jp/app/vnc-viewer/id352019548?mt=8" alt=""></p>
+<p><a href="https://itunes.apple.com/jp/app/vnc-viewer/id352019548?mt=8" target="_blank" rel="external">VNC Viewer - iTunes</a></p>
+<p>このアプリを利用してRaspberry Piからリモート設定された画面をiPadで表示できる様になります。</p>
+<p><img src="https://cldup.com/HMeOES4DHF.jpg" alt=""></p>
+<p>ダウンロード済みのLinuxのパッケージソフト<code>tight vnc</code> を利用してRaspberry Piより画面共有の指示を出します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vncserver :1 -geometry 1280x800 -depth 24</div></pre></td></tr></table></figure>
+<p>この場合はディスプレイ番号:1 で -画面1280X800ピクセル -色深度24ビット という指示を出しています。</p>
+<p><img src="https://cldup.com/rOdzbtZDQB.png" alt=""></p>
+<p>SSHを通じて指示を出します。ランニングの表示があればリモート接続が可能になります。</p>
+<p>「VNC Viewer」を立ち上げ、IPアドレスを入力します。</p>
+<p><img src="https://cldup.com/Arssdm1FxS.png" alt=""></p>
+<p>接続用のパスワード（Raspberry Piのパスワードではなく、<code>tight vnc</code> で設定した認証用のもの）を入力します。</p>
+<p><img src="https://cldup.com/IZPgzWgMUQ.png" alt=""></p>
+<p>接続可能になったら「Connect」をタップします。</p>
+<p><img src="https://cldup.com/5X5Sh2OofF.png" alt=""></p>
+<p>リモートデスクトップ出来ました。</p>
+<p>サンプルとしてRaspberry Piのデフォルトブラウザ「Epiphany」でSoundCloudにアクセスし、再生してみました。</p>
+<p><iframe src="https://vine.co/v/i19XeIM75qY/embed/simple" width="300" height="300" frameborder="0"></iframe><script src="https://platform.vine.co/static/scripts/embed.js"></script></p>
+
+<p>Raspberry Piがサイトにアクセスし、スピーカーからストリーミング音源を再生したのが分かります。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>手の平サイズながらサーバーで使ったり、PCオーディオで使ったりと様々な利用が可能だと感じました。</p>
+<p>まだまだ工夫次第で色々楽しめそうです。気になる方は是非。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/13/raspberrypi-voice-text-web-api.html"  data-tooltip="Raspberry Piをしゃべらせてみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/07/raspberry-pi-coder.html" data-tooltip="Raspberry Pi2買ってみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/11/raspberry -pi-ipad.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/11/raspberry -pi-ipad.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Raspberry PiをiPadであそんでみる。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/13/raspberrypi-voice-text-web-api.html"  data-tooltip="Raspberry Piをしゃべらせてみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/07/raspberry-pi-coder.html" data-tooltip="Raspberry Pi2買ってみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/11/raspberry -pi-ipad.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/11/raspberry -pi-ipad.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Raspberry PiをiPadであそんでみる。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/11/raspberry -pi-ipad.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/11/raspberry -pi-ipad.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=Raspberry PiをiPadであそんでみる。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/iot/2016/02/11/raspberry -pi-ipad.html';
+                 
+                    this.page.identifier = 'iot/2016/02/11/raspberry -pi-ipad.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

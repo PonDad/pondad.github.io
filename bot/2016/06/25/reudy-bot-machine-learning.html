@@ -1,0 +1,585 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>はじめての機械学習（？）人工無脳に映画を観せてみた。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="人工無脳を学習させる為に映画を観せてみました。ネタ投稿なので正しい機械学習に関するものではありません。あしからずご了承下さい。
+こんな感じです。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="はじめての機械学習（？）人工無脳に映画を観せてみた。">
+<meta property="og:url" content="https://pondad.github.io/bot/2016/06/25/reudy-bot-machine-learning.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="人工無脳を学習させる為に映画を観せてみました。ネタ投稿なので正しい機械学習に関するものではありません。あしからずご了承下さい。
+こんな感じです。">
+<meta property="og:image" content="http://img.youtube.com/vi/-PGq9h_HJtE/0.jpg">
+<meta property="og:image" content="https://cldup.com/e6mLuARpVd.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="はじめての機械学習（？）人工無脳に映画を観せてみた。">
+<meta name="twitter:description" content="人工無脳を学習させる為に映画を観せてみました。ネタ投稿なので正しい機械学習に関するものではありません。あしからずご了承下さい。
+こんな感じです。">
+<meta name="twitter:image" content="http://img.youtube.com/vi/-PGq9h_HJtE/0.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://hd.unsplash.com/photo-1458053688450-eef5d21d43b3"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://hd.unsplash.com/photo-1458053688450-eef5d21d43b3" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://hd.unsplash.com/photo-1458053688450-eef5d21d43b3');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            はじめての機械学習（？）人工無脳に映画を観せてみた。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-06-25T18:10:00+09:00">
+	
+		    2016/06/25
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>人工無脳を学習させる為に映画を観せてみました。ネタ投稿なので正しい機械学習に関するものではありません。あしからずご了承下さい。</p>
+<p>こんな感じです。</p>
+<a id="more"></a>
+<p><a href="http://www.youtube.com/watch?v=-PGq9h_HJtE" target="_blank" rel="external"><img src="http://img.youtube.com/vi/-PGq9h_HJtE/0.jpg" alt="Bots learn the words from the movie"></a></p>
+<p><a href="http://www.youtube.com/watch?v=-PGq9h_HJtE" target="_blank" rel="external">Bots learn the words from the movie - YouTube</a></p>
+<p>Raspberry Pi のマイクを通じて人工無脳「Reudy（ロイディ）」に映画の台詞を学習させています。</p>
+<h2 id="こんな感じで試してみた"><a href="#こんな感じで試してみた" class="headerlink" title="こんな感じで試してみた"></a>こんな感じで試してみた</h2><p><img src="https://cldup.com/e6mLuARpVd.png" alt=""></p>
+<p>絵面的にRaspberryPiを使ったほうが面白いと思ったので、クライアントサイドにラズパイを利用しています。</p>
+<p>音声認識と音声発話に関しては下記投稿にまとめています。</p>
+<p><a href="http://qiita.com/PonDad/items/dbbdc3624ae2dee9658a" target="_blank" rel="external">ElectronとSocket.ioでBotと音声チャット - Qiita</a></p>
+<p>サーバーサイドは先日iMacに設置した人口無脳ロイディを利用することにしました。</p>
+<p>iMacでsocket.ioを利用してローカルサーバーをたてます。iMacのIPアドレスで表示すると<code>http://192.168.0.x:3000</code> となります。このアドレスにラズパイから接続するという仕組みです。</p>
+<p>ロイディはコマンドラインを利用してワンライナーで起動できるので</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">'echo ロイディに話す言葉 | ( cd \"ロイディのパス"; ruby -W0 stdio_reudy.rb -m)'</span></div></pre></td></tr></table></figure>
+<p>これをNode.jsの<code>child_process.exec</code> コマンドから起動させる仕組みです。</p>
+<h2 id="で、こんな感じ"><a href="#で、こんな感じ" class="headerlink" title="で、こんな感じ"></a>で、こんな感じ</h2><p>まずはNetflixで絶賛公開中の映画「<a href="https://www.netflix.com/watch/70278933" target="_blank" rel="external">her/世界でひとつの彼女</a>」（日本語吹き替え）をロイディに観せてみることにしました。</p>
+<p>冒頭の動画はそれを撮影したものです。ラズパイ（無脳ロイディはiMacにあります。ややこしいな。）が記憶した単語を読み上げているのが解ると思います。</p>
+<p>単語はこんな感じで覚えました。</p>
+<p><code>words.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 桑名西</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> セオドア</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> サマンサ</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 手紙</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> ウエスト</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> カタリナ</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> ただいま</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> ただ</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> もしかして</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> セックス</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 赤ちゃん</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 少女</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 会いたい</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> パズ</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> なぞなぞ</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> お腹</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 気持ち</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> あなたに</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 言葉</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 愛してる</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 知的</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div><div class="line"><span class="bullet">-</span> !ruby/object:Gimite::Word</div><div class="line"><span class="attr">  str:</span> 楽天</div><div class="line"><span class="attr">  author:</span> test</div><div class="line"><span class="attr">  mids:</span> []</div></pre></td></tr></table></figure>
+<p>所々おかしな単語も混ざっていますが（「桑名西」ってなんだ？）名詞、形容詞、動詞をまんべんなく記憶しています。</p>
+<p>続いてロイディが発言したログです。</p>
+<p><code>log.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: test</div><div class="line">:body: 違うのあなたは悪くない</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: <span class="string">'!'</span></div><div class="line">:body: 傷ついた日希望の槍</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: test</div><div class="line">:body: 知的でセクシーな僕が入り込め楽天</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: <span class="string">'!'</span></div><div class="line">:body: 後戻りできない</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: test</div><div class="line">:body: 複雑なんだ</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: <span class="string">'!'</span></div><div class="line">:body: ただちょっと念のため心配しないで後悔しないから</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: test</div><div class="line">:body: 感情移入したくなるのはなぜ</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: test</div><div class="line">:body: 申し訳ない</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: test</div><div class="line">:body: ごめんなさい</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: test</div><div class="line">:body: 愛してる</div><div class="line"><span class="meta">---</span></div><div class="line">:fromNick: <span class="string">'!'</span></div><div class="line">:body: さようなら</div><div class="line"><span class="meta">---</span></div></pre></td></tr></table></figure>
+<p>こちらも少々微妙な発言がありますが、最終的には「愛してる」「さようなら」と映画の主題にたどり着いた様です。（偶然）</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>音声認識に関して、事前に想像していたよりも認識率がちょっと低かったです。（実際の台詞の大体５分の１位しか聞き取りが出来ていません。）</p>
+<p>特に会話部分でお互いの台詞が重なる部分が認識できなかったのが残念でした。（主人公とヒロインの掛け合い部分が一番覚えさせたかった所なのですが）</p>
+<p>今回は映画を１回見せただけなので、繰り返し見せれば覚える言葉も増えていきそうな気がします。</p>
+<p>ともあれ、はじめてのなんちゃって機械学習は無事終了しました。現場からは以上です。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/machine-learning/">machine-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/08/21/hexo-blog.html"  data-tooltip="ブログをHexoにしてみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/18/reudy-hubot.html" data-tooltip="人工無脳ReudyをHubotで動かす。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/25/reudy-bot-machine-learning.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/25/reudy-bot-machine-learning.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=はじめての機械学習（？）人工無脳に映画を観せてみた。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/08/21/hexo-blog.html"  data-tooltip="ブログをHexoにしてみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/18/reudy-hubot.html" data-tooltip="人工無脳ReudyをHubotで動かす。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/25/reudy-bot-machine-learning.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/25/reudy-bot-machine-learning.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=はじめての機械学習（？）人工無脳に映画を観せてみた。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/25/reudy-bot-machine-learning.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/25/reudy-bot-machine-learning.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=はじめての機械学習（？）人工無脳に映画を観せてみた。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2016/06/25/reudy-bot-machine-learning.html';
+                 
+                    this.page.identifier = 'bot/2016/06/25/reudy-bot-machine-learning.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

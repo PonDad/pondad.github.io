@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="こんにちは、人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。英語で書くとなんかカッコイイですね。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1">
+<meta property="og:url" content="https://pondad.github.io/ai/2017/01/03/keras-cnn-1.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="こんにちは、人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。英語で書くとなんかカッコイイですね。">
+<meta property="og:image" content="https://cldup.com/aWRwnqH-RD.jpg">
+<meta property="og:image" content="https://cldup.com/ddZ4Jn3Rof.png">
+<meta property="og:image" content="https://cldup.com/3TdckanJCM.png">
+<meta property="og:image" content="https://cldup.com/jJ3AgiQPLk.gif">
+<meta property="og:image" content="https://cldup.com/0xSvOcvJnv.png">
+<meta property="og:image" content="https://cldup.com/tzzu3ejVdl.png">
+<meta property="og:updated_time" content="2017-01-04T12:28:34.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1">
+<meta name="twitter:description" content="こんにちは、人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。英語で書くとなんかカッコイイですね。">
+<meta name="twitter:image" content="https://cldup.com/aWRwnqH-RD.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/ag2hGV5QeK.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/ag2hGV5QeK.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/ag2hGV5QeK.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-01-03T10:01:00+09:00">
+	
+		    2017/01/03
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/ai/">ai</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>こんにちは、人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。英語で書くとなんかカッコイイですね。</p>
+<a id="more"></a>
+<p>さて、<a href="https://pondad.net/ai/2017/01/02/keras-neural-network.html" target="_blank" rel="external">前回</a>からの続きとなります。</p>
+<p>ニューラル・ネットワークの仕組みが考え出されたのはのは1980年代のことの様ですが、その後衰退してしまったそうです。それは何故なのでしょうか。</p>
+<h2 id="全結合ニューラル・ネットワークの問題点"><a href="#全結合ニューラル・ネットワークの問題点" class="headerlink" title="全結合ニューラル・ネットワークの問題点"></a>全結合ニューラル・ネットワークの問題点</h2><p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873117585/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">ゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装 - Amazon.co.jp</a>のp207より引用させて頂きます。</p>
+<blockquote>
+<p>全結合の問題点は何でしょうか。それはデータ形状が”無視”されてしまうことです。例えば入力データが画像の場合、画像は通常、縦・横・チャンネル方向の３チャンネルです。しかし、全結合層に入力するときには、3次元データを平ら-1次元のデータ-にする必要があります。</p>
+</blockquote>
+<p>例えばこのゾウさんの画像を元に考えてみます。</p>
+<p><img src="https://cldup.com/aWRwnqH-RD.jpg" alt=""></p>
+<p>このカラー画像を299×299ピクセルのカラー画像（3チャンネル）をフラットにしてみると、268,203次元もの配列になります。</p>
+<p>例えばこれら元に千種類に分類できるの1千万枚の画像を10層のニューラルネットワークで学習させてみると仮定します。</p>
+<p><img src="https://cldup.com/ddZ4Jn3Rof.png" alt=""></p>
+<p>実際は入力部分が1千万枚分あります。約26兆個のニューロンを全てシナプスで繋げて、誤差逆伝播法に基づき例えば千回学習させてみるとしましょう。</p>
+<p>ちょっと乙女座の聖闘士が使う様な単位が頭に浮かんでしまいました。そんな計算が当時そう簡単に行えるとは思えません。</p>
+<p>そもそも、（以下再び引用）</p>
+<blockquote>
+<p>画像は3次元の形状であり、この形状には大切な空間情報が含まれているでしょう。（略）しかし、全結合層は、形状を無視して全ての入力データを同等のニューロン（同じ次元のニューロン）として扱うので、形状に関する情報を生かすことができません。</p>
+</blockquote>
+<p>フラットにしたデータではカラー画像の特徴量は抽出不可能な様です。</p>
+<p>更に、学習効果を高める為、層を厚くすると「勾配消失」と言って、特徴量が限りなく0に近づいてしまうという問題があるそうです。</p>
+<p>さて、そういった経緯で一旦ニューラルネットワークによる研究は長らく冬の時代に突入してしまった、ということの様です。</p>
+<h2 id="畳み込みニューラル・ネットワーク"><a href="#畳み込みニューラル・ネットワーク" class="headerlink" title="畳み込みニューラル・ネットワーク"></a>畳み込みニューラル・ネットワーク</h2><p>さて、それでは近年盛んに言われる「深層学習」では、どの様にしてその問題を突破したのでしょうか。その解決となったのが「畳み込みニューラル・ネットワーク（CNN/コンボリューションニューラルネットワーク）」です。</p>
+<p>この技術によってニューラル・ネットワークの層を重ねることが可能になり、人間を越える精度で物体認識が出来る様になりました。</p>
+<p>上のゾウさんの画像を畳み込みニューラル・ネットワークで学習したモデルに見せると、「インド象87.6%、アフリカ象2.8%」と回答します。</p>
+<p>まるで魔法の様ですが、今回は「畳み込みニューラル・ネットワーク」がどの様に行われているか、その中身をちょっとのぞいてみることにします。</p>
+<p>深層学習ライブラリはなんと、JavaScriptを使って、ブラウザで動作させることも可能になっています。以下のサイトで実際にデモを試すことが出来ます。</p>
+<p><img src="https://cldup.com/3TdckanJCM.png" alt=""></p>
+<p><a href="https://transcranial.github.io/keras-js/" target="_blank" rel="external">Keras.js Demos</a></p>
+<p>Googleの開発した高精度の学習モデルInceptionV3を使ったデモも試せます。こちらを使い、畳み込みニューラル・ネットワークがどの様に行われているかみていきましょう。</p>
+<p><img src="https://cldup.com/jJ3AgiQPLk.gif" alt=""></p>
+<p>凄いですね。10層どころでは無い程深く層を重ねています。ここでは最後にきちんと「りんご」と判定しているので、全結合ニューラル・ネットワークでみられる勾配喪失の問題がクリアされているのが分かります。</p>
+<p>それでは、ここでは何が行われているのでしょうか。深層学習の深淵をちょっと覗いてみることにします。</p>
+<p>何層にも重ねられたニューラル・ネットワークですが、良くみると同じ様な処理を繰り返しているのが分かります。全結合ではみられなかった処理が行われれいる様です。</p>
+<p>では最初の部分を切り出してみます。</p>
+<p><img src="https://cldup.com/0xSvOcvJnv.png" alt=""></p>
+<p>どうも、<code>Convolution2D</code>→<code>BachNormalization</code>を繰り返し最後に<code>MaxPooling2D</code>という処理を行なっている様です。</p>
+<p>基本的には同様の処理を繰り返し行なっています。</p>
+<p><code>keras</code>のサンプルプログラムも合わせて覗いてみます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">x = conv2d_bn(img_input, <span class="number">32</span>, <span class="number">3</span>, <span class="number">3</span>, subsample=(<span class="number">2</span>, <span class="number">2</span>), border_mode=<span class="string">'valid'</span>)</div><div class="line">x = conv2d_bn(x, <span class="number">32</span>, <span class="number">3</span>, <span class="number">3</span>, border_mode=<span class="string">'valid'</span>)</div><div class="line">x = conv2d_bn(x, <span class="number">64</span>, <span class="number">3</span>, <span class="number">3</span>)</div><div class="line">x = MaxPooling2D((<span class="number">3</span>, <span class="number">3</span>), strides=(<span class="number">2</span>, <span class="number">2</span>))(x)</div></pre></td></tr></table></figure>
+<p>（当たり前ですが）デモと同様の記述がしてあります。</p>
+<p>この「Convolution層」と「Pooling層」を繰り返し重ねることに畳み込みニューラル・ネットワークの秘密が隠されている様です。</p>
+<p>さて、学習の最後はこの様になっています。</p>
+<p><img src="https://cldup.com/tzzu3ejVdl.png" alt=""></p>
+<p>同じくサンプルプログラムを覗いてみます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = AveragePooling2D((<span class="number">8</span>, <span class="number">8</span>), strides=(<span class="number">8</span>, <span class="number">8</span>), name=<span class="string">'avg_pool'</span>)(x)</div><div class="line">x = Flatten(name=<span class="string">'flatten'</span>)(x)</div><div class="line">x = Dense(<span class="number">1000</span>, activation=<span class="string">'softmax'</span>, name=<span class="string">'predictions'</span>)(x)</div></pre></td></tr></table></figure>
+<p>これは予想通り、<code>flatten</code>で3次元データを1次元に変換してフラットにした後、<code>softmax</code>関数を利用して1,000次元で出力しています。（ラベルが1000種類ある為）</p>
+<p>ここで全結合ニューラル・ネットワークに戻る訳ですね。</p>
+<p>ようやく「Convolution層」と「Pooling層」が畳み込みニューラル・ネットワークの鍵になることが分かりました。</p>
+<p>さて、更なる深淵を覗き込んでみることにしましょうか。</p>
+<p>(つづく)</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/deep-learning/">deep-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/03/keras-cnn-2.html"  data-tooltip="深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その2">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/02/keras-neural-network.html" data-tooltip="深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/01/03/keras-cnn-1.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/01/03/keras-cnn-1.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/03/keras-cnn-2.html"  data-tooltip="深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その2">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/02/keras-neural-network.html" data-tooltip="深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/01/03/keras-cnn-1.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/01/03/keras-cnn-1.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/01/03/keras-cnn-1.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/01/03/keras-cnn-1.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/ai/2017/01/03/keras-cnn-1.html';
+                 
+                    this.page.identifier = 'ai/2017/01/03/keras-cnn-1.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

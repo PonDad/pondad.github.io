@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>Cloud Vision API 使ってみたよ。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="以前より試してみたかったCloud Vision API を試してみました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Cloud Vision API 使ってみたよ。">
+<meta property="og:url" content="https://pondad.github.io/bot/2016/03/20/cloud-vision-api.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="以前より試してみたかったCloud Vision API を試してみました。">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://github.com/tejitak/node-cloud-vision-api">
+<meta property="og:image" content="https://cldup.com/gGlMspcKFu.jpeg">
+<meta property="og:image" content="https://cldup.com/oNeXDiil6m.png">
+<meta property="og:image" content="https://cldup.com/wdV6bWWGUf.png">
+<meta property="og:image" content="https://cldup.com/PZtGFynwU2.png">
+<meta property="og:image" content="https://cldup.com/869gbRvrPi.png">
+<meta property="og:image" content="https://cldup.com/iPVOBYw9C7.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cloud Vision API 使ってみたよ。">
+<meta name="twitter:description" content="以前より試してみたかったCloud Vision API を試してみました。">
+<meta name="twitter:image" content="http://capture.heartrails.com/400x300?https://github.com/tejitak/node-cloud-vision-api">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Cloud Vision API 使ってみたよ。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-03-20T17:10:00+09:00">
+	
+		    2016/03/20
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>以前より試してみたかった<a href="https://cloud.google.com/vision/?hl=ja" target="_blank" rel="external">Cloud Vision API</a> を試してみました。</p>
+<a id="more"></a>
+<h2 id="Cloud-Vision-APIとは"><a href="#Cloud-Vision-APIとは" class="headerlink" title="Cloud Vision APIとは"></a>Cloud Vision APIとは</h2><div class="video-container"><iframe src="//www.youtube.com/embed/eve8DkkVdhI" frameborder="0" allowfullscreen></iframe></div>
+<p>こちらの動画をご覧になれば一目瞭然なのですが、Googleが公開した機械学習を利用した画像認識APIです。</p>
+<p>物体や文字の認証だけでなく、人物の感情までも画像から認識できることが可能です。</p>
+<p>使用量によって有料になりますが、個人利用程度（1,000ユニット以下）では無料で利用することが出来ます。</p>
+<p>登録や利用の仕方はこちらで詳しく解説されています。</p>
+<p><a href="https://syncer.jp/cloud-vision-api" target="_blank" rel="external">Cloud Vision APIの使い方まとめ (サンプルコード付き) - Syncer</a></p>
+<h2 id="Node-Cloud-Vision-API"><a href="#Node-Cloud-Vision-API" class="headerlink" title="Node Cloud Vision API"></a>Node Cloud Vision API</h2><p><img src="http://capture.heartrails.com/400x300?https://github.com/tejitak/node-cloud-vision-api" alt=""></p>
+<p><a href="https://github.com/tejitak/node-cloud-vision-api" target="_blank" rel="external">tejitak/node-cloud-vision-api - GitHub</a></p>
+<p>JavaScriptで利用出来るクライアントも早くも公開されています。こちらは日本の方が公開されているNode.js向けのパッケージクライアントです。</p>
+<p>かなり少ない記述量でAPIを利用することが出来ます。また、画像をBase64に変換せずに利用出来るので、通常のjpegファイルから画像認識を利用することが出来ます。</p>
+<h2 id="やってみた"><a href="#やってみた" class="headerlink" title="やってみた"></a>やってみた</h2><p><img src="https://cldup.com/gGlMspcKFu.jpeg" alt=""></p>
+<p>お気に入りのRaspberry Piで試してみました。今回は顔認識（<code>FACE_DETECTION</code>）とカテゴリ認識（<code>LABEL_DETECTION</code>）を読み取るように指定しています。</p>
+<p><img src="https://cldup.com/oNeXDiil6m.png" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm start</div></pre></td></tr></table></figure>
+<p>でサーバーを立ち上げます。まずは満面の笑みで「Shutter」ボタンをクリックします。</p>
+<p><img src="https://cldup.com/wdV6bWWGUf.png" alt=""></p>
+<p>プレビュー画面に、Cloud Vision API から戻ったJSONデータを表示するようにしてみました。こんな感じです。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">"joyLikelihood": "LIKELY",</div><div class="line">"sorrowLikelihood": "VERY_UNLIKELY",</div><div class="line">"angerLikelihood": "VERY_UNLIKELY",</div><div class="line">"surpriseLikelihood": "VERY_UNLIKELY",</div><div class="line">"underExposedLikelihood": "VERY_UNLIKELY",</div><div class="line">"blurredLikelihood": "VERY_UNLIKELY",</div><div class="line">"headwearLikelihood": "VERY_LIKELY"</div></pre></td></tr></table></figure>
+<p>かなり引きつった笑顔ではありますが、<code>joyLikelihood</code> が <code>LIKELY</code> と表示されています。</p>
+<p>今度は口をあんぐり開けて驚いた表情を作ってみます。</p>
+<p><img src="https://cldup.com/PZtGFynwU2.png" alt=""></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">"joyLikelihood": "VERY_UNLIKELY",</div><div class="line">"sorrowLikelihood": "VERY_UNLIKELY",</div><div class="line">"angerLikelihood": "VERY_UNLIKELY",</div><div class="line">"surpriseLikelihood": "UNLIKELY",</div><div class="line">"underExposedLikelihood": "VERY_UNLIKELY",</div><div class="line">"blurredLikelihood": "VERY_UNLIKELY",</div><div class="line">"headwearLikelihood": "VERY_UNLIKELY"</div></pre></td></tr></table></figure>
+<p>今度は<code>surpriseLikelihood</code> が <code>UNLIKELY</code> となっています。</p>
+<p>怒ったり、泣いたり、といった表情も試してみたんですが、なかなか反応しませんでした。ひょっとしたらもう少し全身を映したものの方が感情認識はされやすいのかもしれません。</p>
+<p>今度は物で試してみます。</p>
+<p><img src="https://cldup.com/869gbRvrPi.png" alt=""></p>
+<p>みんな大好き。「林檎」と「アップル」ですね。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">"labelAnnotations": [</div><div class="line">	&#123;</div><div class="line">		"mid": "/m/036qh8",</div><div class="line">		"description": "produce",</div><div class="line">		"score": 0.95910442</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		"mid": "/m/05s2s",</div><div class="line">		"description": "plant",</div><div class="line">		"score": 0.86686105</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		"mid": "/m/0f4s2w",</div><div class="line">		"description": "vegetable",</div><div class="line">		"score": 0.74504244</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		"mid": "/m/02wbm",</div><div class="line">		"description": "food",</div><div class="line">		"score": 0.67037088</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		"mid": "/m/02xwb",</div><div class="line">		"description": "fruit",</div><div class="line">		"score": 0.6695556</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		"mid": "/m/02dwgb",</div><div class="line">		"description": "input device",</div><div class="line">		"score": 0.57699329</div><div class="line">	&#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>うーん、残念ながら期待したような「Apple」も「iPhone」も認識されませんでした。</p>
+<p>画像認識は対象を複数指定知ることも出来ます。最後に、去年の夏におじいちゃんに撮ってもらった双子の写真を認識させてみます。（これはもちろんRaspberry Piで撮ったやつではありません）</p>
+<p><img src="https://cldup.com/iPVOBYw9C7.png" alt=""></p>
+<p>ひとりめ</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">"joyLikelihood": "VERY_LIKELY",</div><div class="line">"sorrowLikelihood": "VERY_UNLIKELY",</div><div class="line">"angerLikelihood": "VERY_UNLIKELY",</div><div class="line">"surpriseLikelihood": "VERY_UNLIKELY",</div><div class="line">"underExposedLikelihood": "VERY_UNLIKELY",</div><div class="line">"blurredLikelihood": "VERY_UNLIKELY",</div><div class="line">"headwearLikelihood": "VERY_UNLIKELY"</div></pre></td></tr></table></figure>
+<p>ふたりめ</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">"joyLikelihood": "VERY_LIKELY",</div><div class="line">"sorrowLikelihood": "VERY_UNLIKELY",</div><div class="line">"angerLikelihood": "VERY_UNLIKELY",</div><div class="line">"surpriseLikelihood": "VERY_UNLIKELY",</div><div class="line">"underExposedLikelihood": "VERY_UNLIKELY",</div><div class="line">"blurredLikelihood": "VERY_UNLIKELY",</div><div class="line">"headwearLikelihood": "VERY_UNLIKELY"</div></pre></td></tr></table></figure>
+<p>ふたりとも「とっても笑顔」と認識されました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>最近の技術の進歩は驚くばかりで、冒頭の「Ras Pi ロボット」の様に表情に反応するロボットなんてのも個人で開発することが可能になっています。</p>
+<p>Web関連でも画像認識や音声認識など様々なライブラリが公開されてますます楽しみが増えてきました。ではまた。</p>
+<h2 id="サンプルコード"><a href="#サンプルコード" class="headerlink" title="サンプルコード"></a>サンプルコード</h2><p><a href="https://gist.github.com/PonDad/9cfd2f0bad25e16e106f" target="_blank" rel="external">PonDad/PonVisionβ -GitHub Gist</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/machine-learning/">machine-learning</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/03/27/hubot-raspberry-pi.html"  data-tooltip="【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/03/05/raspberrypi-samuell9000.html" data-tooltip="人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/03/20/cloud-vision-api.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/03/20/cloud-vision-api.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Cloud Vision API 使ってみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/03/27/hubot-raspberry-pi.html"  data-tooltip="【HUBOT】GitHub謹製人工無脳メーカーを使ってみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/03/05/raspberrypi-samuell9000.html" data-tooltip="人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/03/20/cloud-vision-api.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/03/20/cloud-vision-api.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Cloud Vision API 使ってみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/03/20/cloud-vision-api.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/03/20/cloud-vision-api.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=Cloud Vision API 使ってみたよ。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2016/03/20/cloud-vision-api.html';
+                 
+                    this.page.identifier = 'bot/2016/03/20/cloud-vision-api.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

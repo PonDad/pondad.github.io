@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>Raspberry Piでインターネットラジオを聴く。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="Raspberry Piでインターネットラジオを聴けるようにしてみました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Raspberry Piでインターネットラジオを聴く。">
+<meta property="og:url" content="https://pondad.github.io/iot/2016/03/01/raspberrypi-radio.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="Raspberry Piでインターネットラジオを聴けるようにしてみました。">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?http://deviceplus.jp/hobby/raspberrypi_entry_013/">
+<meta property="og:image" content="https://cldup.com/1psPJnSDjJ.png">
+<meta property="og:image" content="https://cldup.com/OXKNu6hL1y.png">
+<meta property="og:image" content="https://cldup.com/qbdh9-gIA2.jpg">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Raspberry Piでインターネットラジオを聴く。">
+<meta name="twitter:description" content="Raspberry Piでインターネットラジオを聴けるようにしてみました。">
+<meta name="twitter:image" content="http://capture.heartrails.com/400x300?http://deviceplus.jp/hobby/raspberrypi_entry_013/">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Raspberry Piでインターネットラジオを聴く。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-03-01T17:01:00+09:00">
+	
+		    2016/03/01
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/iot/">iot</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Raspberry Piでインターネットラジオを聴けるようにしてみました。</p>
+<a id="more"></a>
+<p>多くの記事で公開されているのでそれらを参考にしました。<a href="https://www.shoutcast.com/Home" target="_blank" rel="external">SHOUTcast</a> というインターネットラジオ局を利用するのが一番手軽なようです。</p>
+<p><img src="http://capture.heartrails.com/400x300?http://deviceplus.jp/hobby/raspberrypi_entry_013/" alt=""></p>
+<p><a href="http://deviceplus.jp/hobby/raspberrypi_entry_013/" target="_blank" rel="external">第13回「ラズベリーラジオ前編 – インターネットラジオ受信と遠隔操作」- IT女子のラズベリーパイ入門奮闘記</a></p>
+<p>こちらの記事に詳しく書かれているのでそれを元に試してみました。記事中はPHPを利用されていましたが、私はNode.jsを利用してみました。</p>
+<h2 id="こんな感じ"><a href="#こんな感じ" class="headerlink" title="こんな感じ"></a>こんな感じ</h2><p><img src="https://cldup.com/1psPJnSDjJ.png" width="320"></p>
+<p>iPhoneからSSHで接続し、ディレクトリに移動し、<code>node app.js</code><br> でローカルサーバーが起動します。</p>
+<p><img src="https://cldup.com/OXKNu6hL1y.png" width="320"></p>
+<p>Raspberry PiのIPアドレスに指定した3000番にアクセスしてリモコンを立ち上げます。</p>
+<p>リモコンボタンを押せばラジオが再生されます。</p>
+<p><img src="https://cldup.com/qbdh9-gIA2.jpg" width="320"></p>
+<h2 id="コード"><a href="#コード" class="headerlink" title="コード"></a>コード</h2><h3 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> ejs = <span class="built_in">require</span>(<span class="string">"ejs"</span>);</div><div class="line"><span class="keyword">var</span> spawn = <span class="built_in">require</span>(<span class="string">'child_process'</span>).spawn;</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line">app.engine(<span class="string">'ejs'</span>,ejs.renderFile);</div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</div><div class="line">    res.render(<span class="string">'radio.ejs'</span>,</div><div class="line">        &#123;title: <span class="string">'SHOUTcast Pi'</span>&#125;);</div><div class="line">&#125;);</div><div class="line">app.get(<span class="string">'/control'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(req.query);</div><div class="line">  <span class="keyword">var</span> id = req.query.id;</div><div class="line">  <span class="keyword">var</span> shoutcast =  <span class="string">"http://yp.shoutcast.com/sbin/tunein-station.pls?id="</span> + id;</div><div class="line">  <span class="keyword">var</span> cmd = <span class="string">"killall mplayer"</span>;</div><div class="line">  <span class="comment">//console.log("cmd = "+cmd);</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">shspawn</span>(<span class="params">command</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> spawn(<span class="string">'sh'</span>, [<span class="string">'-c'</span>, command]);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> child = shspawn(cmd);</div><div class="line">  <span class="keyword">var</span> buf=<span class="string">""</span>;</div><div class="line">  child.stdout.on(<span class="string">'data'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    buf=buf+data;</div><div class="line">  &#125;);</div><div class="line">  child.stderr.on(<span class="string">'data'</span>,<span class="function"><span class="keyword">function</span> (<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">//console.log('exec error: '+data);</span></div><div class="line">  &#125;);</div><div class="line">  child.on(<span class="string">'close'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">code</span>) </span>&#123;</div><div class="line">     <span class="built_in">console</span>.log( <span class="string">'CLEAR.'</span> );</div><div class="line">  &#125;);</div><div class="line">  <span class="keyword">var</span> cmd = <span class="string">"mplayer -playlist "</span> + shoutcast + <span class="string">""</span>;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">shspawn</span>(<span class="params">command</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> spawn(<span class="string">'sh'</span>, [<span class="string">'-c'</span>, command]);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> child = shspawn(cmd);</div><div class="line">  <span class="keyword">var</span> buf=<span class="string">""</span>;</div><div class="line">  child.stdout.on(<span class="string">'data'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    buf=buf+data;</div><div class="line">  &#125;);</div><div class="line">  child.stderr.on(<span class="string">'data'</span>,<span class="function"><span class="keyword">function</span> (<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">//console.log('exec error: '+data);</span></div><div class="line">  &#125;);</div><div class="line">  child.on(<span class="string">'close'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">code</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log( <span class="string">'EXIT.'</span> );</div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line">  app.get(<span class="string">'/stop'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(req.query);</div><div class="line">    <span class="keyword">var</span> id = req.query.id;</div><div class="line">    <span class="keyword">var</span> cmd = <span class="string">"killall mplayer"</span>;</div><div class="line">    <span class="comment">//console.log("cmd = "+cmd);</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">shspawn</span>(<span class="params">command</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> spawn(<span class="string">'sh'</span>, [<span class="string">'-c'</span>, command]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> child = shspawn(cmd);</div><div class="line">    <span class="keyword">var</span> buf=<span class="string">""</span>;</div><div class="line">    child.stdout.on(<span class="string">'data'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">      buf=buf+data;</div><div class="line">    &#125;);</div><div class="line">    child.stderr.on(<span class="string">'data'</span>,<span class="function"><span class="keyword">function</span> (<span class="params">data</span>)</span>&#123;</div><div class="line">      <span class="comment">//console.log('exec error: '+data);</span></div><div class="line">    &#125;);</div><div class="line">    child.on(<span class="string">'close'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">code</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log( <span class="string">'STOP.'</span> );</div><div class="line">    &#125;);</div><div class="line">    &#125;);</div><div class="line"><span class="keyword">var</span> server = app.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> host = server.address().address</div><div class="line">  <span class="keyword">var</span> port = server.address().port</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'This app listening at http://192.168.0.12:'</span>+ port)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="radio-ejs"><a href="#radio-ejs" class="headerlink" title="radio.ejs"></a>radio.ejs</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang="ja"&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta http-equiv="content-type"</div><div class="line">        content="text/html; charset=UTF-8"&gt;</div><div class="line">    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no"&gt;</div><div class="line">    &lt;title&gt;&lt;%-&lt;%= title %&gt;%&gt;&lt;/title&gt;</div><div class="line">     &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" /&gt;</div><div class="line">    &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"&gt;</div><div class="line">    &lt;style&gt;</div><div class="line">    body&#123;</div><div class="line">      margin: 0 auto;</div><div class="line">      max-width: 640px;</div><div class="line">    &#125;</div><div class="line">     article&#123;</div><div class="line">       margin: 20px;</div><div class="line">     &#125;</div><div class="line">    &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;header&gt;</div><div class="line">        &lt;h1 class="text-center h2"&gt;&lt;%-&lt;%= title %&gt;%&gt;&lt;/h1&gt;</div><div class="line">    &lt;/header&gt;</div><div class="line">    &lt;article&gt;</div><div class="line">    &lt;div class="list-group"&gt;</div><div class="line">  &lt;button type="button" class="list-group-item" id="402459"&gt;SOUL GOLD RADIO SMOOTH JAZZ&lt;/button&gt;</div><div class="line">  &lt;button type="button" class="list-group-item" id="389248"&gt;</div><div class="line">#1 Hits&lt;/button&gt;</div><div class="line">  &lt;button type="button" class="list-group-item" id="484573"&gt;# After Hour - www.materrassefm.com&lt;/button&gt;</div><div class="line">  &lt;button type="button" class="list-group-item" id="190620"&gt;</div><div class="line">#i99MusicRadio&lt;/button&gt;</div><div class="line">&lt;button type="button" class="list-group-item" id="475565"&gt;#1 Classic Rock&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">    &lt;button class="btn btn-default" id="stop"&gt;stop&lt;/button&gt;</div><div class="line">    &lt;/article&gt;</div><div class="line">    &lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"&gt;&lt;/script&gt;</div><div class="line"></div><div class="line">    &lt;script&gt;</div><div class="line">        $(".list-group-item").click(function() &#123;</div><div class="line">                var station = $(this).attr("id");　</div><div class="line">                $.get("http://192.168.0.12:3000/control", &#123; id: station &#125; );</div><div class="line">            &#125;);</div><div class="line">        $(".btn").click(function() &#123;</div><div class="line">                var stop = $(this).attr("id");　</div><div class="line">                $.get("http://192.168.0.12:3000/stop", &#123; id: stop &#125; );</div><div class="line">            &#125;);</div><div class="line"></div><div class="line">    &lt;/script&gt;</div><div class="line"></div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>音源の再生はmplayerを使ったのですが、パッケージが今ひとつ不安定ですぐに再生が切れてしまうので、<code>child_process</code> を利用してコマンドをJavaScriptから起動させてみました。（書き方が雑なのは多めにみて下さいませ）</p>
+<h2 id="参考になりました"><a href="#参考になりました" class="headerlink" title="参考になりました"></a>参考になりました</h2><p><a href="https://gist.github.com/kjunichi/9439946" target="_blank" rel="external">node.jsでパイプを使ったコマンドを実行するには</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a> <a class="tag tag--primary tag--small t-link" href="/tags/web-api/">web-api</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/03/05/raspberrypi-samuell9000.html"  data-tooltip="人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/14/raspberrypi-youtube.html" data-tooltip="Raspberry PiでYouTubeを再生してみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/03/01/raspberrypi-radio.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/03/01/raspberrypi-radio.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Raspberry Piでインターネットラジオを聴く。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/03/05/raspberrypi-samuell9000.html"  data-tooltip="人工無脳「Samuel L 9000」をRaspberry Piに移植してみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/14/raspberrypi-youtube.html" data-tooltip="Raspberry PiでYouTubeを再生してみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/03/01/raspberrypi-radio.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/03/01/raspberrypi-radio.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Raspberry Piでインターネットラジオを聴く。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/03/01/raspberrypi-radio.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/03/01/raspberrypi-radio.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=Raspberry Piでインターネットラジオを聴く。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/iot/2016/03/01/raspberrypi-radio.html';
+                 
+                    this.page.identifier = 'iot/2016/03/01/raspberrypi-radio.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

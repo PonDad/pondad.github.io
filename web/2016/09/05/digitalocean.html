@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>DigitalOceanでhttpsアドレスのサイトを公開する - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="以前より試してみたかった仮想サーバーを使ったサイトの公開を試してみました。ついでなので、ssl認証をしたhttpsアドレスで公開してみることにします。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="DigitalOceanでhttpsアドレスのサイトを公開する">
+<meta property="og:url" content="https://pondad.github.io/web/2016/09/05/digitalocean.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="以前より試してみたかった仮想サーバーを使ったサイトの公開を試してみました。ついでなので、ssl認証をしたhttpsアドレスで公開してみることにします。">
+<meta property="og:image" content="https://cldup.com/qx5HieYju0.png">
+<meta property="og:image" content="https://cldup.com/hz4pD76S9h.png">
+<meta property="og:image" content="https://cldup.com/pSTdyQeVF1.png">
+<meta property="og:image" content="https://cldup.com/YojLxVroG0.png">
+<meta property="og:image" content="https://cldup.com/g0j2rBvKya.png">
+<meta property="og:image" content="https://cldup.com/rBt-Sz8cEw.png">
+<meta property="og:updated_time" content="2016-09-06T14:50:02.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DigitalOceanでhttpsアドレスのサイトを公開する">
+<meta name="twitter:description" content="以前より試してみたかった仮想サーバーを使ったサイトの公開を試してみました。ついでなので、ssl認証をしたhttpsアドレスで公開してみることにします。">
+<meta name="twitter:image" content="https://cldup.com/qx5HieYju0.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://hd.unsplash.com/photo-1445112098124-3e76dd67983c"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://hd.unsplash.com/photo-1445112098124-3e76dd67983c" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://hd.unsplash.com/photo-1445112098124-3e76dd67983c');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            DigitalOceanでhttpsアドレスのサイトを公開する
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-09-05T21:20:00+09:00">
+	
+		    2016/09/05
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/web/">web</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>以前より試してみたかった仮想サーバーを使ったサイトの公開を試してみました。ついでなので、ssl認証をしたhttpsアドレスで公開してみることにします。</p>
+<a id="more"></a>
+<h2 id="DigitalOcean"><a href="#DigitalOcean" class="headerlink" title="DigitalOcean"></a>DigitalOcean</h2><p>仮想サーバーを初めて利用する際に不安なのは、利用量に応じた課金がいくらになるか分からない事ではないでしょうか。</p>
+<p>そこで、月額料金プランのあるサービス「DigitalOcean」を利用してみることにしました。</p>
+<p><img src="https://cldup.com/qx5HieYju0.png" alt=""></p>
+<p><a href="https://www.digitalocean.com/" target="_blank" rel="external">DigitalOcean</a></p>
+<blockquote>
+<p>Easily deploy an SSD cloud server on DigitalOcean in 55 seconds.</p>
+<p>デジタルオーシャンを使えばSSDクラウドサーバーがたったの55秒で使えるようになるよ。</p>
+</blockquote>
+<p>こんなうたい文句の通り、アカウントを作成したのち、OSイメージ・料金プラン・データセンターの地域を選択し、自分のホストネームを決めればあっという間に仮想PC（SSD使用）に接続することが出来ます。</p>
+<p><img src="https://cldup.com/hz4pD76S9h.png" alt=""></p>
+<p><img src="https://cldup.com/pSTdyQeVF1.png" alt=""></p>
+<p>今回は「Ubuntu16.04」「月額$10プラン」「シンガポール地域」を選択しました。</p>
+<p>本当にあっという間にログイン出来ます。</p>
+<h2 id="Ubuntuのログインについて"><a href="#Ubuntuのログインについて" class="headerlink" title="Ubuntuのログインについて"></a>Ubuntuのログインについて</h2><p>ちょっと嵌ったのが、コンソールのログインでした。アカウントのユーザー名・パスワードを入力するのかと思ったのですが、それだと入力出来ません。</p>
+<p><img src="https://cldup.com/YojLxVroG0.png" alt=""></p>
+<p>Droplet（仮想サーバの単位）を設定した際に登録したアドレスにパスワードが送信されてきます。</p>
+<p>ユーザー名は「root」、パスワードは送付されたものを入力すればログイン出来ます。</p>
+<p>よりセキュリティを強固にしたい場合はSSH公開鍵を追加してログインすることも可能です。</p>
+<h2 id="httpsアドレスでWebサイトを公開する"><a href="#httpsアドレスでWebサイトを公開する" class="headerlink" title="httpsアドレスでWebサイトを公開する"></a>httpsアドレスでWebサイトを公開する</h2><p>DigitalOceanを実際に利用してみて、良いなと感じたのはコニュニティが活発なところです。</p>
+<p>悩んだ時に調べ物をすると詳しい投稿が数多くされていました。<code>node.js</code>を利用してhttpsアドレスでWebサイトを公開するチュートリアルはこちらで詳しく解説されています。</p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04" target="_blank" rel="external">How To Set Up a Node.js Application for Production on Ubuntu 16.04</a></p>
+<p>基本こちらに書かれている手順で設定すれば大丈夫です。少し補足します。</p>
+<h3 id="node-jsのインストール"><a href="#node-jsのインストール" class="headerlink" title="node.jsのインストール"></a>node.jsのインストール</h3><p>バージョン管理をするには <a href="https://github.com/tj/n" target="_blank" rel="external">n – Interactively Manage Your Node.js Versions</a> を利用するのが一番手軽だと思います。</p>
+<p>こちらの手順（<a href="http://qiita.com/seibe/items/36cef7df85fe2cefa3ea" target="_blank" rel="external">Ubuntuに最新のNode.jsを難なくインストールする - Qiita</a>）に沿ってインストールしました。</p>
+<h3 id="node-jsのデーモン化"><a href="#node-jsのデーモン化" class="headerlink" title="node.jsのデーモン化"></a>node.jsのデーモン化</h3><p>これは上記のチュートリアルで紹介されていた<a href="https://github.com/Unitech/pm2" target="_blank" rel="external">PM2</a> を使ってみました。プロセスのリストが見やすくて使いやすいですね。</p>
+<h3 id="お名前-comのネームサーバー"><a href="#お名前-comのネームサーバー" class="headerlink" title="お名前.comのネームサーバー"></a>お名前.comのネームサーバー</h3><p>DigitalOceanで独自ドメインを設定するにはドメインのネームサーバーを変更します。</p>
+<p>まずはDigitalOceanの管理画面で「Networking」&gt;「Domains」を選択します。</p>
+<p><img src="https://cldup.com/g0j2rBvKya.png" alt=""></p>
+<p>IPアドレスを設定したのち、ネームサーバーを指定します。</p>
+<p>ここでは「お名前.com」で説明します。管理画面「ドメイン設定」&gt; 「ネームサーバーの変更」にてネームサーバー情報を入力します。</p>
+<p><img src="https://cldup.com/rBt-Sz8cEw.png" alt=""></p>
+<p>しばらくすれば独自ドメインでアクセスできる様になります。</p>
+<h3 id="nginxのインストール"><a href="#nginxのインストール" class="headerlink" title="nginxのインストール"></a>nginxのインストール</h3><p>node.jsのローカルサーバー（例 <a href="http://localhost:3000" target="_blank" rel="external">http://localhost:3000</a> ）をそのまま独自ドメイン（例 <a href="http://pondad.xyz" target="_blank" rel="external">http://pondad.xyz</a> ）で公開すると、<a href="http://pondad.xyz:3000" target="_blank" rel="external">http://pondad.xyz:3000</a> とどうにも冴えないことになってしまいます。</p>
+<p>しかもポート番号を80に設定するとエラーになってしまいます。（仕様です。初めて知った）</p>
+<p>そこでnginxなどを利用してリバースプロキシを設定します。</p>
+<p>ローカルサーバーのアドレス：ポートを独自ドメインに紐付けることが出来る様になります。</p>
+<p>チュートリアルにある様にnginxのデフォルト設定ファイルを以下の様に記述します。</p>
+<p><code>/etc/nginx/sites-available/default</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen 80;</div><div class="line"></div><div class="line">    server_name pondad.xyz;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        proxy_pass http://localhost:3000;</div><div class="line">        proxy_http_version 1.1;</div><div class="line">        proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</div><div class="line">        proxy_set_header Connection <span class="string">'upgrade'</span>;</div><div class="line">        proxy_set_header Host <span class="variable">$host</span>;</div><div class="line">        proxy_cache_bypass <span class="variable">$http_upgrade</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>なるほど。これでexpressなどで設置した <a href="http://localhost:3000" target="_blank" rel="external">http://localhost:3000</a> のサイトが <a href="http://pondad.xyz" target="_blank" rel="external">http://pondad.xyz</a> で公開されます。</p>
+<h3 id="Lets-Encryptの設定"><a href="#Lets-Encryptの設定" class="headerlink" title="Lets Encryptの設定"></a>Lets Encryptの設定</h3><p>さて、ここからが本番。httpアドレスをhttps化してみます。</p>
+<p>ssl認証と言うと、年間かなり高額な費用を支払わなければならない印象があったのですが、近年無償で認証を発行してくれるサービスが出来ています。</p>
+<p>代表的なものが<a href="https://letsencrypt.org/" target="_blank" rel="external">Lets Encrypt</a> です。モジラなどがサポートしている非営利団体が運営しているみたいですね。2016年4月12日と比較的最近正式サポートが始まりました。</p>
+<p>こちらをDigitalOceanで利用する方法も上記のチュートリアルで解説されていました。</p>
+<p>GitHubよりLets Encryptのオフィシャルパッケージをクローンしてきます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo git <span class="built_in">clone</span> https://github.com/letsencrypt/letsencrypt/opt/letsencrypt</div></pre></td></tr></table></figure>
+<p>ディレクトリを移動して実行プラグインを起動します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /opt/letsencrypt</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./letsencrypt-auto certonly --standalone</div></pre></td></tr></table></figure>
+<p>指示に従って設定用のアドレスとドメイン（http:// はつけない）を入力すると以下の様に表示されます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">IMPORTANT NOTES:</div><div class="line">- Congratulations! Your certificate and chain have been saved at</div><div class="line">  /etc/letsencrypt/live/pondad.xyz/fullchain.pem. Your cert will</div><div class="line">  expire on 2016-11-20. To obtain a new or tweaked version of this</div><div class="line">  certificate <span class="keyword">in</span> the future, simply run letsencrypt-auto again. To</div><div class="line">  non-interactively renew *all* of your certificates, run</div><div class="line">  <span class="string">"letsencrypt-auto renew"</span></div><div class="line">- If you like Certbot, please consider supporting our work by:</div><div class="line"></div><div class="line">  Donating to ISRG / Lets Encrypt:   https://letsencrypt.org/donate</div><div class="line">  Donating to EFF:                    https://eff.org/donate-le</div></pre></td></tr></table></figure>
+<p>「コングラチュレイション!」の文字が出れば成功です。ようやく認証が発行されたので、ngixを利用してローカルサーバーをhttpsアドレスと紐付ける設定をします。</p>
+<p><code>/etc/nginx/sites-available/default</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">        listen 80;</div><div class="line">        listen [::]:80 default_server ipv6only=on;</div><div class="line">        <span class="built_in">return</span> 301 https://<span class="variable">$host</span><span class="variable">$request_uri</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">        listen 443;</div><div class="line">        server_name pondad.xyz;</div><div class="line"></div><div class="line">        ssl on;</div><div class="line">        ssl_certificate /etc/letsencrypt/live/pondad.xyz/fullchain.pem;</div><div class="line">        ssl_certificate_key /etc/letsencrypt/live/pondad.xyz/privkey.pem;</div><div class="line">        ssl_session_timeout 5m;</div><div class="line">        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">        ssl_prefer_server_ciphers on;</div><div class="line">        ssl_ciphers <span class="string">'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH'</span>;</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line">                proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</div><div class="line">                proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</div><div class="line">                proxy_set_header X-NginX-Proxy <span class="literal">true</span>;</div><div class="line">                proxy_pass http://localhost:3000/;</div><div class="line">                proxy_ssl_session_reuse off;</div><div class="line">                proxy_set_header Host <span class="variable">$http_host</span>;</div><div class="line">                proxy_cache_bypass <span class="variable">$http_upgrade</span>;</div><div class="line">                proxy_redirect off;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>これで <a href="http://localhost:3000" target="_blank" rel="external">http://localhost:3000</a> が <a href="https://pondad.xyz" target="_blank" rel="external">https://pondad.xyz</a> へと紐づけられました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p> 最初はちょっと面倒に感じますが、順を追って設定すればそれほど難しいことはありません。</p>
+<p> 初めて仮想サーバーを利用される方にも比較的とっつきやすいと思います。気になる方は是非。</p>
+<p> <a href="https://m.do.co/c/10675c9b5b62" target="_blank" rel="external">$10OFF - DigitalOcean </a></p>
+<p> こちらのプロモリンクからご登録で10$OFFになります。よろしければどうぞ。（リンク元には25$キャッシュバックが入ります）</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/digital-ocean/">digital-ocean</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/09/10/siri-irmagician.html"  data-tooltip="Siriさんに電気をつけてもらう。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/08/21/hexo-blog.html" data-tooltip="ブログをHexoにしてみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/09/05/digitalocean.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/09/05/digitalocean.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=DigitalOceanでhttpsアドレスのサイトを公開する">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/09/10/siri-irmagician.html"  data-tooltip="Siriさんに電気をつけてもらう。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/08/21/hexo-blog.html" data-tooltip="ブログをHexoにしてみたよ。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/09/05/digitalocean.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/09/05/digitalocean.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=DigitalOceanでhttpsアドレスのサイトを公開する">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/09/05/digitalocean.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/09/05/digitalocean.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=DigitalOceanでhttpsアドレスのサイトを公開する">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/web/2016/09/05/digitalocean.html';
+                 
+                    this.page.identifier = 'web/2016/09/05/digitalocean.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

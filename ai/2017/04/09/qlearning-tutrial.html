@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>Q学習やってみた - まずは試してみる - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="強化学習やってみました。ポンダッドです。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Q学習やってみた - まずは試してみる">
+<meta property="og:url" content="https://pondad.github.io/ai/2017/04/09/qlearning-tutrial.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="強化学習やってみました。ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/KNolL5gbda.jpg">
+<meta property="og:image" content="https://cldup.com/tDks87cjif.png">
+<meta property="og:image" content="https://cldup.com/w1MgV5eske.png">
+<meta property="og:image" content="https://cldup.com/BRyWyp7LeH.png">
+<meta property="og:image" content="https://cldup.com/FUE26chDtp.png">
+<meta property="og:image" content="https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00TPL99ZW&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=pondadamazon-22">
+<meta property="og:updated_time" content="2017-04-10T11:59:17.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Q学習やってみた - まずは試してみる">
+<meta name="twitter:description" content="強化学習やってみました。ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/KNolL5gbda.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/KNolL5gbda.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/KNolL5gbda.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/KNolL5gbda.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Q学習やってみた - まずは試してみる
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-04-09T07:44:00+09:00">
+	
+		    2017/04/09
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/ai/">ai</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>強化学習やってみました。ポンダッドです。</p>
+<a id="more"></a>
+<p>画像認識などの「教師あり学習」を試してみて、深層学習によって高精度の学習が可能だということはわかったのですが、今ひとつ想像していた「人工知能」とは違う印象を持ちました。</p>
+<p>生物は経験をもとに学習していきます。上手くいけば喜び、上手くいかなければ悔しがったり、悩んだり…。そんなことの繰り返しの中で物事を覚え、上達していきます。</p>
+<p>経験をもとにして学習する「教師なし学習」の一つとして「強化学習」という手法が以前より研究されています。これはどうも「大脳基底核」と呼ばれる脳の部位による活動を摸して機械に学習させる試みの様です。</p>
+<p>自分の様な一般人が考える「人工知能」はこちらの方が近い気がします。</p>
+<p>しかしながら、ちょっと考えただけでは簡単に理解することはできません。どうやって正解ラベルの無い環境から自ら学習することが出来るのでしょうか？</p>
+<h2 id="Q学習とは"><a href="#Q学習とは" class="headerlink" title="Q学習とは"></a>Q学習とは</h2><p><img src="https://cldup.com/KNolL5gbda.jpg" alt=""></p>
+<p>強化学習における一つの手法として、Q学習というものがあります。<a href="http://qiita.com/icoxfog417/items/242439ecd1a477ece312" target="_blank" rel="external">ゼロからDeepまで学ぶ強化学習 - Qiita</a> こちらの記事で分かりやすくまとめられていますので引用します。</p>
+<blockquote>
+<p>Q-learningでは環境(モデル)の情報がない中でどうやって学習をするのでしょうか。その答えは「まず試してみる」となります。(中略) この「試行」を繰り返すことで学習していくわけです。</p>
+</blockquote>
+<p>「『試行』を繰り返すことで学習していく」コンパクトにまとめられています。ここでいう「学習」とはQ値と呼ばれる「将来どれぐらいの報酬が期待できるか」という値を最大にする為どう行動すれば良いか？ということを指します。</p>
+<p>Pythonで動作するサンプルコードを探してみたところ、以下のサイト</p>
+<p><a href="http://www.jonki.net/entry/2016/05/05/174519" target="_blank" rel="external">Q学習で最良経路をPythonで求めてみる - The jonki</a></p>
+<p>で分かり易いPythonのサンプルコードを公開してくれていました。</p>
+<p><a href="https://github.com/jojonki/reinforcement-practice/blob/master/simple-q-learning.py" target="_blank" rel="external">jojonki/reinforcement-practice - GitHub</a></p>
+<p>jonki　さんのコードをPython3系で動作する様に一部改変しました。</p>
+<p><a href="https://gist.github.com/PonDad/b64e40afe59747b6bf4ac36b7e9f6523" target="_blank" rel="external">PonDad/simple3-q-learning.py - Gist</a></p>
+<h2 id="最良経路を求めてみる"><a href="#最良経路を求めてみる" class="headerlink" title="最良経路を求めてみる"></a>最良経路を求めてみる</h2><p>以下のサイトの例題をPythonで解いていくという流れです。</p>
+<p><a href="http://mnemstudio.org/path-finding-q-learning-tutorial.htm" target="_blank" rel="external">A Painless Q-Learning Tutorial</a></p>
+<p>リンク切れの際は、下記の中国語訳サイトをご参照下さい。</p>
+<p><a href="http://www.it610.com/article/5887036.htm" target="_blank" rel="external">A Painless Q-learning Tutorial (一个 Q-learning 算法的简明教程)</a></p>
+<p>以下の様な0〜5の6つの部屋を仮定して、ランダムなスタート位置からゴールである「部屋:5」に向かう最短経路を学習させます。</p>
+<p><img src="https://cldup.com/tDks87cjif.png" alt=""></p>
+<p>さて、まずはサンプルコードを実行してみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">$ python simple-q-learning.py</div><div class="line">[[  0   0   0   0 359   0]</div><div class="line"> [  0   0   0 287   0 449]</div><div class="line"> [  0   0   0 287   0   0]</div><div class="line"> [  0 359 230   0 359   0]</div><div class="line"> [287   0   0 287   0 449]</div><div class="line"> [  0 359   0   0 359 436]]</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 0</div><div class="line">-&gt; 行動: 4 に向かう</div><div class="line">現在の部屋: 4</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 1</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 2</div><div class="line">-&gt; 行動: 3 に向かう</div><div class="line">現在の部屋: 3</div><div class="line">-&gt; 行動: 1 に向かう</div><div class="line">現在の部屋: 1</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 3</div><div class="line">-&gt; 行動: 1 に向かう</div><div class="line">現在の部屋: 1</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 4</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div></pre></td></tr></table></figure>
+<p>実行後、最初に表示されている配列は「Q値」を示しています。行が「部屋」を表し、列が「行動」を表しています。</p>
+<p>例えば、「部屋:3」（配列の4行目）がスタートだとすると、「部屋:1」か「部屋:4」に向かうの「行動」の「Q値」が高くなっているのが分かります。移動可能な「部屋:2」へ向かうとゴールから遠ざかるので「Q値」が低くなっています。</p>
+<p>その後のテストにより、どの部屋からスタートしてもゴールに最短距離で到達しているのが分かります。</p>
+<p>さて、これはどんな仕組みになっているのでしょうか。</p>
+<h2 id="Q学習の仕組み"><a href="#Q学習の仕組み" class="headerlink" title="Q学習の仕組み"></a>Q学習の仕組み</h2><h3 id="報酬"><a href="#報酬" class="headerlink" title="報酬"></a>報酬</h3><p>まず、ゴールに向かう「行動」に対し、「報酬」を設定します。</p>
+<p><img src="https://cldup.com/w1MgV5eske.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">R = np.array([</div><div class="line">[<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>,  <span class="number">0</span>,  <span class="number">-1</span>],</div><div class="line">[<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>,  <span class="number">0</span>, <span class="number">-1</span>, <span class="number">100</span>],</div><div class="line">[<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>,  <span class="number">0</span>, <span class="number">-1</span>,  <span class="number">-1</span>],</div><div class="line">[<span class="number">-1</span>,  <span class="number">0</span>,  <span class="number">0</span>, <span class="number">-1</span>,  <span class="number">0</span>,  <span class="number">-1</span>],</div><div class="line">[ <span class="number">0</span>, <span class="number">-1</span>, <span class="number">-1</span>,  <span class="number">0</span>, <span class="number">-1</span>, <span class="number">100</span>],</div><div class="line">[<span class="number">-1</span>,  <span class="number">0</span>, <span class="number">-1</span>, <span class="number">-1</span>,  <span class="number">0</span>, <span class="number">100</span>]</div><div class="line">])</div><div class="line"></div><div class="line">GOAL_STATE = <span class="number">5</span></div></pre></td></tr></table></figure>
+<p>移動不可能な「行動」に関しては<code>-1</code>とし、移動可能な「行動」を<code>0</code>にしています。ここではゴールの「報酬」を<code>100</code>としています。</p>
+<h2 id="割引率"><a href="#割引率" class="headerlink" title="割引率"></a>割引率</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GAMMA = <span class="number">0.8</span></div></pre></td></tr></table></figure>
+<p>最短経路を学習するに当たって、先の報酬に対して割引をします。</p>
+<h3 id="Q値を最大化する"><a href="#Q値を最大化する" class="headerlink" title="Q値を最大化する"></a>Q値を最大化する</h3><p>ここから「『Q値』を最大にする為どう『行動』すれば良いか？」を学習していきます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Q = np.zeros((<span class="number">6</span>,<span class="number">6</span>))</div></pre></td></tr></table></figure>
+<p>Q値は初期化された状態から学習を開始します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//実行結果</div><div class="line">[[ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]]</div></pre></td></tr></table></figure>
+<p>「Q値」表す式はここではこの様に表せます。</p>
+<p><code>Q(部屋, 行動) = 報酬(部屋, 行動) + 割引率 * 最大値[Q(次の部屋, 全ての行動)]</code></p>
+<p>Q学習の基本式から一部簡略化されている部分はありますが、この式を利用して「『Q値』を最大にする『行動』」を求める事が出来ます。</p>
+<p>試しに「部屋:2」からゴールに向かってみることにします。</p>
+<p><img src="https://cldup.com/BRyWyp7LeH.png" alt=""></p>
+<p>以下の経路でゴールしたとします。</p>
+<p><img src="https://cldup.com/FUE26chDtp.png" alt=""></p>
+<p>ゴールの「部屋:5」から移動可能な部屋は3つ、「部屋:1」「部屋:4」「部屋:5」です。</p>
+<p>「部屋:1」から「部屋:5」に向かうQ値を数式に当てはめてみます。</p>
+<p><code>Q(1, 5) = R(1, 5) + 0.8 * Max[Q(5, 1), Q(5, 4), Q(5, 5)] = 100 + 0.8 * 0 = 100</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//実行結果</div><div class="line">[[ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  100.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]]</div></pre></td></tr></table></figure>
+<p>「部屋:1」から「部屋:5」に向かうQ値は100になりました。</p>
+<p>「部屋:1」から移動可能な部屋は「部屋:3」と「部屋:5」です。</p>
+<p>「部屋:3」から「部屋:1」への移動を数式に当てはめてみます。</p>
+<p><code>Q(3, 1) = R(3, 1) + 0.8 * Max[Q(1, 3), Q(1, 5)] = 0 + 0.8 * Max[0, 100] = 80</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//実行結果</div><div class="line">[[ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  100.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  80.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]</div><div class="line"> [ 0.  0.  0.  0.  0.  0.]]</div></pre></td></tr></table></figure>
+<p>「部屋:3」から「部屋:1」に向かうQ値は80になりました。</p>
+<p>この様にしてランダムに部屋を抽出し、1000回学習させます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> random</div><div class="line">LEARNING_COUNT = <span class="number">1000</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//最終的な実行結果</div><div class="line">[[  0   0   0   0 371   0]</div><div class="line"> [  0   0   0 296   0 463]</div><div class="line"> [  0   0   0 296   0   0]</div><div class="line"> [  0 371 237   0 371   0]</div><div class="line"> [296   0   0 296   0 463]</div><div class="line"> [  0 363   0   0 371 454]]</div></pre></td></tr></table></figure>
+<p>最終的な結果はこの様になります。こうして「『Q値』を最大にする『行動』」を求める事が出来ました。</p>
+<h2 id="ε-グリーディ法"><a href="#ε-グリーディ法" class="headerlink" title="ε-グリーディ法"></a>ε-グリーディ法</h2><p>「最良の経路を選択する。」と言ってもそのケースによって異なります。目先の最短の経路を選択するよりも、一見遠回りに見えても長期的に見れば報酬が高くなるケースもあるからです。</p>
+<p>ここではε-グリーディ法に沿って言えば<code>ε=0</code>とし、探索はせずに一番高い報酬が期待出来る行動をとります。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">//実行結果</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 0</div><div class="line">-&gt; 行動: 4 に向かう</div><div class="line">現在の部屋: 4</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 1</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 2</div><div class="line">-&gt; 行動: 3 に向かう</div><div class="line">現在の部屋: 3</div><div class="line">-&gt; 行動: 1 に向かう</div><div class="line">現在の部屋: 1</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 3</div><div class="line">-&gt; 行動: 1 に向かう</div><div class="line">現在の部屋: 1</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div><div class="line">===== スタート =====</div><div class="line">現在の部屋: 4</div><div class="line">-&gt; 行動: 5 に向かう</div><div class="line">部屋: 5, ゴール!!</div></pre></td></tr></table></figure>
+<p>この様に行動します。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>正解ラベルの無い環境から自ら学習出来ることが出来る事が分かりました。ディープラーニングと組み合わせる事で、更に複雑な計算も高速に行える様になっている様なので試してみたいですね。</p>
+<p>ではまた。</p>
+<h2 id="参考書籍"><a href="#参考書籍" class="headerlink" title="参考書籍"></a>参考書籍</h2><p><img src="https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&amp;ASIN=B00TPL99ZW&amp;Format=_SL160_&amp;ID=AsinImage&amp;MarketPlace=JP&amp;ServiceVersion=20070822&amp;WS=1&amp;tag=pondadamazon-22" alt=""></p>
+<p><a href="https://www.amazon.co.jp/gp/product/B00TPL99ZW/ref=as_li_ss_il?ie=UTF8&amp;psc=1&amp;linkCode=li2&amp;tag=pondadamazon-22&amp;linkId=a749ad5644ec5060a282de20f9a670ce" target="_blank" rel="external">イラストで学ぶ　人工知能概論 (ＫＳ情報科学専門書) Kindle版 - Amazon.co.jp</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a> <a class="tag tag--primary tag--small t-link" href="/tags/qlearning/">qlearning</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/04/24/qlearning.html"  data-tooltip="Q学習やってみた - 人工知能の性格を変えてみる">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/03/30/keras-cnn-3.html" data-tooltip="感情モデルを考える〜プルチック感情の輪">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/04/09/qlearning-tutrial.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/04/09/qlearning-tutrial.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Q学習やってみた - まずは試してみる">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/04/24/qlearning.html"  data-tooltip="Q学習やってみた - 人工知能の性格を変えてみる">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/03/30/keras-cnn-3.html" data-tooltip="感情モデルを考える〜プルチック感情の輪">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/04/09/qlearning-tutrial.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/04/09/qlearning-tutrial.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Q学習やってみた - まずは試してみる">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/04/09/qlearning-tutrial.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/04/09/qlearning-tutrial.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=Q学習やってみた - まずは試してみる">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/ai/2017/04/09/qlearning-tutrial.html';
+                 
+                    this.page.identifier = 'ai/2017/04/09/qlearning-tutrial.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

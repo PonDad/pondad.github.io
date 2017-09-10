@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>Eliza型人工無脳をhubotで動かす。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="人工無脳の会話に少し変化をつけられないか考えてみました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Eliza型人工無脳をhubotで動かす。">
+<meta property="og:url" content="https://pondad.github.io/bot/2016/06/11/eliza-bot.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="人工無脳の会話に少し変化をつけられないか考えてみました。">
+<meta property="og:image" content="https://cldup.com/RRDElfJ5lf.png">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/61DHJGf1uSL._SL160_.jpg">
+<meta property="og:image" content="https://cldup.com/AYLVwq7hKC.png">
+<meta property="og:image" content="https://cldup.com/wdCEoNnTL3.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eliza型人工無脳をhubotで動かす。">
+<meta name="twitter:description" content="人工無脳の会話に少し変化をつけられないか考えてみました。">
+<meta name="twitter:image" content="https://cldup.com/RRDElfJ5lf.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/AEBnZw9jg2.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/AEBnZw9jg2.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/AEBnZw9jg2.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Eliza型人工無脳をhubotで動かす。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-06-11T18:10:00+09:00">
+	
+		    2016/06/11
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>人工無脳の会話に少し変化をつけられないか考えてみました。</p>
+<a id="more"></a>
+<h2 id="人工無脳Eliza"><a href="#人工無脳Eliza" class="headerlink" title="人工無脳Eliza"></a>人工無脳Eliza</h2><p>人工無脳の起源として有名なプログラムとして”Eliza”がよく挙げられます。</p>
+<blockquote>
+<p>ELIZA（イライザ）は初期の素朴な自然言語処理プログラムの1つである。対話型（インタラクティブ）であるが、音声による会話をするシステムではない。スクリプト (script) へのユーザーの応答を処理する形で動作し、スクリプトとしてはDOCTORという来談者中心療法のセラピストのシミュレーションが最もよく知られている。人間の思考や感情についてほとんど何の情報も持っていないが、DOCTORは驚くほど人間っぽい対話をすることがあった。MITのジョセフ・ワイゼンバウムが1964年から1966年にかけてELIZAを書き上げた。いわゆる人工無脳の起源となったソフトウェアである。- Wikipedia</p>
+</blockquote>
+<p>1960年代に作られたプログラムですが現在でもWebで試すことが出来ます。以下、JavaScriptで組まれたWebアプリケーションです。</p>
+<p><img src="https://cldup.com/RRDElfJ5lf.png" alt=""></p>
+<p><a href="http://www.masswerk.at/elizabot/" target="_blank" rel="external">Eliza</a></p>
+<p>英語なので正確には分かりませんが、確かにキーワードに対して応えるアシスタント型の人工無脳とは違う反応をします。</p>
+<p>以前仕事で受講したことのあるコーチングの「傾聴」の様な反応です。例えばこんな感じです。</p>
+<p>YOU:   I have trouble with my children.（私は私の子供のことで問題を抱えています。）</p>
+<p>ELIZA: What else comes to your mind when you think of your children ?（あなたが子供を考えるとき、他にどんな事を考えますか？）</p>
+<p>回答を相手から引き出す見事な技法を駆使しています。こんな感じでElizaは自分から答えは言いませんが、対話相手が自ら回答を見つけるような反応をします。</p>
+<p>では、どんな仕組みになっているか見てみることにします。</p>
+<h2 id="Elizaの仕組み"><a href="#Elizaの仕組み" class="headerlink" title="Elizaの仕組み"></a>Elizaの仕組み</h2><p>上記のサイトでは仕組みをこんな風に解説しています。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[<span class="string">"&lt;key&gt;"</span>, &lt;rank&gt;,</div><div class="line">          [</div><div class="line">            [ // first decomposition pattern</div><div class="line">              "&lt;decomp&gt;",</div><div class="line">              ["&lt;reasmb&gt;", "&lt;reasmb&gt;", "&lt;reasmb&gt;"]</div><div class="line">            ],</div><div class="line">            [ // second decomposition pattern</div><div class="line">              "&lt;decomp&gt;",</div><div class="line">              ["&lt;reasmb&gt;", "&lt;reasmb&gt;", "&lt;reasmb&gt;"]</div><div class="line">            ]</div><div class="line">          ]</div><div class="line">        ]</div></pre></td></tr></table></figure>
+<p>単純にキーワードに対して回答を出すのではなく、「キーワード」に対して「ランク」を指定し、「形態素」を「再構築」する。という仕組みです。ちょっと分かりづらいのでサンプルを一つ拾ってみます。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[<span class="string">"dreamed"</span>, <span class="number">4</span>, [</div><div class="line">       [<span class="string">"* i dreamed *"</span>, [</div><div class="line">           <span class="string">"Really, (2) ?"</span>,</div><div class="line">           <span class="string">"Have you ever fantasized (2) while you were awake ?"</span>,</div><div class="line">           <span class="string">"Have you ever dreamed (2) before ?"</span>,</div><div class="line">           <span class="string">"goto dream"</span></div><div class="line">       ]]</div><div class="line">   ]],</div></pre></td></tr></table></figure>
+<p>Elizaの中身は「dreamed」に対してこんな風に反応する様に書かれています。実際に質問してみます。</p>
+<p>YOU:   I dreamed my children are growing up.（私は子供たちが成長している夢を見ました。）</p>
+<p>ELIZA: Have you ever dreamed your children are growing up before ?（あなたは今まで、子供たちが成長している夢を見たことがありますか？）</p>
+<p>こんな風にキーワードに沿った回答をします。ポイントになるのは「dreamed」のランクが「4」となっているところです。</p>
+<p>「are」のランクは「0」、「my」は「2」、「dream」は「3」となっているので、ランクの高いキーワード「dreamed」に対する回答が優先されるという訳です。</p>
+<p>「英語の部分を日本語に置き換えれば日本語版が出来るんじゃないか？」と一瞬思ったのですが、そう簡単にはいきません。</p>
+<h2 id="日本語の形態素解析"><a href="#日本語の形態素解析" class="headerlink" title="日本語の形態素解析"></a>日本語の形態素解析</h2><p>英語ならば形態素（言語の最小単位）ごとにスペースが空くので、そもそも形態解析が必要ありませんが、日本語ではそうも行きません。</p>
+<p>上記のキーワード様な「夢」と「夢にみた」「夢みた」など名詞と動詞の判別も難しく、一筋縄ではいきません。</p>
+<p>困った…。</p>
+<p>これは先人たちの開発した日本語形態素解析のプログラムを利用することで解決出来ます。例えば京都大学とNTTコミュニケーションズが共同開発したオープンソース形態素解析エンジン「mecab」。</p>
+<p><a href="http://taku910.github.io/mecab/" target="_blank" rel="external">MeCab: Yet Another Part-of-Speech and Morphological Analyzer</a></p>
+<p>mecabとIPA 辞書をインストールし、コマンドラインで実行するとこの様に形態素解析を行ってくれます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$ mecab</div><div class="line">双子の子育ては難しいです。</div><div class="line">双子	名詞,一般,*,*,*,*,双子,フタゴ,フタゴ</div><div class="line">の	助詞,連体化,*,*,*,*,の,ノ,ノ</div><div class="line">子育て	名詞,サ変接続,*,*,*,*,子育て,コソダテ,コソダテ</div><div class="line">は	助詞,係助詞,*,*,*,*,は,ハ,ワ</div><div class="line">難しい	形容詞,自立,*,*,形容詞・イ段,基本形,難しい,ムズカシイ,ムズカシイ</div><div class="line">です	助動詞,*,*,*,特殊・デス,基本形,です,デス,デス</div><div class="line">。	記号,句点,*,*,*,*,。,。,。</div><div class="line">EOS</div></pre></td></tr></table></figure>
+<p>この様に品詞まで合わせて日本語の形態素解析が可能になります。</p>
+<h2 id="JS-Node-jsによるWebクローラー-ネットエージェント開発テクニック"><a href="#JS-Node-jsによるWebクローラー-ネットエージェント開発テクニック" class="headerlink" title="JS+Node.jsによるWebクローラー/ネットエージェント開発テクニック"></a>JS+Node.jsによるWebクローラー/ネットエージェント開発テクニック</h2><p>日本語版Elizaは今では開発されることも無く、公開サンプルなど検索してもは見当たりませんでした。</p>
+<p>有償の書籍になりますが、こちらの書籍でサンプルが公開されています。</p>
+<p><img src="http://ecx.images-amazon.com/images/I/61DHJGf1uSL._SL160_.jpg" alt="JS+Node.jsによるWebクローラー/ネットエージェント開発テクニック"></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4883379930/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">JS+Node.jsによるWebクローラー/ネットエージェント開発テクニック - Amazon.jp</a></p>
+<p>「第７章 ０４人工無能と会話しよう」の中で詳しく解説されています。以下引用です。</p>
+<blockquote>
+<p>このプログラムでは、以下のようにして会話をします。<br>1.ユーザーから入力を得る<br>2.入力を形態素解析<br>3.各単語についてデータベースで調べる<br>4.もし一致するものがあればその返答を返す</p>
+</blockquote>
+<p>プログラムはNode.jsで動き、データベースはmongoDBを利用します。サンプルコードも書籍の付録でダウンロードする事が出来るので手軽に試すことが出来ます。</p>
+<p><img src="https://cldup.com/AYLVwq7hKC.png" alt=""></p>
+<p>データベースのjsonデータはリクエストを送ると、この様に返ってきます。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">key	:<span class="string">"キーワード"</span>,</div><div class="line">rank	:<span class="string">"検索準備"</span>,</div><div class="line">pattern	:<span class="string">"絞り込み用のパターン"</span>,</div><div class="line">msg	:<span class="string">"応答メッセージ"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>具体的にはこのような感じです。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="string">"key"</span> : <span class="string">"難しい"</span>,</div><div class="line"><span class="string">"rank"</span> : <span class="number">2</span>,</div><div class="line"><span class="string">"pattern"</span> : <span class="string">"が難しい"</span>,</div><div class="line"><span class="string">"msg"</span> : <span class="string">"それが難しい理由は何でしょうか？"</span></div><div class="line">&#125;</div><div class="line">&#123;</div><div class="line"><span class="string">"key"</span> : <span class="string">"難しい"</span>,</div><div class="line"><span class="string">"rank"</span> : <span class="number">2</span>,</div><div class="line"><span class="string">"pattern"</span> : <span class="string">"は難しい"</span>,</div><div class="line"><span class="string">"msg"</span> : <span class="string">"それが難しいのはどうしてだと思いますか？"</span></div><div class="line">&#125;</div><div class="line">&#123;</div><div class="line"><span class="string">"key"</span> : <span class="string">"難しい"</span>,</div><div class="line"><span class="string">"rank"</span> : <span class="number">0</span>,</div><div class="line"><span class="string">"pattern"</span> : <span class="string">"*"</span>,</div><div class="line"><span class="string">"msg"</span> : <span class="string">"それが難しいのはなぜでしょうか？"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>英語と違って相手が話した言葉を「それが」「それは」と回答することで対話型の返答になっています。</p>
+<hr>
+<p>ajaxを利用しているので、<code>/api</code> をエンドポイントに<code>?msg=hoge</code> とリクエストを送るとjsonでレスポンスを返します。</p>
+<p>ローカルマシン（ここではMac）のIPアドレスを利用してAPIとして利用することも可能です。GETリクエストのため「こんにちは」をエンコードしてAPIリクエストしてみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl <span class="string">"http://192.168.0.4:1337/api?msg=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF"</span></div><div class="line">&#123;<span class="string">"msg"</span>:<span class="string">"こんにちは。お元気ですか？"</span>&#125;</div></pre></td></tr></table></figure>
+<p>BOTからレスポンスを取得出来ました。</p>
+<h2 id="hubotからEliza型人工無脳を利用する"><a href="#hubotからEliza型人工無脳を利用する" class="headerlink" title="hubotからEliza型人工無脳を利用する"></a>hubotからEliza型人工無脳を利用する</h2><p>Eliza型人工無脳を起動するローカルマシンでhubotを起動し、APIリクエストを送り、レスポンスをSlackに投稿してみます。</p>
+<p>hubotスクリプトはこのような記述しました。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = (robot) -&gt;</div><div class="line">  robot.respond /(.*)/i, (msg) -&gt;</div><div class="line">    keyword = <span class="built_in">encodeURIComponent</span> msg.match[<span class="number">1</span>]</div><div class="line">    request = msg.http(<span class="string">'http://192.168.0.4:1337/api?msg='</span>+ keyword)</div><div class="line">                          .get()</div><div class="line">    request (err, res, body) -&gt;</div><div class="line">      data = <span class="built_in">JSON</span>.parse body</div><div class="line">      msg.reply <span class="string">"#&#123;data.msg&#125;"</span></div></pre></td></tr></table></figure>
+<p><img src="https://cldup.com/wdCEoNnTL3.png" alt=""></p>
+<p>hubotでEliza型人工無脳が動きました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>書籍のサンプルコードを丸ごと利用する事になりましたが、Eliza型の人工無脳の仕組みを理解することが出来ました。</p>
+<p>本当は人工無脳部分をherokuにアップロードし、APIとして利用したかったのですが、mecabの設置がうまく行かなかった為、今回はローカルでの実行になっています。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/eliza/">eliza</a> <a class="tag tag--primary tag--small t-link" href="/tags/hubot/">hubot</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/18/reudy-hubot.html"  data-tooltip="人工無脳ReudyをHubotで動かす。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/03/murakamimarkov.html" data-tooltip="お悩み相談BOT「村上マルコフ」をつくった。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/11/eliza-bot.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/11/eliza-bot.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Eliza型人工無脳をhubotで動かす。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/18/reudy-hubot.html"  data-tooltip="人工無脳ReudyをHubotで動かす。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/03/murakamimarkov.html" data-tooltip="お悩み相談BOT「村上マルコフ」をつくった。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/11/eliza-bot.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/11/eliza-bot.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Eliza型人工無脳をhubotで動かす。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/06/11/eliza-bot.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/06/11/eliza-bot.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=Eliza型人工無脳をhubotで動かす。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2016/06/11/eliza-bot.html';
+                 
+                    this.page.identifier = 'bot/2016/06/11/eliza-bot.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

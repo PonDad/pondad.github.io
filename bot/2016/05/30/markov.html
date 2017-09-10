@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>TinySegmenterでマルコフ連鎖。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="さて、前回記事（TinySegmenterで分かち書き（簡易形態素解析）。）で文章を言葉の最小単位に分割する事が出来ました。
+今回はそれらをランダムに再構成して新たに文章を作ってみます。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="TinySegmenterでマルコフ連鎖。">
+<meta property="og:url" content="https://pondad.github.io/bot/2016/05/30/markov.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="さて、前回記事（TinySegmenterで分かち書き（簡易形態素解析）。）で文章を言葉の最小単位に分割する事が出来ました。
+今回はそれらをランダムに再構成して新たに文章を作ってみます。">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TinySegmenterでマルコフ連鎖。">
+<meta name="twitter:description" content="さて、前回記事（TinySegmenterで分かち書き（簡易形態素解析）。）で文章を言葉の最小単位に分割する事が出来ました。
+今回はそれらをランダムに再構成して新たに文章を作ってみます。">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://images.unsplash.com/photo-1421429167374-8fc8ab6d0f66?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;s=8e8d78fecbb53e0e6c8cc0f00157853a"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://images.unsplash.com/photo-1421429167374-8fc8ab6d0f66?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;s=8e8d78fecbb53e0e6c8cc0f00157853a" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://images.unsplash.com/photo-1421429167374-8fc8ab6d0f66?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;s=8e8d78fecbb53e0e6c8cc0f00157853a');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            TinySegmenterでマルコフ連鎖。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-05-30T17:10:00+09:00">
+	
+		    2016/05/30
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>さて、前回記事（<a href="http://pondad.net/machine-learning/2016/05/29/tinysegmater.html" target="_blank" rel="external">TinySegmenterで分かち書き（簡易形態素解析）。</a>）で文章を言葉の最小単位に分割する事が出来ました。</p>
+<p>今回はそれらをランダムに再構成して新たに文章を作ってみます。</p>
+<a id="more"></a>
+<h2 id="マルコフ連鎖"><a href="#マルコフ連鎖" class="headerlink" title="マルコフ連鎖"></a>マルコフ連鎖</h2><p>Wikipediaにはこんな風に書かれています。</p>
+<blockquote>
+<p>マルコフ連鎖（マルコフれんさ）とは、確率過程の一種であるマルコフ過程のうち、とりうる状態が離散的（有限または可算）なもの（離散状態マルコフ過程）をいう。また特に、時間が離散的なもの（時刻は添え字で表される）を指すことが多い（他に連続時間マルコフ過程というものもあり、これは時刻が連続である）。マルコフ連鎖は、未来の挙動が現在の値だけで決定され、過去の挙動と無関係である（マルコフ性）。各時刻において起こる状態変化（遷移または推移）に関して、マルコフ連鎖は遷移確率が過去の状態によらず、現在の状態のみによる系列である。特に重要な確率過程として、様々な分野に応用される。</p>
+</blockquote>
+<p>ふむ。さっぱり分からん。試しにこの文章をマルコフ連鎖を使って要約してみます。</p>
+<p>「各時刻が離散的なもの に関して起こる状態変化 。」</p>
+<p>なるほど。やっぱり分からん。けれどもこのマルコフ性（次の状態は過去に依存するのではなく現在の状態によってのみ決まる）を利用することでこの様に文章の要約などを行うことが出来る様です。</p>
+<p>まずは公開されているマルコフ連鎖の要約プログラムを参考にして試してみることにします。</p>
+<h2 id="文章要約の仕組み"><a href="#文章要約の仕組み" class="headerlink" title="文章要約の仕組み"></a>文章要約の仕組み</h2><p>様々な方がサンプルを公開してくれていますが、以下の記事が分かりやすかったので参考にさせて頂きました。</p>
+<p><a href="http://qiita.com/kurehajime/items/f1cfd74e1ec7b45fbafa" target="_blank" rel="external">はてブのホッテントリのタイトルを要約してWebの今を見つめる - Qiita</a></p>
+<p>文章要約の仕組みは大まかに言うとこんな感じです。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//tinysegmenterとtextファイルを読み込む</span></div><div class="line"><span class="keyword">var</span> segmenter = <span class="built_in">require</span>(<span class="string">'./lib/tiny_segmenter.js'</span>);</div><div class="line"><span class="keyword">var</span> data =  <span class="built_in">require</span>(<span class="string">'fs'</span>).readFileSync(<span class="string">'./lib/sample.txt'</span>, <span class="string">'utf-8'</span>);</div><div class="line"><span class="comment">//形態素解析後辞書に追加、マルコフ連鎖を使いシャッフルする</span></div><div class="line"><span class="keyword">var</span> segs = segmenter.segment(data);</div><div class="line"><span class="keyword">var</span> dic = makeDic(data);</div><div class="line"><span class="built_in">console</span>.log(dic);</div><div class="line"><span class="keyword">var</span> sentence = makeSentence(dic);</div><div class="line"><span class="built_in">console</span>.log(sentence);</div><div class="line"><span class="comment">//makeDic() で辞書に追加</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeDic</span>(<span class="params">morphemes</span>)</span>&#123;</div><div class="line">　<span class="comment">//ここに辞書を作る処理</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// makeSentence()文章をシャッフル</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSentence</span>(<span class="params">morpheme</span>)</span>&#123;</div><div class="line">　<span class="comment">//ここに文章をシャッフルする処理</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>前回記事で以下の様な文章を用意しました。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">私の名前はポンダッドです。</div><div class="line">私は双子のパパです。</div><div class="line">ポンダッドは双子が大好きです。</div></pre></td></tr></table></figure>
+<p>これを（簡易）形態素解析により分かち書きします。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ node app.js</div><div class="line">私 | の | 名前 | は | ポンダッド | です | 。</div><div class="line"> | 私 | は | 双子 | の | パパ | です | 。</div><div class="line"> | ポンダッド | は | 双子 | が | 大好き | です | 。</div></pre></td></tr></table></figure>
+<p>上記の「辞書を作る処理」を行うことでこの様に配列の中に格納します。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123; _BOS_: [ &apos;私&apos;, &apos;私&apos;, &apos;ポンダッド&apos; ],</div><div class="line">  &apos;私&apos;: [ &apos;の&apos;, &apos;は&apos; ],</div><div class="line">  &apos;の&apos;: [ &apos;名前&apos;, &apos;パパ&apos; ],</div><div class="line">  &apos;名前&apos;: [ &apos;は&apos; ],</div><div class="line">  &apos;は&apos;: [ &apos;ポンダッド&apos;, &apos;双子&apos;, &apos;双子&apos; ],</div><div class="line">  &apos;ポンダッド&apos;: [ &apos;です&apos;, &apos;は&apos; ],</div><div class="line">  &apos;です&apos;: [ &apos;_EOS_&apos;, &apos;_EOS_&apos;, &apos;_EOS_&apos; ],</div><div class="line">  &apos;双子&apos;: [ &apos;の&apos;, &apos;が&apos; ],</div><div class="line">  &apos;パパ&apos;: [ &apos;です&apos; ],</div><div class="line">  &apos;が&apos;: [ &apos;大好き&apos; ],</div><div class="line">  &apos;大好き&apos;: [ &apos;です&apos; ] &#125;</div></pre></td></tr></table></figure>
+<p>この辞書を元にランダム「文書をシャッフルする処理」をすることで文章を生成します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ node app.js</div><div class="line">私は双子が大好きです。</div></pre></td></tr></table></figure>
+<p>ポイントはランダムに文章を再構成する為の辞書を作ることです。「現在の状態」から予測される形態素（文章の最小単位）をこの辞書から推測する訳ですね。</p>
+<p>上記の例では「双子」の後に続く形態素は「の」か「が」であると推測されます。</p>
+<p>また、文頭は「私」か「ポンダッド」であること、この2つのうちでも「私」の頻度が高いことが分かります。</p>
+<p>文末はサンプルテキストが皆「です」で終わっているので「です」になっています。</p>
+<h2 id="辞書を作る"><a href="#辞書を作る" class="headerlink" title="辞書を作る"></a>辞書を作る</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//makeDic() で辞書に追加</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeDic</span>(<span class="params">morphemes</span>)</span>&#123;</div><div class="line">    morphemes = nonoise(morphemes);</div><div class="line">    <span class="keyword">var</span> lines = morphemes.split(<span class="string">"。"</span>);</div><div class="line">    <span class="keyword">var</span> morpheme = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt;= lines.length<span class="number">-1</span>; i++)&#123;</div><div class="line">        <span class="keyword">var</span> words = segmenter.segment(lines[i]);</div><div class="line">        <span class="keyword">if</span>(! morpheme[<span class="string">"_BOS_"</span>] )&#123;morpheme[<span class="string">"_BOS_"</span>]=<span class="keyword">new</span> <span class="built_in">Array</span>();&#125;</div><div class="line">        <span class="keyword">if</span>(words[<span class="number">0</span>])&#123;morpheme[<span class="string">"_BOS_"</span>].push(words[<span class="number">0</span>])&#125;;<span class="comment">//文頭</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> w=<span class="number">0</span>; w&lt;=words.length<span class="number">-1</span>; w++)&#123;</div><div class="line">            <span class="keyword">var</span> now_word = words[w];<span class="comment">//今の単語</span></div><div class="line">            <span class="keyword">var</span> next_word = words[w+<span class="number">1</span>];<span class="comment">//次の単語</span></div><div class="line">            <span class="keyword">if</span>(next_word == <span class="literal">undefined</span>)&#123;<span class="comment">//文末</span></div><div class="line">                next_word = <span class="string">"_EOS_"</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(! morpheme[now_word] )&#123;</div><div class="line">                morpheme[now_word]=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">            &#125;</div><div class="line">            morpheme[now_word].push(next_word);</div><div class="line">            <span class="keyword">if</span>(now_word == <span class="string">"、"</span>)&#123;<span class="comment">//「、」は文頭として使える。</span></div><div class="line">                morpheme[<span class="string">"_BOS_"</span>].push(next_word);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> morpheme;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>元の文章の「。」を区切りとして一度文字の塊として配列に入れた後、形態素に続く形態素を仕分けていきます。</p>
+<p>これによって「双子」の後に続く形態素「の」と「が」を格納します。</p>
+<p>TinySegmenterでは品詞の解析は行わないので、シンプルに元の文章の先頭にある形態素を「文頭」に、最後にある形態素を「文末」に設置します。</p>
+<h2 id="文章をシャッフルする"><a href="#文章をシャッフルする" class="headerlink" title="文章をシャッフルする"></a>文章をシャッフルする</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// makeSentence()文章をシャッフル</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSentence</span>(<span class="params">morpheme</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> now_word = <span class="string">""</span></div><div class="line">    <span class="keyword">var</span> morphemes = <span class="string">""</span></div><div class="line">    now_word = morpheme[<span class="string">"_BOS_"</span>][<span class="built_in">Math</span>.floor( <span class="built_in">Math</span>.random() * morpheme[<span class="string">"_BOS_"</span>].length )];</div><div class="line">    morphemes += now_word;</div><div class="line">    <span class="keyword">while</span>(now_word != <span class="string">"_EOS_"</span>)&#123;</div><div class="line">        now_word = morpheme[now_word][<span class="built_in">Math</span>.floor( <span class="built_in">Math</span>.random() * morpheme[now_word].length )];</div><div class="line">        morphemes += now_word;</div><div class="line">    &#125;</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/_EOS_$/</span>,<span class="string">"。"</span>)</div><div class="line">    <span class="keyword">return</span> morphemes;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>「文頭」をランダムに接ししたのち、その「現在の状態」に当てはまる次の形態素をランダムに当てはめていきます。「文末」の形態素にたどり着いたら文章が完成です。</p>
+<h2 id="文章の長さとシャッフルの回数を決める"><a href="#文章の長さとシャッフルの回数を決める" class="headerlink" title="文章の長さとシャッフルの回数を決める"></a>文章の長さとシャッフルの回数を決める</h2><p>出来上がりの文章の長さとシャッフルの回数を指定します。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//文章の長さとシャッフル回数を定義する</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;=<span class="number">40</span>; i++)&#123;</div><div class="line">    output = makeSentence(dic).replace(<span class="regexp">/\n/g</span>,<span class="string">""</span>);</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">Math</span>.abs(<span class="number">8</span> - output.length) &lt; <span class="built_in">Math</span>.abs (<span class="number">8</span> - sentence.length))&#123;</div><div class="line">        sentence = output</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>生成された文章の長さを指定することで大分印象が変わりますのでここで調整します。</p>
+<h2 id="形態素のノイズ除去"><a href="#形態素のノイズ除去" class="headerlink" title="形態素のノイズ除去"></a>形態素のノイズ除去</h2><p>辞書を作る前に鉤括弧やダッシュマークなど、通常の文章に混ざると違和感が出そうなものは取り除いておきます。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//nonoise()ノイズ除去</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nonoise</span>(<span class="params">morphemes</span>)</span>&#123;</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/\n/g</span>,<span class="string">"。"</span>);</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/[\?\!？！]/g</span>,<span class="string">"。"</span>);</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/[-|｜:：・]/g</span>,<span class="string">"。"</span>);</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/[「」（）\(\)\[\]【】]/g</span>,<span class="string">" "</span>);</div><div class="line">    <span class="keyword">return</span> morphemes</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="サンプルコード"><a href="#サンプルコード" class="headerlink" title="サンプルコード"></a>サンプルコード</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//tinysegmenterとtextファイルを読み込む</span></div><div class="line"><span class="keyword">var</span> segmenter = <span class="built_in">require</span>(<span class="string">'./lib/tiny_segmenter.js'</span>);</div><div class="line"><span class="keyword">var</span> data =  <span class="built_in">require</span>(<span class="string">'fs'</span>).readFileSync(<span class="string">'./lib/sample.txt'</span>, <span class="string">'utf-8'</span>);</div><div class="line"><span class="comment">//形態素解析後辞書に追加、マルコフ連鎖を使いシャッフルする</span></div><div class="line"><span class="keyword">var</span> segs = segmenter.segment(data);</div><div class="line"><span class="keyword">var</span> dic = makeDic(data);</div><div class="line"><span class="built_in">console</span>.log(dic);</div><div class="line"><span class="keyword">var</span> sentence = makeSentence(dic);</div><div class="line"><span class="built_in">console</span>.log(sentence);</div><div class="line"><span class="comment">//文章の長さとシャッフル回数を定義する</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;=<span class="number">40</span>; i++)&#123;</div><div class="line">    output = makeSentence(dic).replace(<span class="regexp">/\n/g</span>,<span class="string">""</span>);</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">Math</span>.abs(<span class="number">8</span> - output.length) &lt; <span class="built_in">Math</span>.abs (<span class="number">8</span> - sentence.length))&#123;</div><div class="line">        sentence = output</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"><span class="comment">//makeDic() で辞書に追加</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeDic</span>(<span class="params">morphemes</span>)</span>&#123;</div><div class="line">    morphemes = nonoise(morphemes);</div><div class="line">    <span class="keyword">var</span> lines = morphemes.split(<span class="string">"。"</span>);</div><div class="line">    <span class="keyword">var</span> morpheme = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt;= lines.length<span class="number">-1</span>; i++)&#123;</div><div class="line">        <span class="keyword">var</span> words = segmenter.segment(lines[i]);</div><div class="line">        <span class="keyword">if</span>(! morpheme[<span class="string">"_BOS_"</span>] )&#123;morpheme[<span class="string">"_BOS_"</span>]=<span class="keyword">new</span> <span class="built_in">Array</span>();&#125;</div><div class="line">        <span class="keyword">if</span>(words[<span class="number">0</span>])&#123;morpheme[<span class="string">"_BOS_"</span>].push(words[<span class="number">0</span>])&#125;;<span class="comment">//文頭</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> w=<span class="number">0</span>; w&lt;=words.length<span class="number">-1</span>; w++)&#123;</div><div class="line">            <span class="keyword">var</span> now_word = words[w];<span class="comment">//今の単語</span></div><div class="line">            <span class="keyword">var</span> next_word = words[w+<span class="number">1</span>];<span class="comment">//次の単語</span></div><div class="line">            <span class="keyword">if</span>(next_word == <span class="literal">undefined</span>)&#123;<span class="comment">//文末</span></div><div class="line">                next_word = <span class="string">"_EOS_"</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(! morpheme[now_word] )&#123;</div><div class="line">                morpheme[now_word]=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">            &#125;</div><div class="line">            morpheme[now_word].push(next_word);</div><div class="line">            <span class="keyword">if</span>(now_word == <span class="string">"、"</span>)&#123;<span class="comment">//「、」は文頭として使える。</span></div><div class="line">                morpheme[<span class="string">"_BOS_"</span>].push(next_word);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> morpheme;</div><div class="line">&#125;</div><div class="line"><span class="comment">//nonoise()ノイズ除去</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nonoise</span>(<span class="params">morphemes</span>)</span>&#123;</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/\n/g</span>,<span class="string">"。"</span>);</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/[\?\!？！]/g</span>,<span class="string">"。"</span>);</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/[-|｜:：・]/g</span>,<span class="string">"。"</span>);</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/[「」（）\(\)\[\]【】]/g</span>,<span class="string">" "</span>);</div><div class="line">    <span class="keyword">return</span> morphemes</div><div class="line">&#125;</div><div class="line"><span class="comment">// makeSentence()文章をシャッフル</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSentence</span>(<span class="params">morpheme</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> now_word = <span class="string">""</span></div><div class="line">    <span class="keyword">var</span> morphemes = <span class="string">""</span></div><div class="line">    now_word = morpheme[<span class="string">"_BOS_"</span>][<span class="built_in">Math</span>.floor( <span class="built_in">Math</span>.random() * morpheme[<span class="string">"_BOS_"</span>].length )];</div><div class="line">    morphemes += now_word;</div><div class="line">    <span class="keyword">while</span>(now_word != <span class="string">"_EOS_"</span>)&#123;</div><div class="line">        now_word = morpheme[now_word][<span class="built_in">Math</span>.floor( <span class="built_in">Math</span>.random() * morpheme[now_word].length )];</div><div class="line">        morphemes += now_word;</div><div class="line">    &#125;</div><div class="line">    morphemes = morphemes.replace(<span class="regexp">/_EOS_$/</span>,<span class="string">"。"</span>)</div><div class="line">    <span class="keyword">return</span> morphemes;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>当初の目的である「私は双子が大好きです。」は３〜４回生成したら出現しました。まずは目的達成というところです。</p>
+<p>細かい計算式は全く分かっていないのですが、大まかな仕組みが少し分かってきたので自作の人工無能に組み込んでみたいですね。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/markov-chain/">markov-chain</a> <a class="tag tag--primary tag--small t-link" href="/tags/natural-language/">natural-language</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/03/murakamimarkov.html"  data-tooltip="お悩み相談BOT「村上マルコフ」をつくった。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/05/29/tinysegmater.html" data-tooltip="TinySegmenterで分かち書き（簡易形態素解析）。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/05/30/markov.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/05/30/markov.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=TinySegmenterでマルコフ連鎖。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/06/03/murakamimarkov.html"  data-tooltip="お悩み相談BOT「村上マルコフ」をつくった。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/05/29/tinysegmater.html" data-tooltip="TinySegmenterで分かち書き（簡易形態素解析）。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/05/30/markov.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/05/30/markov.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=TinySegmenterでマルコフ連鎖。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2016/05/30/markov.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2016/05/30/markov.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=TinySegmenterでマルコフ連鎖。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2016/05/30/markov.html';
+                 
+                    this.page.identifier = 'bot/2016/05/30/markov.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>深層学習やってみる - InceptionV3で画像認識 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="人工知能はじめました。ポンダッドです。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="深層学習やってみる - InceptionV3で画像認識">
+<meta property="og:url" content="https://pondad.github.io/ai/2016/12/23/keras-inceptionv3.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="人工知能はじめました。ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/yzW3D8E47B.jpg">
+<meta property="og:image" content="https://cldup.com/pLtzF8oMKM.jpg">
+<meta property="og:image" content="https://cldup.com/HdX5qBmmGQ.jpg">
+<meta property="og:image" content="https://cldup.com/K28_TNMiGJ.jpg">
+<meta property="og:image" content="https://cldup.com/aWRwnqH-RD.jpg">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/61sxmRFvyfL._SL160_.jpg">
+<meta property="og:image" content="https://images-fe.ssl-images-amazon.com/images/I/51JRd4eIGqL._SL160_.jpg">
+<meta property="og:updated_time" content="2017-01-02T13:08:08.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="深層学習やってみる - InceptionV3で画像認識">
+<meta name="twitter:description" content="人工知能はじめました。ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/yzW3D8E47B.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/K28_TNMiGJ.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/K28_TNMiGJ.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/K28_TNMiGJ.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            深層学習やってみる - InceptionV3で画像認識
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-12-23T08:15:00+09:00">
+	
+		    2016/12/23
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/ai/">ai</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>人工知能はじめました。ポンダッドです。</p>
+<a id="more"></a>
+<p>深層学習（ディープラーニング）という技術が起爆剤となり、近年人工知能が急激に発達した。ということまでは分かったのですが、そんな先端技術一般人に使うことが出来るんだろうか。そんなことも感じました。</p>
+<p>深層学習というとものすごく高性能なPCを何日も（場合によっては何ヶ月も）学習させる印象があったのですが、どうも学習済みのモデルを利用するだけならばそれ程時間は掛からないようです。</p>
+<p>まずは深層学習ライブラリと学習済みモデルを使って画像認識を試してみました。上手くいくでしょうか。</p>
+<p>まずはコーヒーでも人工知能に見せてみます。</p>
+<p><img src="https://cldup.com/yzW3D8E47B.jpg" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ python3 inception_v3.py</div><div class="line">Using TensorFlow backend.</div><div class="line">Predicted: [[(<span class="string">'n07920052'</span>, <span class="string">'espresso'</span>, 0.98510909), (<span class="string">'n07930864'</span>, <span class="string">'cup'</span>, 0.0013969219), (<span class="string">'n07892512'</span>, <span class="string">'red_wine'</span>, 0.00096048781), (<span class="string">'n02948072'</span>, <span class="string">'candle'</span>, 0.00083798409), (<span class="string">'n07836838'</span>, <span class="string">'chocolate_sauce'</span>, 0.00072286226)]]</div></pre></td></tr></table></figure>
+<p>スクリプト実行後2、3秒で「エスプレッソ98.5%」と識別されました。コーヒーでなくエスプレッソという事まできちんと判別しているところが憎いですね。</p>
+<p>続いて鳥の写真を見せてみます。</p>
+<p><img src="https://cldup.com/pLtzF8oMKM.jpg" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ python3 inception_v3.py</div><div class="line">Using TensorFlow backend.</div><div class="line">Predicted: [[(<span class="string">'n01855672'</span>, <span class="string">'goose'</span>, 0.83909774), (<span class="string">'n01514859'</span>, <span class="string">'hen'</span>, 0.016504474), (<span class="string">'n02012849'</span>, <span class="string">'crane'</span>, 0.0066337022), (<span class="string">'n02009912'</span>, <span class="string">'American_egret'</span>, 0.006152702), (<span class="string">'n01796340'</span>, <span class="string">'ptarmigan'</span>, 0.0043814657)]]</div></pre></td></tr></table></figure>
+<p>「ガチョウ83.9%」と識別されました。アヒルじゃなくてガチョウだよ。って言われてるような気がします。ものすごい識別力ですね。</p>
+<p>サミュエル・L・ジャクソン（のフィギュア）の写真を見せてみます。</p>
+<p><img src="https://cldup.com/HdX5qBmmGQ.jpg" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ python3 inception_v3.py</div><div class="line">Using TensorFlow backend.</div><div class="line">Predicted: [[(<span class="string">'n04350905'</span>, <span class="string">'suit'</span>, 0.48878527), (<span class="string">'n02883205'</span>, <span class="string">'bow_tie'</span>, 0.029732836), (<span class="string">'n04591157'</span>, <span class="string">'Windsor_tie'</span>, 0.026764978), (<span class="string">'n03630383'</span>, <span class="string">'lab_coat'</span>, 0.016221585), (<span class="string">'n10148035'</span>, <span class="string">'groom'</span>, 0.014818682)]]</div></pre></td></tr></table></figure>
+<p>「スーツ48.8%、蝶ネクタイ2.9%」が写っていると識別されました。</p>
+<h2 id="InceptionV3"><a href="#InceptionV3" class="headerlink" title="InceptionV3"></a>InceptionV3</h2><p><img src="https://cldup.com/K28_TNMiGJ.jpg" alt=""></p>
+<p>InceptionV3とはGoogleが開発した人間の認識率を超えた高精度の学習モデルです。</p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4774185345/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">はじめての深層学習（ディープラーニング）プログラミング - Amazon.co.jp</a>によると、エラー率3.4%と、人間の画像識別力を上回っているそうです。（ちなみに人間のエラー率は5%ほど）</p>
+<p>元になる画像が約1400万枚、ラベルとなるカテゴリは2万2千程あるそうで、画像をダウンロードするだけでも5日間位掛かるとのこと。</p>
+<p>GPUを強化した深層学習用PCでも学習するのに1ヶ月位掛かるそうです。いやすごいですね。</p>
+<p>この学習済みモデルは、Googleが機械学習ライブラリTensorflowで利用出来る様に一般公開されています。</p>
+<p><a href="https://www.tensorflow.org/versions/master/tutorials/image_recognition/" target="_blank" rel="external">Image Recognition - Tensorflow </a></p>
+<h2 id="Keras"><a href="#Keras" class="headerlink" title="Keras"></a>Keras</h2><p>深層学習用のライブラリはいくつか存在しますが、私は一番使いや易そうに感じた<code>Keras</code>を使ってみることにしました。</p>
+<p><a href="https://keras.io/ja/" target="_blank" rel="external">Keras Documentation</a></p>
+<blockquote>
+<p>Kerasは、Pythonで書かれた、TensorFlowまたはTheano上で実行可能な高水準のニューラルネットワークライブラリです。 Kerasは、迅速な実験を可能にすることに重点を置いて開発されました。 可能な限り遅れなくアイデアから結果に進められることは、良い研究をする上で重要です。</p>
+<p><a href="https://keras.io/ja/" target="_blank" rel="external">Keras Documentation</a></p>
+</blockquote>
+<p>メイン開発者の<a href="https://github.com/fchollet" target="_blank" rel="external">François Chollet</a>さんはGoogle所属の様ですね。</p>
+<p>機械学習の演習をする際、同じGoogleの<a href="http://scikit-learn.org/stable/" target="_blank" rel="external">Scikit Learn</a>を使ったので、APIの記述の仕方など共通するところが多く利用がし易そうに感じました。</p>
+<p>Mac環境であれば、<code>pip</code>を使って簡単にインストールする事が出来ます。</p>
+<h2 id="やってみよう"><a href="#やってみよう" class="headerlink" title="やってみよう"></a>やってみよう</h2><p>開発者のFrançoisさんが様々なチュートリアルやサンプルコードを公開しています。</p>
+<p>上述の様に日本語版ドキュメンテーションも公開されたので、試さない手はありません。画像認識のサンプルもいくつかありますが、今回は一番性能の良さそうなInceptionV3を利用してみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/fchollet/deep-learning-models.git</div><div class="line">Cloning into <span class="string">'deep-learning-models'</span>...</div><div class="line">remote: Counting objects: 47, done.</div><div class="line">remote: Total 47 (delta 0), reused 0 (delta 0), pack-reused 47</div><div class="line">Unpacking objects: 100% (47/47), done.</div></pre></td></tr></table></figure>
+<p>まずはFrançoisさんのレポジトリをクローンします。<code>inception_v3.py</code>の319行めにある画像パスを任意のものに置き換えて、同じ階層に画像を設置します。ここではゾウさんの写真(elephant.jpg)を設置しました。</p>
+<p><img src="https://cldup.com/aWRwnqH-RD.jpg" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> deep-learning-models</div><div class="line">$ python3 inception_v3.py</div><div class="line">Using TensorFlow backend.</div><div class="line">Predicted: [[(<span class="string">'n02504013'</span>, <span class="string">'Indian_elephant'</span>, 0.87686646), (<span class="string">'n01871265'</span>, <span class="string">'tusker'</span>, 0.044712357), (<span class="string">'n02504458'</span>, <span class="string">'African_elephant'</span>, 0.02874627), (<span class="string">'n02398521'</span>, <span class="string">'hippopotamus'</span>, 0.0072720782), (<span class="string">'n02092339'</span>, <span class="string">'Weimaraner'</span>, 0.0020943223)]]</div></pre></td></tr></table></figure>
+<p>「インド象87.6%」と識別されました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>APIを利用するのとは違い、自分の所有するMac上で人工知能が動いているって思うとなんかワクワクしますね。</p>
+<p>深層学習のアルゴリズムを学習しはじめたところなのですが、実際にどんな仕組みで機械が学習しているか少しづつ解き明かしてみたいと思います。</p>
+<p>チュートリアル自体は簡単に試せますので興味のある方は是非。</p>
+<h2 id="参考書籍"><a href="#参考書籍" class="headerlink" title="参考書籍"></a>参考書籍</h2><p><img src="http://ecx.images-amazon.com/images/I/61sxmRFvyfL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4802610793/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">Pythonによるスクレイピング&amp;機械学習 開発テクニック BeautifulSoup,scikit-learn,TensorFlowを使ってみよう - Amazon.co.jp</a></p>
+<p><img src="https://images-fe.ssl-images-amazon.com/images/I/51JRd4eIGqL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4774185345/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">はじめての深層学習（ディープラーニング）プログラミング - Amazon.co.jp</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/deep-learning/">deep-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/25/keras-mnist.html"  data-tooltip="深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/18/artificial-intelligence.html" data-tooltip="人工知能はチーズバーガーの夢を見るか">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/23/keras-inceptionv3.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/23/keras-inceptionv3.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=深層学習やってみる - InceptionV3で画像認識">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/25/keras-mnist.html"  data-tooltip="深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/18/artificial-intelligence.html" data-tooltip="人工知能はチーズバーガーの夢を見るか">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/23/keras-inceptionv3.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/23/keras-inceptionv3.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=深層学習やってみる - InceptionV3で画像認識">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2016/12/23/keras-inceptionv3.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2016/12/23/keras-inceptionv3.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=深層学習やってみる - InceptionV3で画像認識">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/ai/2016/12/23/keras-inceptionv3.html';
+                 
+                    this.page.identifier = 'ai/2016/12/23/keras-inceptionv3.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>相棒（AI-Bot）をつくる。~  その１【CSS Animation】 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="最近ではAppleのSiriさんをはじめとして秘書機能を持った対話型のアプリケーションソフトが数多く開発されています。
+「WebAPIを利用して自分だけの相棒を作れないだろうか？」そんなどうでも良いことを思いつきました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="相棒（AI-Bot）をつくる。~  その１【CSS Animation】">
+<meta property="og:url" content="https://pondad.github.io/bot/2015/12/20/css3-animation-bot.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="最近ではAppleのSiriさんをはじめとして秘書機能を持った対話型のアプリケーションソフトが数多く開発されています。
+「WebAPIを利用して自分だけの相棒を作れないだろうか？」そんなどうでも良いことを思いつきました。">
+<meta property="og:image" content="https://cldup.com/n-0CsLoLKe.jpg">
+<meta property="og:image" content="https://cldup.com/6WEfcBpgwn.jpg">
+<meta property="og:image" content="https://cldup.com/SDrgbtRk9t.jpg">
+<meta property="og:image" content="https://cldup.com/nd5N8ohp2J.jpg">
+<meta property="og:image" content="https://cldup.com/qazYIkdtkT.jpg">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="相棒（AI-Bot）をつくる。~  その１【CSS Animation】">
+<meta name="twitter:description" content="最近ではAppleのSiriさんをはじめとして秘書機能を持った対話型のアプリケーションソフトが数多く開発されています。
+「WebAPIを利用して自分だけの相棒を作れないだろうか？」そんなどうでも良いことを思いつきました。">
+<meta name="twitter:image" content="https://cldup.com/n-0CsLoLKe.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/n-0CsLoLKe.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/n-0CsLoLKe.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/n-0CsLoLKe.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            相棒（AI-Bot）をつくる。~  その１【CSS Animation】
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2015-12-20T15:37:00+09:00">
+	
+		    2015/12/20
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        hasCoverCaption">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <span class="post-header-cover-caption caption">Photo credit - Si-MOCs</span>
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>最近ではAppleのSiriさんをはじめとして秘書機能を持った対話型のアプリケーションソフトが数多く開発されています。</p>
+<p>「WebAPIを利用して自分だけの相棒を作れないだろうか？」そんなどうでも良いことを思いつきました。</p>
+<a id="more"></a>
+<h2 id="理想の相棒とは"><a href="#理想の相棒とは" class="headerlink" title="理想の相棒とは"></a>理想の相棒とは</h2><p>SF映画の歴史を振り返ると、そんな理想とも思える相棒が数多く登場します。</p>
+<h3 id="HAL9000"><a href="#HAL9000" class="headerlink" title="HAL9000"></a>HAL9000</h3><p><img src="https://cldup.com/n-0CsLoLKe.jpg" alt="Photo credit: &lt;a href=&quot;https://www.flickr.com/photos/x-ray_delta_one/4128131032/&quot;&gt;x-ray delta one&lt;/a&gt; via &lt;a href=&quot;http://visualhunt.com&quot;&gt;Visualhunt.com&lt;/a&gt; / &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-sa/2.0/&quot;&gt;CC BY-NC-SA&lt;/a&gt;"></p>
+<p>「2001年宇宙の旅」に登場したHAL9000。ソフトな物腰で常に冷静な判断を下す頼りになる奴です。</p>
+<p>ただし少々融通の利かない性格で、とある事情から自分が管理する宇宙船の搭乗員を皆殺しに掛かるという恐ろしい一面を持っています。</p>
+<p>相棒としてはちょっと怖いかな。</p>
+<p>###R2D2</p>
+<p><img src="https://cldup.com/6WEfcBpgwn.jpg" alt="Photo credit: &lt;a href=&quot;https://www.flickr.com/photos/thomashawk/486977042/&quot;&gt;Thomas Hawk&lt;/a&gt; via &lt;a href=&quot;http://visualhunt.com&quot;&gt;Visual Hunt&lt;/a&gt; / &lt;a href=&quot;http://creativecommons.org/licenses/by-nc/2.0/&quot;&gt;CC BY-NC&lt;/a&gt;"></p>
+<p>「STAR WARS」で主人公のピンチに駆けつけ見事な活躍を見せる頼りになる奴です。</p>
+<p>愛嬌たっぷりで世界中で愛されるキャラクターですが、独特の言葉（？）を話す為コミュニケーションをとるのが少々難しそうです。</p>
+<p>###TARS</p>
+<p><img src="https://cldup.com/SDrgbtRk9t.jpg" alt="Photo credit: &lt;a href=&quot;https://www.flickr.com/photos/laura-kali/16779022457/&quot;&gt;OnceAndFutureLaura&lt;/a&gt; via &lt;a href=&quot;http://visualhunt.com&quot;&gt;VisualHunt.com&lt;/a&gt; / &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-sa/2.0/&quot;&gt;CC BY-NC-SA&lt;/a&gt;"></p>
+<p>「インターステラー」に登場したちょっと辛口なトークが魅力のTARS、鈍重な見た目に似合わず主人公のピンチに颯爽と駆けつけ大活躍します。最大のピンチには献身的な漢気を見せる、最高に頼りになる奴です。</p>
+<p>ただし体躯がアメリカンサイズで大きい為、日本で一緒に行動する事を考えると少々難しそうです。</p>
+<p>###Samantha</p>
+<p><img src="https://cldup.com/nd5N8ohp2J.jpg" alt="Photo credit: &lt;a href=&quot;https://www.flickr.com/photos/86525452@N06/15227760311/&quot;&gt;EyesOnFire89&lt;/a&gt; via &lt;a href=&quot;http://visualhunt.com&quot;&gt;VisualHunt.com&lt;/a&gt; / &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-sa/2.0/&quot;&gt;CC BY-NC-SA&lt;/a&gt;"></p>
+<p>「her/世界でひとつの彼女」に登場したSiriさんをモデルにした人工知能Samanthaさん。知的で気の利いたトークで主人公を魅了します。あらゆる面で理想的な心の癒しを提供する最強AIとも言えます。</p>
+<p>ただしスカーレット・ヨハンソンさん声が少々セクシー過ぎます。「俺、人工知能に恋してるんだ」と語るホアキン・フェニックスさんの様に痛い状況になる可能性が高い為、相棒としては難しいかもしれません。</p>
+<hr>
+<p>自分にとって理想の相棒とは…。なかなか難しいものです。</p>
+<p>##理想の相棒</p>
+<p>###Jules Winnfield</p>
+<p><img src="https://cldup.com/qazYIkdtkT.jpg" alt="Photo credit: &lt;a href=&quot;https://www.flickr.com/photos/londonmatt/18891515611/&quot;&gt;Matt From London&lt;/a&gt; via &lt;a href=&quot;http://visualhunt.com&quot;&gt;Visualhunt&lt;/a&gt; / &lt;a href=&quot;http://creativecommons.org/licenses/by/2.0/&quot;&gt;CC BY&lt;/a&gt;"></p>
+<p>人工知能ではありませんが、やはり「理想の相棒」に相応しいキャラクターといえばサミュエル・L・ジャクソン演じる「ジュールス」以外にはありえないと思います。（偏見）</p>
+<p>普段は与太話を延々と繰り広げながらも、情に厚く、時に知的でもあります。</p>
+<p>しかしこと「仕事」においては冷徹かつ残虐。敵に回せば厄介な人物ですが自分の相棒としては心強くまさに「理想の相棒」に相応しい人物です。（やっぱり偏見）</p>
+<p>こんな相棒が身近にいれば、クールでヒップな暮らしが出来そうです。</p>
+<p>##つくってみる。</p>
+<p>さて、そうしてサミュエル・L・ジャクソン風の対話型botをつくってみることにしました。</p>
+<p>音声認識に関しては<code>Speech Recognition API</code> を利用すればいけそうです。（ただしブラウザはChromeとAndroid Chromeに限定されてしまいますが）</p>
+<p>テキストスピーチは<code>Speech Synthesis API</code> で喋らせることができます。（これは以前 <a href="http://www.pondad.com/?p=8734" target="_blank" rel="external">えっ、ブラウザが喋った！スピーチAPIを試してみたよ。【HTML5／Web Speech API】 - フタパパ</a> で試したことがあるのでそれ程苦労せずにいけそうです）</p>
+<hr>
+<p>まずは外見から作ってみました。</p>
+<p><script type="text/javascript" src="http://jsdo.it/blogparts/WU0A/js?width=100%&height=496&view=screenshot"></script></p>
+
+<p>外見はHAL9000風にしたかったので、CSSアニメーションのサンプルを探してみたところ、<a href="http://www.onextrapixel.com/2013/04/04/creating-hal-9000-with-pure-css/" target="_blank" rel="external">Creating HAL 9000 with Pure CSS - OXP</a> こちらに見事なコードが公開されていたので流用させていただきました。</p>
+<p>ただ、サミュエル・L・ジャクソンらしくカラーを紫に変更しています。</p>
+<p>##まとめ</p>
+<p>前置きが長くなってしまいましたが、要は話しかけると「Mother F*cker」みたいな素敵な返事をしてくれるBotをつくってみる。というどうでも良い企画です。</p>
+<p>クリスマスまでには完成させようと思っているのですが…。</p>
+<p>（この記事つづく）</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/web-api/">web-api</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/27/speech-recogmition-api.html"  data-tooltip="相棒（AI-Bot）をつくる。~  その2【Speech Recognition API】">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/culture/2015/12/12/samuel-l-jackson.html" data-tooltip="サミュエル・L・ジャクソンという男">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/20/css3-animation-bot.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/20/css3-animation-bot.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その１【CSS Animation】">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/27/speech-recogmition-api.html"  data-tooltip="相棒（AI-Bot）をつくる。~  その2【Speech Recognition API】">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/culture/2015/12/12/samuel-l-jackson.html" data-tooltip="サミュエル・L・ジャクソンという男">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/20/css3-animation-bot.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/20/css3-animation-bot.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その１【CSS Animation】">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/20/css3-animation-bot.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/20/css3-animation-bot.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その１【CSS Animation】">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2015/12/20/css3-animation-bot.html';
+                 
+                    this.page.identifier = 'bot/2015/12/20/css3-animation-bot.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

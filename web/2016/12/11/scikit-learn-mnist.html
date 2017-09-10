@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>はじめてのPython - 機械学習で手書き数字認識（MNIST） - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="機械学習の基本となる「MNIST」を試してみました。（相変わらず読み方がわかりません。むにすと？）ポンダッドです。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="はじめてのPython - 機械学習で手書き数字認識（MNIST）">
+<meta property="og:url" content="https://pondad.github.io/web/2016/12/11/scikit-learn-mnist.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="機械学習の基本となる「MNIST」を試してみました。（相変わらず読み方がわかりません。むにすと？）ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/0Q_q65OKUU.png">
+<meta property="og:image" content="https://cldup.com/ITSnRCKtmd.jpg">
+<meta property="og:image" content="https://cldup.com/7PcQIyqOV2.png">
+<meta property="og:image" content="https://cldup.com/7HsGQbsWmJ.png">
+<meta property="og:image" content="https://cldup.com/Vu2eniCi1y.png">
+<meta property="og:image" content="https://cldup.com/likdfWbazm.png">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/61RAoGqmOBL._SL160_.jpg">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/61sxmRFvyfL._SL160_.jpg">
+<meta property="og:updated_time" content="2017-01-01T03:34:42.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="はじめてのPython - 機械学習で手書き数字認識（MNIST）">
+<meta name="twitter:description" content="機械学習の基本となる「MNIST」を試してみました。（相変わらず読み方がわかりません。むにすと？）ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/0Q_q65OKUU.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/ITSnRCKtmd.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/ITSnRCKtmd.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/ITSnRCKtmd.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            はじめてのPython - 機械学習で手書き数字認識（MNIST）
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-12-11T15:52:00+09:00">
+	
+		    2016/12/11
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/web/">web</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>機械学習の基本となる「MNIST」を試してみました。（相変わらず読み方がわかりません。むにすと？）ポンダッドです。</p>
+<a id="more"></a>
+<p>iPhoneのメモアプリを使って数字の「４」を書いてみます。</p>
+<p><img src="https://cldup.com/0Q_q65OKUU.png" alt=""></p>
+<p>この画像（<code>test4.png</code>）を以下のスクリプトで読み込み、機械学習の結果と照合してみます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets, cross_validation, svm, metrics</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</div><div class="line"></div><div class="line">digits = datasets.load_digits()</div><div class="line"></div><div class="line">image = Image.open(<span class="string">"test4.png"</span>).convert(<span class="string">'L'</span>)</div><div class="line">image = image.resize((<span class="number">8</span>, <span class="number">8</span>), Image.ANTIALIAS)</div><div class="line">img = np.asarray(image, dtype=float)</div><div class="line">img = np.floor(<span class="number">16</span> - <span class="number">16</span> * (img / <span class="number">256</span>))</div><div class="line">img = img.flatten()</div><div class="line"></div><div class="line">data_train = digits.data</div><div class="line">label_train = digits.target</div><div class="line">data_test = img</div><div class="line">label_test = [<span class="number">4</span>]</div><div class="line"></div><div class="line">clf = svm.SVC(gamma=<span class="number">0.001</span>)</div><div class="line">clf.fit(data_train, label_train)</div><div class="line"></div><div class="line">predict = clf.predict(data_test)</div><div class="line">print(<span class="string">"テストラベル="</span>,label_test)</div><div class="line">print(<span class="string">"解析結果="</span>,predict)</div><div class="line"></div><div class="line">ac_score = metrics.accuracy_score(label_test, predict)</div><div class="line">print(<span class="string">"正解率="</span>, ac_score*<span class="number">100</span>, <span class="string">"%"</span>)</div></pre></td></tr></table></figure>
+<p>実行します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ python3 work14.py</div><div class="line">テストラベル= [4]</div><div class="line">解析結果= [4]</div><div class="line">正解率= 100.0 %</div></pre></td></tr></table></figure>
+<p>iMacさんがきちんと数字の「４」と判別しました。</p>
+<h2 id="MNIST"><a href="#MNIST" class="headerlink" title="MNIST"></a>MNIST</h2><p><img src="https://cldup.com/ITSnRCKtmd.jpg" alt=""></p>
+<p>機械学習の基本として良く利用される「0〜9」までの数字の判別ですが、基本となるデータセットはこちら（<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="external">THE MNIST DATABASE</a>）で取得することが出来ます。</p>
+<p>手書き数字の白黒画像は、サイズ28×28・明度0〜255です。それが6万点保存されています。</p>
+<p>機械学習ライブラリ<code>scikit-learn</code>では、チュートリアルで利用する際にもう少し簡易的に行えるようにサイズや明度を簡略化したものがデフォルトで用意されています。</p>
+<p>ちょっと中身をみて見ることにしましょう。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">digits = datasets.load_digits()</div><div class="line">data = digits.images[<span class="number">0</span>]</div><div class="line"></div><div class="line">data.tofile(<span class="string">"data.csv"</span>,sep=<span class="string">','</span>,format=<span class="string">'%.0f'</span>)</div><div class="line">print(data)</div></pre></td></tr></table></figure>
+<p><code>scikit-learn</code>に保存されている<code>datasets</code>（数字フォルダ）のうち、一つをCSVデータ（<code>data.csv</code>）として取り出してみます。</p>
+<p><img src="https://cldup.com/7PcQIyqOV2.png" alt=""></p>
+<p>画像の1ピクセルあたり明度0〜15と簡略化されています。サイズも8×8ピクセルと小さいサイズですので、明度0〜15が64次元の配列に格納されています。サンプルは1,800点ほど保存されています。</p>
+<p>Pythonのグラフ描写モジュール「<code>matplotlib</code>」を利用してみて見るとこんな感じです。</p>
+<p><img src="https://cldup.com/7HsGQbsWmJ.png" alt=""></p>
+<h2 id="手書き文字をバイナリ化する"><a href="#手書き文字をバイナリ化する" class="headerlink" title="手書き文字をバイナリ化する"></a>手書き文字をバイナリ化する</h2><p>先ほどの手書き文字を同じようにデータ化してみます。教科書を参考にこんな風に書いてみました。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</div><div class="line">image = Image.open(<span class="string">"test4.png"</span>).convert(<span class="string">'L'</span>)</div><div class="line">image = image.resize((<span class="number">8</span>, <span class="number">8</span>), Image.ANTIALIAS)</div><div class="line">img = np.asarray(image, dtype=float)</div><div class="line">img = np.floor(<span class="number">16</span> - <span class="number">16</span> * (img / <span class="number">256</span>))</div><div class="line">img = img.flatten()</div><div class="line">img.tofile(<span class="string">"test4.csv"</span>,sep=<span class="string">','</span>,format=<span class="string">'%.0f'</span>)</div></pre></td></tr></table></figure>
+<p>前回記事で試してみた<code>NumPy</code>モジュールを利用して、明度を書き換えています。</p>
+<p>通常のpng画像の明度は0〜255なので、サンプルデータに合わせて0〜15に変換しています。</p>
+<p>こういった計算もモジュールを利用することで簡易に記述出来るという訳です。</p>
+<p><img src="https://cldup.com/Vu2eniCi1y.png" alt=""></p>
+<p>手書きデータを配列に格納する事が出来ました。先程と同様<code>matplotlib</code>を利用して画像を確認してみます。</p>
+<p><img src="https://cldup.com/likdfWbazm.png" alt=""></p>
+<p>png画像を<code>.convert(&#39;L&#39;)</code>メソッドを利用しているので画像が反転しています。</p>
+<h2 id="学習する"><a href="#学習する" class="headerlink" title="学習する"></a>学習する</h2><p>パラーメータのチューニングは良く分からないので、教科書のサンプルをそのまま利用しました。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">clf = svm.SVC(gamma=<span class="number">0.001</span>)</div><div class="line">clf.fit(data_train, label_train)</div><div class="line"></div><div class="line">predict = clf.predict(data_test)</div></pre></td></tr></table></figure>
+<p>学習データ・学習ラベルを利用して学習し、テストデータを元にテストラベルを解析します。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>かなり簡略化されたデータですが、画像データを元に機械学習行う手法を確認してみました。</p>
+<p>画像はデータ量も多いので、解析するのに処理能力が必要になります。分類する特徴を見極めたり、データを上手く圧縮したりといった工夫が必要なのかなと思います。</p>
+<p>APIなどではなく、自分が所有するMacが画像を認識出来るようになり、少し人工知能っぽくなってきました。今後の成長（？）が楽しみです。では。</p>
+<h2 id="参考書籍"><a href="#参考書籍" class="headerlink" title="参考書籍"></a>参考書籍</h2><p><img src="http://ecx.images-amazon.com/images/I/61RAoGqmOBL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B01M29DK5W/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">実践力を身につける Pythonの教科書 - Amazon.co.jp</a></p>
+<p><img src="http://ecx.images-amazon.com/images/I/61sxmRFvyfL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4802610793/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">Pythonによるスクレイピング&amp;機械学習 開発テクニック BeautifulSoup,scikit-learn,TensorFlowを使ってみよう</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/machine-learning/">machine-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/18/artificial-intelligence.html"  data-tooltip="人工知能はチーズバーガーの夢を見るか">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/12/10/opencv-numpy.html" data-tooltip="はじめてのPython - 数値計算ライブラリ「ナンパイ（numpy）」">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/12/11/scikit-learn-mnist.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/12/11/scikit-learn-mnist.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=はじめてのPython - 機械学習で手書き数字認識（MNIST）">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/18/artificial-intelligence.html"  data-tooltip="人工知能はチーズバーガーの夢を見るか">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/12/10/opencv-numpy.html" data-tooltip="はじめてのPython - 数値計算ライブラリ「ナンパイ（numpy）」">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/12/11/scikit-learn-mnist.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/12/11/scikit-learn-mnist.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=はじめてのPython - 機械学習で手書き数字認識（MNIST）">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/12/11/scikit-learn-mnist.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/12/11/scikit-learn-mnist.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=はじめてのPython - 機械学習で手書き数字認識（MNIST）">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/web/2016/12/11/scikit-learn-mnist.html';
+                 
+                    this.page.identifier = 'web/2016/12/11/scikit-learn-mnist.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

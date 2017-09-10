@@ -1,0 +1,620 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>Raspberry Piをしゃべらせてみたよ。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="さて、今回は超小型コンピューターRaspberry Piをしゃべらせてみます。基本操作が少し分かってきたのでちょっとだけプログラミングもしてみました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Raspberry Piをしゃべらせてみたよ。">
+<meta property="og:url" content="https://pondad.github.io/iot/2016/02/13/raspberrypi-voice-text-web-api.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="さて、今回は超小型コンピューターRaspberry Piをしゃべらせてみます。基本操作が少し分かってきたのでちょっとだけプログラミングもしてみました。">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://nodejs.org/en/">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://www.npmjs.com/">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/voicetext">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/node-aplay">
+<meta property="og:image" content="https://cldup.com/afHzzVi9pe.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Raspberry Piをしゃべらせてみたよ。">
+<meta name="twitter:description" content="さて、今回は超小型コンピューターRaspberry Piをしゃべらせてみます。基本操作が少し分かってきたのでちょっとだけプログラミングもしてみました。">
+<meta name="twitter:image" content="http://capture.heartrails.com/400x300?https://nodejs.org/en/">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Raspberry Piをしゃべらせてみたよ。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-02-13T17:08:00+09:00">
+	
+		    2016/02/13
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/iot/">iot</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>さて、今回は超小型コンピューターRaspberry Piをしゃべらせてみます。基本操作が少し分かってきたのでちょっとだけプログラミングもしてみました。</p>
+<a id="more"></a>
+<h2 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h2><p><img src="http://capture.heartrails.com/400x300?https://nodejs.org/en/" alt=""></p>
+<p><a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a></p>
+<p>「サーバーサイドで利用出来るJavaScript」というモノがある。ということは知っていたのですが、通常のレンタルサーバーでは利用出来なかったりして取っ付きにくい印象を持っていました。</p>
+<p>公式ページにはこんな風に書かれています。</p>
+<blockquote>
+<p>Node.js®は、 ChromeのV8 JavaScriptエンジン上に構築されたJavaScriptのプラットフォームです。 Node.jsは軽量で効率的にイベントを駆動させるノンブロッキングI / Oモデルを使用しています。 Node.jsのパッケージのエコシステム “NPM” は世界で最大級のオープンソースのライブラリです。</p>
+</blockquote>
+<p>うーん。かえって分からん。ただ、Raspberry PiをこのNode.jsを利用して動作させている記事を見て以前より気になっていました。</p>
+<p>習うより慣れろ。まずはこのNode.jsを利用してRaspberry Piをしゃべらせてみることにします。</p>
+<h2 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h2><p><img src="http://capture.heartrails.com/400x300?https://www.npmjs.com/" alt=""></p>
+<p><a href="https://www.npmjs.com/" target="_blank" rel="external">npm</a></p>
+<p>公式ページにはこのように書かれています。</p>
+<blockquote>
+<p>NPMはJavaScriptのためのパッケージマネージャです。</p>
+</blockquote>
+<p>現在の総パッケージ数は239,710とあります。どうもこのパッケージを利用することで多くの機能を追加・実行する事が出来るということの様です。</p>
+<p>こちらの記事（<a href="http://qiita.com/hashrock/items/15f4a4961183cfbb2658" target="_blank" rel="external">フロントエンド開発の３ステップ（npmことはじめ） - Qiita</a>）を拝見したところ、</p>
+<blockquote>
+<p>ライブラリ入れ放題、中毒者続出の npm install（中略）<br>登録されているパッケージをフル活用すれば、できないことはほとんどないでしょう。</p>
+</blockquote>
+<p>こんな風に表現されています。なるほど。様々なパッケージを利用することで高度な機能も実現出来るな気がしてきました。</p>
+<h2 id="試してみた"><a href="#試してみた" class="headerlink" title="試してみた"></a>試してみた</h2><p>Node.jsのインストールはこんな感じでやってみました。（<a href="http://qiita.com/PonDad/items/e780de6942b997712964" target="_blank" rel="external">Raspberry Piに最新版Node.jsをダウンロード - Qiita</a> ）その後パッケージを２つ利用してPaspberry Piをしゃべらせてみようという算段です。</p>
+<h3 id="voicetext-npm"><a href="#voicetext-npm" class="headerlink" title="voicetext - npm"></a>voicetext - npm</h3><p><img src="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/voicetext" alt=""></p>
+<p><a href="https://www.npmjs.com/package/voicetext" target="_blank" rel="external">voicetext - npm</a></p>
+<p>こちらの記事 （ <a href="http://pchw.github.io/blog/2014/07/10/voicetext/" target="_blank" rel="external">VoiceText Web APIのNode.jsライブラリ作った - ぽっちぽちにしてやんよ</a>）を拝見してから、Raspberry Piを購入したら真っ先に利用してみようと思っていました。</p>
+<p>HOYA社の合成音声ライブラリ<a href="https://cloud.voicetext.jp/webapi" target="_blank" rel="external">Voice Text Web API</a> をNode.jsから実行可能にしてくれるライブラリです。</p>
+<p>実行に関してはこちらの記事（ <a href="http://alice345.hatenablog.com/entry/2014/07/16/001218" target="_blank" rel="external">VoiceTextを使ってsayコマンドよりいい感じに文章を読み上げる - Labo Memo</a> ）でサンプルを公開してくれていましたので参考にさせていただきました。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install voicetext</div></pre></td></tr></table></figure>
+<p>でパッケージをインストール。サンプルのJavaScriptファイル<code>voicetext_test.js</code> をパッケージとと同じ階層に設置します。（上記Labo Memoさんのコードを転記させていただきます）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">VoiceText = <span class="built_in">require</span>(<span class="string">'voicetext'</span>);</div><div class="line">voice = <span class="keyword">new</span> VoiceText(<span class="string">'your api key'</span>);</div><div class="line"></div><div class="line">voice</div><div class="line">  .speaker(voice.SPEAKER.HIKARI)</div><div class="line">  .emotion(voice.EMOTION.HAPPINESS)</div><div class="line">  .emotion_level(voice.EMOTION_LEVEL.HIGH)</div><div class="line">  .volume(<span class="number">200</span>)</div><div class="line">  .speak(<span class="string">'きょうもいちにちがんばるぞい'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e, buf</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(e)&#123;</div><div class="line">      <span class="built_in">console</span>.error(e);</div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    fs.writeFile(<span class="string">'./test.wav'</span>, buf, <span class="string">'binary'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span>(e)&#123;</div><div class="line">        <span class="built_in">console</span>.error(e);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<p>JavaScriptファイルを実行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ node voicetext_test.js</div></pre></td></tr></table></figure>
+<p>することでHOYAさまの合成ライブラリを通じて作成されたwavファイルをダウンロードすることが出来ます。</p>
+<h3 id="node-aplay-npm"><a href="#node-aplay-npm" class="headerlink" title="node-aplay - npm"></a>node-aplay - npm</h3><p><img src="http://capture.heartrails.com/400x300?https://www.npmjs.com/package/node-aplay" alt=""></p>
+<p><a href="https://www.npmjs.com/package/node-aplay" target="_blank" rel="external">node-aplay - npm</a></p>
+<p>ブラウザを利用すれば<code>audio</code> タグを利用して簡単にwavファイルを再生することが出来ますが、Paspberry Piの様なハードから直接再生させようとするとなかなか大変な実装が必要となります。</p>
+<p>linuxのパッケージソフト「ALSA」を利用すれば、コマンドラインで<code>aplay</code> というコマンドを利用して音源ファイルを再生することが出来るのですが…。これをJavaScriptで操作する方法はないか一思案。</p>
+<p>検索で探してみたら、ありました。Linuxコマンド<code>aplay</code>をJavaScriptで実行可能にしてくれるライブラリがこの<code>node-aplay</code> です。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install node-aplay</div></pre></td></tr></table></figure>
+<p>でインストール。（「ALSA」の実行環境は事前に整えておきます）実行用のJavaScript（node-aplay_test.js）を作成します。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Sound = <span class="built_in">require</span>(<span class="string">'node-aplay'</span>);</div><div class="line"><span class="keyword">new</span> Sound(<span class="string">'/path/to/the/file/filename.wav'</span>).play();</div></pre></td></tr></table></figure>
+<p>JavaScriptファイルを実行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ node node-aplay_test.js</div></pre></td></tr></table></figure>
+<p>これで指定したwavファイルが再生されます。</p>
+<h2 id="やってみた"><a href="#やってみた" class="headerlink" title="やってみた"></a>やってみた</h2><p>上記の２つのパッケージをインストールして、実行用のJavaScriptファイルをまとめて<code>voice.js</code> としました。こんな感じです。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//voicetextを呼び出します</span></div><div class="line">fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">VoiceText = <span class="built_in">require</span>(<span class="string">'voicetext'</span>);</div><div class="line">voice = <span class="keyword">new</span> VoiceText(<span class="string">'your api key'</span>);</div><div class="line"></div><div class="line">voice</div><div class="line">  .speaker(voice.SPEAKER.HARUKA)</div><div class="line">  .emotion(voice.EMOTION.HAPPINESS)</div><div class="line">  .emotion_level(voice.EMOTION_LEVEL.HIGH)</div><div class="line">  .volume(<span class="number">200</span>)</div><div class="line">  .speak(<span class="string">'こんにちは！私はラズベリー・パイって言います。今日も一日がんばるぞ!'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e, buf</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(e)&#123;</div><div class="line">      <span class="built_in">console</span>.error(e);</div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    fs.writeFile(<span class="string">'./voice.wav'</span>, buf, <span class="string">'binary'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span>(e)&#123;</div><div class="line">        <span class="built_in">console</span>.error(e);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line"><span class="comment">//node-aplayを呼び出します</span></div><div class="line">Sound = <span class="built_in">require</span>(<span class="string">'node-aplay'</span>);</div><div class="line"><span class="keyword">new</span> Sound(<span class="string">'voice.wav'</span>).play();</div></pre></td></tr></table></figure>
+<p>ファイルの階層はこんな感じになります。</p>
+<p><img src="https://cldup.com/afHzzVi9pe.png" alt=""></p>
+<p><code>voice</code> と名付けたディレクトリに２つのパッケージをインストールしました。自動的に<code>node_modules</code> ファイルで振り分けられたのが分かると思います。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ node voice.js</div></pre></td></tr></table></figure>
+<p>で実行します。</p>
+<p><iframe src="https://vine.co/v/inpTpgDemnT/embed/simple" width="300" height="300" frameborder="0"></iframe><script src="https://platform.vine.co/static/scripts/embed.js"></script></p>
+
+<p>可愛らしい声でしゃべりました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>ひとまずRaspberry Piも喋れるようになりました。</p>
+<p>少しづつ機能を追加していきたいなと思います。ではまた。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a> <a class="tag tag--primary tag--small t-link" href="/tags/web-api/">web-api</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/14/raspberrypi-youtube.html"  data-tooltip="Raspberry PiでYouTubeを再生してみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/11/raspberry -pi-ipad.html" data-tooltip="Raspberry PiをiPadであそんでみる。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/13/raspberrypi-voice-text-web-api.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/13/raspberrypi-voice-text-web-api.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Raspberry Piをしゃべらせてみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/14/raspberrypi-youtube.html"  data-tooltip="Raspberry PiでYouTubeを再生してみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/02/11/raspberry -pi-ipad.html" data-tooltip="Raspberry PiをiPadであそんでみる。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/13/raspberrypi-voice-text-web-api.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/13/raspberrypi-voice-text-web-api.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Raspberry Piをしゃべらせてみたよ。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/02/13/raspberrypi-voice-text-web-api.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/02/13/raspberrypi-voice-text-web-api.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=Raspberry Piをしゃべらせてみたよ。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/iot/2016/02/13/raspberrypi-voice-text-web-api.html';
+                 
+                    this.page.identifier = 'iot/2016/02/13/raspberrypi-voice-text-web-api.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

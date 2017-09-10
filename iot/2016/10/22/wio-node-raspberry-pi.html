@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>【JavaScript Robotics】WioNodeとREST APIでロボットアームを操作する。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="JAvaScriptを使ったロボット作りの３回目。今回は小型Wi-Fi開発ボード”WioNode”を利用してロボットアームを操作してみます。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="【JavaScript Robotics】WioNodeとREST APIでロボットアームを操作する。">
+<meta property="og:url" content="https://pondad.github.io/iot/2016/10/22/wio-node-raspberry-pi.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="JAvaScriptを使ったロボット作りの３回目。今回は小型Wi-Fi開発ボード”WioNode”を利用してロボットアームを操作してみます。">
+<meta property="og:image" content="https://cldup.com/CzlPwnjaQF.JPG">
+<meta property="og:image" content="https://cldup.com/i3XRLXTMjR.gif">
+<meta property="og:image" content="https://cldup.com/JVT673EAQ4.gif">
+<meta property="og:image" content="https://cldup.com/y9y0_Q6296.png">
+<meta property="og:image" content="https://cldup.com/cDXDUzV-0N.png">
+<meta property="og:image" content="https://cldup.com/KgcMizoN79.png">
+<meta property="og:image" content="https://cldup.com/BtcbyPoEa7.png">
+<meta property="og:image" content="https://cldup.com/Ce_Gt-_kMx.png">
+<meta property="og:image" content="https://cldup.com/srnA5T-N2H.png">
+<meta property="og:image" content="https://cldup.com/3_KMJVtNBY.png">
+<meta property="og:image" content="https://cldup.com/XE09agwBdE.gif">
+<meta property="og:image" content="https://cldup.com/4HV9jNUaND.png">
+<meta property="og:updated_time" content="2016-10-22T04:28:41.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="【JavaScript Robotics】WioNodeとREST APIでロボットアームを操作する。">
+<meta name="twitter:description" content="JAvaScriptを使ったロボット作りの３回目。今回は小型Wi-Fi開発ボード”WioNode”を利用してロボットアームを操作してみます。">
+<meta name="twitter:image" content="https://cldup.com/CzlPwnjaQF.JPG">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/XE09agwBdE.gif"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/XE09agwBdE.gif" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/XE09agwBdE.gif');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            【JavaScript Robotics】WioNodeとREST APIでロボットアームを操作する。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-10-22T11:07:00+09:00">
+	
+		    2016/10/22
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/iot/">iot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>JAvaScriptを使ったロボット作りの３回目。今回は小型Wi-Fi開発ボード”WioNode”を利用してロボットアームを操作してみます。</p>
+<a id="more"></a>
+<p><img src="https://cldup.com/CzlPwnjaQF.JPG" alt=""></p>
+<p>RaspberryPiからシリアル通信を利用してサーボモーターの制御が出来ないので、WiFiでの通信を利用する作戦です。</p>
+<p><img src="https://cldup.com/i3XRLXTMjR.gif" alt=""></p>
+<p>ローカルブラウザを利用してサーボモーターを取り付けたロボットアームを動かしています。名付けて「ポンボット2号」（そのまんま）。</p>
+<p>ストリーミングカメラを取り付ければカメラアングルをWiFiで操作することが出来ます。</p>
+<p><img src="https://cldup.com/JVT673EAQ4.gif" alt=""></p>
+<p>さて、この「ポンボット2号」、仕組みは意外とシンプルなので作り方をちょっと紹介してみます。</p>
+<h2 id="WioNode"><a href="#WioNode" class="headerlink" title="WioNode"></a>WioNode</h2><p><a href="https://www.switch-science.com/catalog/2799/" target="_blank" rel="external">Wio -Node - スイッチサイエンス</a></p>
+<blockquote>
+<p>総務省の工事設計認証（いわゆる技適）取得済みのESP-WROOM-02を搭載した、小型Wi-Fi開発ボードです。AndroidとiOS用の専用アプリが提供されています。<br>GROVEコネクタを二つ搭載。GROVEモジュールを利用することにより、はんだづけも不要で、すぐに開発が可能です</p>
+</blockquote>
+<p>GroveシステムとiOS（アンドロイド）アプリを利用して様々なセンサやモーター類をWiFiから操作出来る優れものの開発ボードです。</p>
+<p><a href="https://itunes.apple.com/jp/app/wio-link/id1054893491?mt=8" target="_blank" rel="external">Wio Link - Itunes</a></p>
+<p>今回はiOSアプリで設定してみました。アカウントを作成し、ログインします。</p>
+<p><img src="https://cldup.com/y9y0_Q6296.png" alt=""></p>
+<p>実行ボタンを4秒押すとWioNodeから電波が発せられます。</p>
+<p><img src="https://cldup.com/cDXDUzV-0N.png" alt=""></p>
+<p>iPhoneからWiFi接続を確認しネットワーク接続します。</p>
+<p><img src="https://cldup.com/KgcMizoN79.png" alt=""></p>
+<p>WiFiのパスワードを入力します。これだけでWioNodeがローカルネットワークに接続されました。</p>
+<p><img src="https://cldup.com/BtcbyPoEa7.png" alt=""></p>
+<p>アプリにGrove接続するアイテムの選択画面が表示されます。ここでは両方ともサーボモーターを選択します。</p>
+<p><img src="https://cldup.com/Ce_Gt-_kMx.png" alt=""></p>
+<p>下に「ファームウェアアップデート」の表示が出るので、ここをタップするとWioNodeにArduinoスケッチが自動的に書き込まれます。</p>
+<p>OTA（Over-The-Air）と言うそうなのですが、ハードウェアソフトの書き込みがこんなに簡単に出来るとは驚きの技術です。</p>
+<p><img src="https://cldup.com/srnA5T-N2H.png" alt=""></p>
+<p>ファームウェアの書き込みが終わると「ビューAPI」の表示が出ますのでこれをタップします。</p>
+<p><img src="https://cldup.com/3_KMJVtNBY.png" alt=""></p>
+<p>製造元のAPIに接続するチュートリアル画面が表示されます。サーボモーターの場合、リクエストメソッドに「角度」「動作時間」などを指定することが出来ます。</p>
+<p>発行されたアクセストークンを指定して送信します。</p>
+<p><img src="https://cldup.com/XE09agwBdE.gif" alt=""></p>
+<p>動きました。ここまで所要時間5分ほどです。</p>
+<h2 id="Socket-ioを利用してPOSTする"><a href="#Socket-ioを利用してPOSTする" class="headerlink" title="Socket.ioを利用してPOSTする"></a>Socket.ioを利用してPOSTする</h2><p>child prosessを利用してcurlコマンドを叩いても良いのですが、今回はAPIにPOSTリクエストを送信してみます。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">'request'</span>);</div><div class="line">io.sockets.on(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">socket</span>) </span>&#123;</div><div class="line">  socket.on(<span class="string">'slide_servo_1'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">degree_1</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'サーボ1: '</span> + degree_1);</div><div class="line">    <span class="keyword">var</span> options_1 = &#123;</div><div class="line">      uri: <span class="string">'https://us.wio.seeed.io/v1/node/GroveServoD0/angle/'</span> + degree_1,</div><div class="line">      form: &#123; access_token: <span class="string">'発行されたアクセストークン'</span> &#125;,</div><div class="line">      json: <span class="literal">true</span></div><div class="line">    &#125;;</div><div class="line">    request.post(options_1, <span class="function"><span class="keyword">function</span>(<span class="params">error, response, body</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span> (!error &amp;&amp; response.statusCode == <span class="number">200</span>) &#123;</div><div class="line">        <span class="built_in">console</span>.log(body);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'error: '</span>+ response.statusCode);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<p>クライアント側から送信された角度を<code>request</code>モジュールを利用してAPIに送信します。今回はスライダーでモーターの角度を送信するようにしてみました。</p>
+<p><img src="https://cldup.com/4HV9jNUaND.png" alt=""></p>
+<p>ちょっと長いですがサンプルコードはこんな感じです。</p>
+<h3 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>PonBot02<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- Latest compiled and minified CSS --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"</span> <span class="attr">integrity</span>=<span class="string">"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"</span> <span class="attr">crossorigin</span>=<span class="string">"anonymous"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">integrity</span>=<span class="string">"sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"</span> <span class="attr">crossorigin</span>=<span class="string">"anonymous"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.2.0/css/bootstrap-slider.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/css?family=Orbitron"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    body&#123;</div><div class="line">      font-family: 'Orbitron', sans-serif;</div><div class="line">      background-color: #3D8EB9;</div><div class="line">      color: #f6f6f6;</div><div class="line">      max-width: 480px;</div><div class="line">      margin: 0 auto;;</div><div class="line">      padding: 20px;</div><div class="line">    &#125;</div><div class="line">    .slider-box&#123;</div><div class="line">      margin: 40px 0;</div><div class="line">    &#125;</div><div class="line">    .btn-group-width&#123;</div><div class="line">      max-width: 250px;</div><div class="line">      margin: 0 auto;</div><div class="line">    &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">article</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>PonBot02<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Servo<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"slider-box text-center"</span>&gt;</span></div><div class="line">           <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"servo_1"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">data-slider-id</span>=<span class="string">"servo_1_Slider"</span> <span class="attr">data-slider-min</span>=<span class="string">"30"</span> <span class="attr">data-slider-max</span>=<span class="string">"150"</span> <span class="attr">data-slider-step</span>=<span class="string">"1"</span> <span class="attr">data-slider-value</span>=<span class="string">"90"</span> <span class="attr">data-slider-tooltip</span>=<span class="string">"show"</span> /&gt;</span></div><div class="line">       <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"slider-box  text-center"</span>&gt;</span></div><div class="line">           <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"servo_2"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">data-slider-id</span>=<span class="string">"servo_2_Slider"</span> <span class="attr">data-slider-min</span>=<span class="string">"30"</span> <span class="attr">data-slider-max</span>=<span class="string">"150"</span> <span class="attr">data-slider-step</span>=<span class="string">"1"</span> <span class="attr">data-slider-value</span>=<span class="string">"90"</span> <span class="attr">data-slider-tooltip</span>=<span class="string">"show"</span> /&gt;</span></div><div class="line">       <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"btn-group btn-group-justified btn-group-width"</span> <span class="attr">role</span>=<span class="string">"group"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">"servo_yes"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-default btn-lg"</span>&gt;</span> Yes <span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">"servo_no"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-default btn-lg"</span>&gt;</span> No <span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;/<span class="name">article</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.socket.io/socket.io-1.2.0.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://code.jquery.com/jquery-1.11.1.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.2.0/bootstrap-slider.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">var</span> socket = io.connect(<span class="string">'http://192.168.0.12'</span>);</div><div class="line">        $(<span class="string">'#servo_1'</span>).slider().on(<span class="string">'slide'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">          socket.emit(<span class="string">'slide_servo_1'</span>,e.value);</div><div class="line">        &#125;);</div><div class="line">        $(<span class="string">'#servo_2'</span>).slider().on(<span class="string">'slide'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">          socket.emit(<span class="string">'slide_servo_2'</span>,e.value);</div><div class="line">        &#125;);</div><div class="line">        $(<span class="string">'#servo_yes'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">          setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            socket.emit(<span class="string">'click_servo_yes'</span>,<span class="number">60</span>);</div><div class="line">            setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              socket.emit(<span class="string">'click_servo_yes'</span>,<span class="number">120</span>);</div><div class="line">              setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                socket.emit(<span class="string">'click_servo_yes'</span>,<span class="number">60</span>);</div><div class="line">                setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                  socket.emit(<span class="string">'click_servo_yes'</span>,<span class="number">120</span>);</div><div class="line">                  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                    socket.emit(<span class="string">'click_servo_yes'</span>,<span class="number">90</span>);</div><div class="line">                  &#125;,<span class="number">2000</span>);</div><div class="line">                &#125;,<span class="number">1200</span>);</div><div class="line">              &#125;,<span class="number">900</span>);</div><div class="line">            &#125;,<span class="number">600</span>);</div><div class="line">          &#125;,<span class="number">300</span>);</div><div class="line">      &#125;);</div><div class="line">      $(<span class="string">'#servo_no'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          socket.emit(<span class="string">'click_servo_no'</span>,<span class="number">60</span>);</div><div class="line">          setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            socket.emit(<span class="string">'click_servo_no'</span>,<span class="number">120</span>);</div><div class="line">            setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              socket.emit(<span class="string">'click_servo_no'</span>,<span class="number">60</span>);</div><div class="line">              setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                socket.emit(<span class="string">'click_servo_no'</span>,<span class="number">120</span>);</div><div class="line">                setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                  socket.emit(<span class="string">'click_servo_no'</span>,<span class="number">90</span>);</div><div class="line">                &#125;,<span class="number">2000</span>);</div><div class="line">              &#125;,<span class="number">1200</span>);</div><div class="line">            &#125;,<span class="number">900</span>);</div><div class="line">          &#125;,<span class="number">600</span>);</div><div class="line">        &#125;,<span class="number">300</span>);</div><div class="line">      &#125;);</div><div class="line">      &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">"express"</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</div><div class="line"><span class="keyword">var</span> server = <span class="built_in">require</span>(<span class="string">'http'</span>).Server(app);</div><div class="line"><span class="keyword">var</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>)(server);</div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">'request'</span>);</div><div class="line"></div><div class="line">server.listen(<span class="number">5000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'listening on *:5000'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    res.sendFile(path.join(__dirname + <span class="string">'/index.html'</span>));</div><div class="line">&#125;);</div><div class="line"></div><div class="line">io.sockets.on(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">socket</span>) </span>&#123;</div><div class="line"></div><div class="line">  socket.on(<span class="string">'slide_servo_1'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">degree_1</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'サーボ1: '</span> + degree_1);</div><div class="line">    <span class="keyword">var</span> options_1 = &#123;</div><div class="line">      uri: <span class="string">'https://us.wio.seeed.io/v1/node/GroveServoD0/angle/'</span> + degree_1,</div><div class="line">      form: &#123; access_token: <span class="string">'発行されたアクセストークン'</span> &#125;,</div><div class="line">      json: <span class="literal">true</span></div><div class="line">    &#125;;</div><div class="line">    request.post(options_1, <span class="function"><span class="keyword">function</span>(<span class="params">error, response, body</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span> (!error &amp;&amp; response.statusCode == <span class="number">200</span>) &#123;</div><div class="line">        <span class="built_in">console</span>.log(body);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'error: '</span>+ response.statusCode);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  socket.on(<span class="string">'slide_servo_2'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">degree_2</span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'サーボ2: '</span> + degree_2);</div><div class="line">      <span class="keyword">var</span> options_2 = &#123;</div><div class="line">        uri: <span class="string">'https://us.wio.seeed.io/v1/node/GroveServoD1/angle/'</span> + degree_2,</div><div class="line">        form: &#123; access_token: <span class="string">'発行されたアクセストークン'</span> &#125;,</div><div class="line">        json: <span class="literal">true</span></div><div class="line">      &#125;;</div><div class="line">      request.post(options_2, <span class="function"><span class="keyword">function</span>(<span class="params">error, response, body</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span> (!error &amp;&amp; response.statusCode == <span class="number">200</span>) &#123;</div><div class="line">          <span class="built_in">console</span>.log(body);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">'error: '</span>+ response.statusCode);</div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  socket.on(<span class="string">'click_servo_yes'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">degree_y</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'サーボ2: '</span> + degree_y);</div><div class="line">    <span class="keyword">var</span> options_y = &#123;</div><div class="line">      uri: <span class="string">'https://us.wio.seeed.io/v1/node/GroveServoD1/angle/'</span> + degree_y,</div><div class="line">      form: &#123; access_token: <span class="string">'発行されたアクセストークン'</span> &#125;,</div><div class="line">      json: <span class="literal">true</span></div><div class="line">    &#125;;</div><div class="line">    request.post(options_y, <span class="function"><span class="keyword">function</span>(<span class="params">error, response, body</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span> (!error &amp;&amp; response.statusCode == <span class="number">200</span>) &#123;</div><div class="line">        <span class="built_in">console</span>.log(body);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'error: '</span>+ response.statusCode);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  socket.on(<span class="string">'click_servo_no'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">degree_n</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'サーボ2: '</span> + degree_n);</div><div class="line">    <span class="keyword">var</span> options_n = &#123;</div><div class="line">      uri: <span class="string">'https://us.wio.seeed.io/v1/node/GroveServoD0/angle/'</span> + degree_n,</div><div class="line">      form: &#123; access_token: <span class="string">'発行されたアクセストークン'</span> &#125;,</div><div class="line">      json: <span class="literal">true</span></div><div class="line">    &#125;;</div><div class="line">    request.post(options_n, <span class="function"><span class="keyword">function</span>(<span class="params">error, response, body</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span> (!error &amp;&amp; response.statusCode == <span class="number">200</span>) &#123;</div><div class="line">        <span class="built_in">console</span>.log(body);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'error: '</span>+ response.statusCode);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>スライダーでの角度調整と合わせて「YES」ボタンで首を２回縦に振り、「NO」ボタンで首を横に２回振る様にしてみました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>なんとか操作が出来る様になったものの、シリアル通信の様に滑らかには動作しません。</p>
+<p>有線で接続しているのとは違い、APIリクエストからのレスポンスに若干遅延が発生するため、リクエスト数が多すぎるとエラーになって動きがカクカクします。</p>
+<p>まあ、ともあれ「ポンボット1号」に引き続き「ポンボット2号」が動作する様になりました。</p>
+<p>次回はこれらを合体させ、音声操作してみたいと思います（多分）。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/johnny-five/">johnny-five</a> <a class="tag tag--primary tag--small t-link" href="/tags/raspberrypi/">raspberrypi</a> <a class="tag tag--primary tag--small t-link" href="/tags/socket-io/">socket.io</a> <a class="tag tag--primary tag--small t-link" href="/tags/wio-node/">wio-node</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/10/29/arduino-speech-recognition.html"  data-tooltip="【JavaScript Robotics】ロボットに「ダンスして」って頼んでみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/10/16/auruino-socket-io.html" data-tooltip="【JavaScript Robotics】Socket.ioでロボットを操作する。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/10/22/wio-node-raspberry-pi.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/10/22/wio-node-raspberry-pi.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=【JavaScript Robotics】WioNodeとREST APIでロボットアームを操作する。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/10/29/arduino-speech-recognition.html"  data-tooltip="【JavaScript Robotics】ロボットに「ダンスして」って頼んでみたよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/10/16/auruino-socket-io.html" data-tooltip="【JavaScript Robotics】Socket.ioでロボットを操作する。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/10/22/wio-node-raspberry-pi.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/10/22/wio-node-raspberry-pi.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=【JavaScript Robotics】WioNodeとREST APIでロボットアームを操作する。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/iot/2016/10/22/wio-node-raspberry-pi.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/iot/2016/10/22/wio-node-raspberry-pi.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=【JavaScript Robotics】WioNodeとREST APIでロボットアームを操作する。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/iot/2016/10/22/wio-node-raspberry-pi.html';
+                 
+                    this.page.identifier = 'iot/2016/10/22/wio-node-raspberry-pi.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

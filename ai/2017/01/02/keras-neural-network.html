@@ -1,0 +1,640 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>深層学習やってみる - ニューラル・ネットワークの仕組みを考える - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="明けましておめでとうございます。ポンダッドです。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+<meta property="og:url" content="https://pondad.github.io/ai/2017/01/02/keras-neural-network.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="明けましておめでとうございます。ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/LFHBGahIhB.jpg">
+<meta property="og:image" content="https://cldup.com/J3X-9eH1Z1.gif">
+<meta property="og:image" content="https://cldup.com/CXarKYGil0.png">
+<meta property="og:image" content="https://cldup.com/6xF9sglKNM.png">
+<meta property="og:image" content="https://cldup.com/eOPhKgxV2c.png">
+<meta property="og:image" content="https://cldup.com/w8H0ieCPdO.png">
+<meta property="og:image" content="https://cldup.com/jZDswfOQ4S.gif">
+<meta property="og:image" content="https://cldup.com/cDZHP8LOcF.png">
+<meta property="og:image" content="https://cldup.com/PsYUuZN4jK.png">
+<meta property="og:image" content="https://cldup.com/p32ZgZNXm8.png">
+<meta property="og:updated_time" content="2017-01-02T11:07:36.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+<meta name="twitter:description" content="明けましておめでとうございます。ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/LFHBGahIhB.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/LFHBGahIhB.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/LFHBGahIhB.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/LFHBGahIhB.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            深層学習やってみる - ニューラル・ネットワークの仕組みを考える
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-01-02T12:51:00+09:00">
+	
+		    2017/01/02
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/ai/">ai</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>明けましておめでとうございます。ポンダッドです。</p>
+<a id="more"></a>
+<p>深層学習用のライブラリと学習済みモデルを使って、機械が学習出来ることは分かったのですが、一つ疑問に思うことがあります。</p>
+<p><strong>「機械が自分で『学習する』ってどういうことなんだろうか？」</strong></p>
+<p>今回はその仕組みをちょっと考えてみることにします。</p>
+<p><a href="http://aidiary.hatenablog.com/" target="_blank" rel="external">人工知能に関する断創録</a>さんの<a href="http://aidiary.hatenablog.com/entry/20161103/1478176348" target="_blank" rel="external">記事</a>を参考にしながら進めてみたいと思います。</p>
+<h2 id="ニューラル・ネットワークの仕組み"><a href="#ニューラル・ネットワークの仕組み" class="headerlink" title="ニューラル・ネットワークの仕組み"></a>ニューラル・ネットワークの仕組み</h2><p><img src="https://cldup.com/LFHBGahIhB.jpg" alt=""></p>
+<p>上記のブログ記事の中で、<code>keras</code>の手順をこの様にまとめていました。</p>
+<ol>
+<li>データのロード</li>
+<li><strong>モデルの定義</strong></li>
+<li><strong>モデルのコンパイル</strong></li>
+<li><strong>モデルの学習</strong></li>
+<li>モデルの評価</li>
+<li>新データに対する予測</li>
+</ol>
+<p>1,5,6の項目に関しては、通常の機械学習の流れと同じなので、どうも2,3,4の部分に秘密がありそうです。</p>
+<p>さて、今回はお手本のブログと同様、<a href="http://archive.ics.uci.edu/ml/index.html" target="_blank" rel="external">UCI Machine Learning repository</a>の<a href="http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data" target="_blank" rel="external"><br>Pima Indians Diabetes Data Set </a>を利用します。これはPimaインディアンが8つの医学的な情報を元に糖尿病に掛かったか否かを示すデータです。</p>
+<p>2つのクラスに分類するニューラルネットワークは<code>Keras</code>を使いこんな風に記述出来ます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</div><div class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense</div><div class="line"></div><div class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> np_utils</div><div class="line"><span class="keyword">from</span> keras.utils.visualize_util <span class="keyword">import</span> plot</div><div class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> train_test_split</div><div class="line"></div><div class="line">seed = <span class="number">7</span></div><div class="line">np.random.seed(seed)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line"></div><div class="line">    <span class="comment"># 1.データのロード</span></div><div class="line">    dataset = np.loadtxt(os.path.join(<span class="string">".."</span>, <span class="string">"data"</span>, <span class="string">"pima-indians-diabetes.data"</span>), delimiter=<span class="string">','</span>)</div><div class="line">    X = dataset[:, <span class="number">0</span>:<span class="number">8</span>]</div><div class="line">    Y = dataset[:, <span class="number">8</span>]</div><div class="line">    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=<span class="number">0.3</span>, random_state=<span class="number">0</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 2.モデルの定義</span></div><div class="line">    model = Sequential()</div><div class="line">    model.add(Dense(<span class="number">12</span>, input_dim=<span class="number">8</span>, init=<span class="string">'uniform'</span>, activation=<span class="string">'relu'</span>))</div><div class="line">    model.add(Dense(<span class="number">8</span>, init=<span class="string">'uniform'</span>, activation=<span class="string">'relu'</span>))</div><div class="line">    model.add(Dense(<span class="number">1</span>, init=<span class="string">'uniform'</span>, activation=<span class="string">'sigmoid'</span>))</div><div class="line"></div><div class="line">    <span class="comment"># 3.モデルのコンパイル</span></div><div class="line">    model.compile(loss=<span class="string">'binary_crossentropy'</span>, optimizer=<span class="string">'adam'</span>, metrics=[<span class="string">'accuracy'</span>])</div><div class="line"></div><div class="line">    <span class="comment"># 4.モデルの学習</span></div><div class="line">    model.fit(X_train, Y_train, nb_epoch=<span class="number">150</span>, batch_size=<span class="number">10</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 5.モデルの評価</span></div><div class="line">    scores = model.evaluate(X_test, Y_test, verbose=<span class="number">0</span>)</div><div class="line">    print(<span class="string">"%s: %.2f%%"</span> % (model.metrics_names[<span class="number">1</span>], scores[<span class="number">1</span>] * <span class="number">100</span>))</div><div class="line"></div><div class="line">    <span class="comment"># 6.新データに対する予測</span></div><div class="line">    predictions = np.round(model.predict(X_test))</div><div class="line">    correct = Y_test[:, np.newaxis]</div><div class="line">    print(predictions[<span class="number">0</span>])</div><div class="line">    print(correct[<span class="number">0</span>])</div></pre></td></tr></table></figure>
+<h2 id="モデルの学習"><a href="#モデルの学習" class="headerlink" title="モデルの学習"></a>モデルの学習</h2><p>まずは流れを画像でみていきましょう。</p>
+<p><img src="https://cldup.com/J3X-9eH1Z1.gif" alt=""></p>
+<p><code>Keras</code>をターミナルで実行すると、学習の進捗を確認することができます。</p>
+<p>指定した<code>epoc</code>の回数分（ここでは150回）繰り返し学習していることが分かります。学習を重ねる毎に<code>loss</code>（訓練データの損失）が下がり、<code>acc</code>（訓練データの精度）が上昇しているのが分かります。</p>
+<p>グラフで出力してみてみましょう。</p>
+<p><img src="https://cldup.com/CXarKYGil0.png" alt=""></p>
+<p><code>loss</code>（訓練データの損失）が下がっていることが視覚的に分かります。ちょっと気になるのが<code>val_loss</code>（検証データの損失）は下がっていないことです。</p>
+<p><img src="https://cldup.com/6xF9sglKNM.png" alt=""></p>
+<p><code>acc</code>（訓練データの精度）は回数を重ねる毎に<code>val_acc</code>（検証データの精度）が上がっていることが分かります。</p>
+<p>最後に<code>acc: 73.59%</code>と言う結果になりました。</p>
+<p>※<code>epoc</code>を1,000回にして試してみたところ、以下の様に<code>val_loss</code>が逆に上がってしました。これはどうやら過学習と呼ばれる状態の様です。</p>
+<p><img src="https://cldup.com/eOPhKgxV2c.png" alt=""></p>
+<p>学習用の元になるデータを学習し過ぎて、肝心なデータを分析する為の特徴量が見えなくなってしまう。ということの様です。</p>
+<p>機械が学習する。と言っても「教師あり学習」を行う際は、適正な学習方法をセットしなければならない様ですね。</p>
+<p>この部分のプログラムはこの様になります。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 4.モデルの学習</span></div><div class="line">model.fit(X_train, Y_train, nb_epoch=<span class="number">150</span>, batch_size=<span class="number">10</span>)</div></pre></td></tr></table></figure>
+<p>メソッド<code>nb_epoch</code>で学習回数を指定しています。<code>batch_size</code>は10となっています。バッジサイズとは何でしょうか。これは学習を効率的に行う指数の様です。（※ここではデータ10個分の誤差で1回重みを更新するという指定です）</p>
+<p>ここで気になるのは、どうやって機械が損失を減らしているかと言うことです。</p>
+<p>さて、もう一歩ニューラルネットワークの深淵に踏み込んでみることにしましょう。</p>
+<h2 id="モデルのコンパイル"><a href="#モデルのコンパイル" class="headerlink" title="モデルのコンパイル"></a>モデルのコンパイル</h2><p>コンパイルのプログラムはこの様になります。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 3.モデルのコンパイル</span></div><div class="line">model.compile(loss=<span class="string">'binary_crossentropy'</span>, optimizer=<span class="string">'adam'</span>, metrics=[<span class="string">'accuracy'</span>])</div></pre></td></tr></table></figure>
+<p>ここでは、損失関数<code>loss</code>、最適化関数<code>optimizer</code>、評価指標<code>metrics</code>を指定しています。</p>
+<p>この部分がニューラル・ネットワークにおいては最も重要な部分の様です。</p>
+<p>ニューラル・ネットワークは損失関数を元に損失を減らすことを目的とします。その為に「誤差逆伝播法」というアルゴリズムを利用します。</p>
+<p><img src="https://cldup.com/w8H0ieCPdO.png" alt=""></p>
+<p>入力された重みは損失関数<code>loss</code>を元に傾斜（勾配というそうです）を計算し、誤差逆伝播法によってフィードバックされ、重みが更新される仕組みとなります。</p>
+<p>それによって損失を下げていくという訳です。</p>
+<p>最適化関数<code>optimizer</code>というものがメソッドとしてありますが、これを図で示すとこの様になります。</p>
+<p><img src="https://cldup.com/jZDswfOQ4S.gif" alt=""></p>
+<p><a href="http://imgur.com/a/Hqolp" target="_blank" rel="external">Visualizing Optimization Algos</a></p>
+<p>なんか映画の異次元空間みたいな図ですが、これは損失曲線における確率的勾配降下法を示しています。</p>
+<p>ここではこの図の様に損失がアルゴリズムによって坂道（勾配）を下ることをイメージ出来れば良いのではないかと思います。（今回は<code>adam</code>という最適化アルゴリズムを利用しています。）</p>
+<h2 id="モデルの定義"><a href="#モデルの定義" class="headerlink" title="モデルの定義"></a>モデルの定義</h2><p>さて、ニューラルネットワークは何層にも渡り元となるデータにフィルターを掛けることで特徴量をより明確にしていきます。</p>
+<p>プログラムはこの様になります。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 2.モデルの定義</span></div><div class="line">model = Sequential()</div><div class="line">model.add(Dense(<span class="number">12</span>, input_dim=<span class="number">8</span>, init=<span class="string">'uniform'</span>, activation=<span class="string">'relu'</span>))</div><div class="line">model.add(Dense(<span class="number">8</span>, init=<span class="string">'uniform'</span>, activation=<span class="string">'relu'</span>))</div><div class="line">model.add(Dense(<span class="number">1</span>, init=<span class="string">'uniform'</span>, activation=<span class="string">'sigmoid'</span>))</div></pre></td></tr></table></figure>
+<p>今回は元となるデータが8次元です。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 訓練データ</span></div><div class="line">X_train[<span class="number">0</span>] = [<span class="number">6</span>,<span class="number">148</span>,<span class="number">72</span>,<span class="number">35</span>,<span class="number">0</span>,<span class="number">33.6</span>,<span class="number">0.627</span>,<span class="number">50</span>]</div><div class="line"><span class="comment"># 訓練ラベル</span></div><div class="line">Y_train[<span class="number">0</span>] = [<span class="number">1</span>]</div></pre></td></tr></table></figure>
+<p>その為、入力層は8次元となります。入力層8次元→隠れ層12次元→隠れ層8次元→出力層1次元となり、図で表すとこんな感じです。</p>
+<p><img src="https://cldup.com/cDZHP8LOcF.png" alt=""></p>
+<p>実際はパーセプトロン同士がお互いシナプスで繋がって、お互いに結び付いています。層ごとに活性化関数<code>activation</code>を設定します。</p>
+<p><code>relu</code>関数はこの様な関数です。</p>
+<p><img src="https://cldup.com/PsYUuZN4jK.png" alt=""></p>
+<p>一見単純な関数に見えますが、隠れ層にはこの<code>relu</code>関数を使うことで精度が高まるそうです。</p>
+<p><code>sigmoid</code>関数はこんな関数です。</p>
+<p><img src="https://cldup.com/p32ZgZNXm8.png" alt=""></p>
+<p><code>sigmoid</code>関数を使うと0.0から1.0の値が出力されます。その為今回の場合は0.5を閾（しきい）値として2クラス分類することが出来ます。</p>
+<p>多クラス分類の場合は<code>softmax</code>関数を利用し、0.0から1.0の正規化されたデータを元に分類するケースが多い様です。</p>
+<h2 id="乱数発生の初期化"><a href="#乱数発生の初期化" class="headerlink" title="乱数発生の初期化"></a>乱数発生の初期化</h2><p>本文では触れませんでしたが、プログラムの冒頭でNumpyを使って発生する乱数を初期化しています。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">seed = <span class="number">7</span></div><div class="line">np.random.seed(seed)</div></pre></td></tr></table></figure>
+<p>この様に設定しておけば、毎回同じ乱数を発生させることが出来ます。ニューラルネットワークでは重さの初期化に乱数を利用するそうです。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">model.add(Dense(<span class="number">12</span>, input_dim=<span class="number">8</span>, init=<span class="string">'uniform'</span>, activation=<span class="string">'relu'</span>))</div></pre></td></tr></table></figure>
+<p>モデル構築する際の<code>init</code>メソッドで定義します。機械が学習する為に乱数を用いるなんてちょっとロマンを感じますね。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>ニューラルネットワークの仕組みを図を使ってまとめてみることで、ブラックボックス的に感じていた深層学習方法が少し頭の中でイメージしやすくなりました。</p>
+<p>最近聞きかじった知識を元にざっくりまとめたものですので、正確でないものがあるかもしれませんので、そこは予めご容赦下さい。</p>
+<hr>
+<p>さて、今回は8次元のデータを2つのクラスに分類するだけだったのですが、もっと複雑なデータ、例えばカラー写真データを取り扱うとなったらどうでしょうか。</p>
+<p>299×299ピクセルのカラー画像を配列にしてみると、268,203次元もの配列になります。どうも単純に全結合したニューラルネットワークではその特徴量を十分に抽出できない様です。</p>
+<p>そこで考え出されたのがCNN(コンボリューションニューラルネットワーク)です。</p>
+<p>（つづく）</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/deep-learning/">deep-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/03/keras-cnn-1.html"  data-tooltip="深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/25/keras-mnist.html" data-tooltip="深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/01/02/keras-neural-network.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/01/02/keras-neural-network.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/01/03/keras-cnn-1.html"  data-tooltip="深層学習やってみる - 畳み込みニューラル・ネットワークの仕組みを覗いてみる その1">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2016/12/25/keras-mnist.html" data-tooltip="深層学習やってみる - Kerasで手書き数字認識（MNIST）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/01/02/keras-neural-network.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/01/02/keras-neural-network.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/ai/2017/01/02/keras-neural-network.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/ai/2017/01/02/keras-neural-network.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=深層学習やってみる - ニューラル・ネットワークの仕組みを考える">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/ai/2017/01/02/keras-neural-network.html';
+                 
+                    this.page.identifier = 'ai/2017/01/02/keras-neural-network.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

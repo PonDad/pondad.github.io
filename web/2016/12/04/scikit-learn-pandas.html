@@ -1,0 +1,610 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>はじめてのPython - データ解析ライブラリ「パンダス（pandas）」 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="Pythonの学習を細々とはじめていますが、思わず「パイソンパイセン、マジパネエ。」などと（心の中で）呟く瞬間が何度もあります。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="はじめてのPython - データ解析ライブラリ「パンダス（pandas）」">
+<meta property="og:url" content="https://pondad.github.io/web/2016/12/04/scikit-learn-pandas.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="Pythonの学習を細々とはじめていますが、思わず「パイソンパイセン、マジパネエ。」などと（心の中で）呟く瞬間が何度もあります。">
+<meta property="og:image" content="https://cldup.com/Xy5E1f9QeH.jpg">
+<meta property="og:image" content="https://cldup.com/6e6Bv4_PH4.png">
+<meta property="og:image" content="https://cldup.com/ioEJTeqLNS.png">
+<meta property="og:image" content="http://ecx.images-amazon.com/images/I/61sxmRFvyfL._SL160_.jpg">
+<meta property="og:updated_time" content="2017-01-01T03:39:12.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="はじめてのPython - データ解析ライブラリ「パンダス（pandas）」">
+<meta name="twitter:description" content="Pythonの学習を細々とはじめていますが、思わず「パイソンパイセン、マジパネエ。」などと（心の中で）呟く瞬間が何度もあります。">
+<meta name="twitter:image" content="https://cldup.com/Xy5E1f9QeH.jpg">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/Xy5E1f9QeH.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/Xy5E1f9QeH.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/Xy5E1f9QeH.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            はじめてのPython - データ解析ライブラリ「パンダス（pandas）」
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-12-04T00:24:00+09:00">
+	
+		    2016/12/04
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/web/">web</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Pythonの学習を細々とはじめていますが、思わず「パイソンパイセン、マジパネエ。」などと（心の中で）呟く瞬間が何度もあります。</p>
+<a id="more"></a>
+<p>今回試してみたデータ解析ライブラリ「「パンダス（<a href="http://pandas.pydata.org/" target="_blank" rel="external">pandas</a>）」も、はじめて使った時に思わずそんな事を呟いてしまいました。</p>
+<p>試しに前回入力した「AIソムリエ」を<code>pandas</code>を利用して書き換えてみます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm, metrics, cross_validation</div><div class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</div><div class="line"></div><div class="line">csv = pd.read_csv(<span class="string">'winequality-red.csv'</span>)</div><div class="line"></div><div class="line">csv_data = csv[[<span class="string">"fixed acidity"</span>,<span class="string">"volatile acidity"</span>,<span class="string">"citric acid"</span>,<span class="string">"residual sugar"</span>,<span class="string">"chlorides"</span>,<span class="string">"free sulfur dioxide"</span>,<span class="string">"total sulfur dioxide"</span>,<span class="string">"density"</span>,<span class="string">"pH"</span>,<span class="string">"sulphates"</span>,<span class="string">"alcohol"</span>,<span class="string">"quality"</span>]]</div><div class="line">csv_label = csv[<span class="string">"quality"</span>]</div><div class="line"></div><div class="line">train_data, test_data, train_label, test_label = \</div><div class="line">    cross_validation.train_test_split(csv_data, csv_label)</div><div class="line"></div><div class="line">clf = RandomForestClassifier()</div><div class="line">clf.fit(train_data, train_label)</div><div class="line">pre = clf.predict(test_data)</div><div class="line"></div><div class="line">ac_score = metrics.accuracy_score(test_label, pre)</div><div class="line">print(<span class="string">"正解率="</span>, ac_score)</div></pre></td></tr></table></figure>
+<p>わずか11行のスクリプトです。これを実行してみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ python3 work9.py</div><div class="line">正解率= 0.985</div></pre></td></tr></table></figure>
+<p>12次元のベクトルを「決定木」で学習し、正解率98.5%の成績を納めています。</p>
+<h2 id="pandas"><a href="#pandas" class="headerlink" title="pandas"></a>pandas</h2><p><img src="https://cldup.com/Xy5E1f9QeH.jpg" alt=""></p>
+<p>Pytonでデータ解析を行う際、<code>pandas</code>という拡張モジュールを利用する事で、効果的にデータを扱えるようになります。</p>
+<p>一次元のリストを格納した辞書型データを元に様々なデータの抽出や加工が行えます。試しに名作映画を５作データ化してみます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"></div><div class="line">tbl = pd.DataFrame(&#123;</div><div class="line">    <span class="string">"title"</span>:   [ <span class="string">"12 Angry Men"</span>, <span class="string">"The Godfather"</span>, <span class="string">"The Godfather: Part II "</span>,  <span class="string">"The Shawshank Redemption"</span>, <span class="string">"The Dark Knight"</span>],</div><div class="line">    <span class="string">"year"</span>: [ <span class="number">1957</span>, <span class="number">1972</span>, <span class="number">1974</span>, <span class="number">1994</span>, <span class="number">2008</span> ],</div><div class="line">    <span class="string">"rating"</span>: [ <span class="number">8.9</span>, <span class="number">9.2</span>, <span class="number">9.0</span>, <span class="number">9.3</span>, <span class="number">9.0</span> ]</div><div class="line">&#125;)</div><div class="line"></div><div class="line">print(<span class="string">"映画一覧"</span>)</div><div class="line">print(tbl[[<span class="string">"title"</span>, <span class="string">"year"</span>, <span class="string">"rating"</span>]])</div><div class="line"></div><div class="line">print(<span class="string">"---ratingが9.0以上のもの"</span>)</div><div class="line">print(tbl[tbl.rating &gt;= <span class="number">9.0</span>])</div><div class="line"></div><div class="line">print(<span class="string">"---ratingを降順でソート"</span>)</div><div class="line">print(tbl.sort_values(by=<span class="string">"rating"</span>, ascending=<span class="keyword">False</span>))</div></pre></td></tr></table></figure>
+<p>実行してみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">映画一覧</div><div class="line">                      title  year  rating</div><div class="line">0              12 Angry Men  1957     8.9</div><div class="line">1             The Godfather  1972     9.2</div><div class="line">2   The Godfather: Part II   1974     9.0</div><div class="line">3  The Shawshank Redemption  1994     9.3</div><div class="line">4           The Dark Knight  2008     9.0</div><div class="line">---ratingが9.0以上のもの</div><div class="line">   rating                     title  year</div><div class="line">1     9.2             The Godfather  1972</div><div class="line">2     9.0   The Godfather: Part II   1974</div><div class="line">3     9.3  The Shawshank Redemption  1994</div><div class="line">4     9.0           The Dark Knight  2008</div><div class="line">---ratingを降順でソート</div><div class="line">   rating                     title  year</div><div class="line">3     9.3  The Shawshank Redemption  1994</div><div class="line">1     9.2             The Godfather  1972</div><div class="line">2     9.0   The Godfather: Part II   1974</div><div class="line">4     9.0           The Dark Knight  2008</div><div class="line">0     8.9              12 Angry Men  1957</div></pre></td></tr></table></figure>
+<p>こんな風に簡単な記述でデータを扱えます。</p>
+<h2 id="scikit-learnでpandasを利用する"><a href="#scikit-learnでpandasを利用する" class="headerlink" title="scikit-learnでpandasを利用する"></a>scikit-learnでpandasを利用する</h2><p>機械学習の元となるデータを扱う際、pasdasを扱う事でデータの読み込み、学習データ・学習ラベル、テストデータ・テストラベルを簡単な記述で行うことが出来ます。</p>
+<p>今回は元になる赤ワインのCSVデータをカンマ区切りにしてみました。EXCELで見るとこのような感じです。</p>
+<p><img src="https://cldup.com/6e6Bv4_PH4.png" alt=""></p>
+<p>冒頭のサンプルコードではこんな風に読み込んでいます。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"></div><div class="line">csv = pd.read_csv(<span class="string">'winequality-red.csv'</span>)</div></pre></td></tr></table></figure>
+<p>このデータを学習用のデータとラベルを抽出します。</p>
+<p><img src="https://cldup.com/ioEJTeqLNS.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">csv_data = csv[[<span class="string">"fixed acidity"</span>,<span class="string">"volatile acidity"</span>,<span class="string">"citric acid"</span>,<span class="string">"residual sugar"</span>,<span class="string">"chlorides"</span>,<span class="string">"free sulfur dioxide"</span>,<span class="string">"total sulfur dioxide"</span>,<span class="string">"density"</span>,<span class="string">"pH"</span>,<span class="string">"sulphates"</span>,<span class="string">"alcohol"</span>,<span class="string">"quality"</span>]]</div><div class="line">csv_label = csv[<span class="string">"quality"</span>]</div></pre></td></tr></table></figure>
+<p>これで学習データの抽出が出来ました。</p>
+<p>以下、<code>scikit-learn</code>の<code>cross_validation.train_test_split()</code>メソッドを利用して学習データとテストデータを分割して学習と予測を行います。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">train_data, test_data, train_label, test_label = \</div><div class="line">    cross_validation.train_test_split(csv_data, csv_label)</div><div class="line"></div><div class="line">clf = RandomForestClassifier()</div><div class="line">clf.fit(train_data, train_label)</div><div class="line">pre = clf.predict(test_data)</div></pre></td></tr></table></figure>
+<p>ここでは「ランダムフォレスト」を利用しました。</p>
+<h2 id="学習データを利用して赤ワインの味を調べる"><a href="#学習データを利用して赤ワインの味を調べる" class="headerlink" title="学習データを利用して赤ワインの味を調べる"></a>学習データを利用して赤ワインの味を調べる</h2><p>試しにサンプルを一つ使い、ワインの味を「AIソムリエ」に聞いてみましょう。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm, metrics, cross_validation</div><div class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</div><div class="line"></div><div class="line">csv = pd.read_csv(<span class="string">'winequality-red.csv'</span>)</div><div class="line"></div><div class="line">csv_data = csv[[<span class="string">"fixed acidity"</span>,<span class="string">"volatile acidity"</span>,<span class="string">"citric acid"</span>,<span class="string">"residual sugar"</span>,<span class="string">"chlorides"</span>,<span class="string">"free sulfur dioxide"</span>,<span class="string">"total sulfur dioxide"</span>,<span class="string">"density"</span>,<span class="string">"pH"</span>,<span class="string">"sulphates"</span>,<span class="string">"alcohol"</span>,<span class="string">"quality"</span>]]</div><div class="line">csv_label = csv[<span class="string">"quality"</span>]</div><div class="line"></div><div class="line">train_data = csv_data</div><div class="line">train_label = csv_label</div><div class="line">test_data = [[<span class="number">7.4</span>,<span class="number">0.7</span>,<span class="number">0</span>,<span class="number">1.9</span>,<span class="number">0.076</span>,<span class="number">11</span>,<span class="number">34</span>,<span class="number">0.9978</span>,<span class="number">3.51</span>,<span class="number">0.56</span>,<span class="number">9.4</span>,<span class="number">5</span>]]</div><div class="line">test_label = [<span class="number">5</span>]</div><div class="line"></div><div class="line">clf = RandomForestClassifier()</div><div class="line">clf.fit(train_data, train_label)</div><div class="line">pre = clf.predict(test_data)</div><div class="line"></div><div class="line">ac_score = metrics.accuracy_score(test_label, pre)</div><div class="line">print(<span class="string">"テストラベル="</span>, test_label)</div><div class="line">print(<span class="string">"解析結果="</span>, pre)</div><div class="line">print(<span class="string">"正解率="</span>, ac_score)</div></pre></td></tr></table></figure>
+<p>実行してみます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ python3 work10.py</div><div class="line">テストラベル= [5]</div><div class="line">解析結果= [5]</div><div class="line">正解率= 1.0</div></pre></td></tr></table></figure>
+<p>正しく味を判別できました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>Pythonは機械学習をはじめとしたデータ解析に優れていると話には聞いていましたが、使いやすいライブラリが充実している事もその理由の一つなのかな。などと初心者ながらに思いました。</p>
+<p>そして心の中でこう呟きます。</p>
+<p>「パイソンパイセン、マジパネエ。」</p>
+<h2 id="参考書籍"><a href="#参考書籍" class="headerlink" title="参考書籍"></a>参考書籍</h2><p><img src="http://ecx.images-amazon.com/images/I/61sxmRFvyfL._SL160_.jpg" alt=""></p>
+<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4802610793/pondadamazoz-22/ref=nosim/" target="_blank" rel="external">Pythonによるスクレイピング&amp;機械学習 開発テクニック BeautifulSoup,scikit-learn,TensorFlowを使ってみよう</a></p>
+<p>クジラ飛行机先生のPython本の続編が出たの購入してみました。内容が盛り沢山で１章１章楽しみながら学習しています。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/machine-learning/">machine-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/12/10/opencv-numpy.html"  data-tooltip="はじめてのPython - 数値計算ライブラリ「ナンパイ（numpy）」">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/12/03/scikit-learn.html" data-tooltip="はじめてのPython - 機械学習「サイキット・ラーン（scikit-learn）」">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/12/04/scikit-learn-pandas.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/12/04/scikit-learn-pandas.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=はじめてのPython - データ解析ライブラリ「パンダス（pandas）」">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/12/10/opencv-numpy.html"  data-tooltip="はじめてのPython - 数値計算ライブラリ「ナンパイ（numpy）」">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/web/2016/12/03/scikit-learn.html" data-tooltip="はじめてのPython - 機械学習「サイキット・ラーン（scikit-learn）」">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/12/04/scikit-learn-pandas.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/12/04/scikit-learn-pandas.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=はじめてのPython - データ解析ライブラリ「パンダス（pandas）」">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/12/04/scikit-learn-pandas.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/12/04/scikit-learn-pandas.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=はじめてのPython - データ解析ライブラリ「パンダス（pandas）」">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/web/2016/12/04/scikit-learn-pandas.html';
+                 
+                    this.page.identifier = 'web/2016/12/04/scikit-learn-pandas.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>

@@ -1,0 +1,619 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>ChromebookにUbuntuを入れて開発マシンにしてみる。 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="居間でちょっとブログを書いたりするのに重宝しているChromebookなのですが、一工夫することで立派に「開発マシン」として利用することも出来ます。
+仮想環境にLinuxのOSを導入するのですが、試しに入れた「Ubuntu」が思いの外使いやすかったので紹介してみます。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="ChromebookにUbuntuを入れて開発マシンにしてみる。">
+<meta property="og:url" content="https://pondad.github.io/web/2016/04/10/chromebook-ubuntu.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="居間でちょっとブログを書いたりするのに重宝しているChromebookなのですが、一工夫することで立派に「開発マシン」として利用することも出来ます。
+仮想環境にLinuxのOSを導入するのですが、試しに入れた「Ubuntu」が思いの外使いやすかったので紹介してみます。">
+<meta property="og:image" content="http://www.amazon.co.jp/exec/obidos/ASIN/B00S7ZL84C/pondadamazoz-22/ref=nosim/">
+<meta property="og:image" content="https://cldup.com/5aRezVwIaH.jpg">
+<meta property="og:image" content="https://cldup.com/ljAb_vaqVp.jpg">
+<meta property="og:image" content="https://cldup.com/twJwD2Av9M.jpg">
+<meta property="og:image" content="https://cldup.com/FKPDg4TFGV.gif">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://nodejs.org/en/">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://apps.ubuntu.com/cat/applications/chromium-browser/">
+<meta property="og:image" content="https://cldup.com/j1nohu33dO.png">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://atom.io/">
+<meta property="og:image" content="https://cldup.com/F-3k473yOO.png">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://filezilla-project.org/">
+<meta property="og:image" content="https://cldup.com/1Dy65DTNq9.png">
+<meta property="og:image" content="http://capture.heartrails.com/400x300?https://launchpad.net/google-docs-fs">
+<meta property="og:image" content="https://cldup.com/w8rBnJ7K6I.png">
+<meta property="og:updated_time" content="2016-09-07T10:32:43.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ChromebookにUbuntuを入れて開発マシンにしてみる。">
+<meta name="twitter:description" content="居間でちょっとブログを書いたりするのに重宝しているChromebookなのですが、一工夫することで立派に「開発マシン」として利用することも出来ます。
+仮想環境にLinuxのOSを導入するのですが、試しに入れた「Ubuntu」が思いの外使いやすかったので紹介してみます。">
+<meta name="twitter:image" content="http://www.amazon.co.jp/exec/obidos/ASIN/B00S7ZL84C/pondadamazoz-22/ref=nosim/">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/ljAb_vaqVp.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/ljAb_vaqVp.jpg" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/ljAb_vaqVp.jpg');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            ChromebookにUbuntuを入れて開発マシンにしてみる。
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2016-04-10T18:10:00+09:00">
+	
+		    2016/04/10
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/web/">web</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>居間でちょっとブログを書いたりするのに重宝しているChromebookなのですが、一工夫することで立派に「開発マシン」として利用することも出来ます。</p>
+<p>仮想環境にLinuxのOSを導入するのですが、試しに入れた「Ubuntu」が思いの外使いやすかったので紹介してみます。</p>
+<a id="more"></a>
+<h2 id="Chromebookの開発者モード"><a href="#Chromebookの開発者モード" class="headerlink" title="Chromebookの開発者モード"></a>Chromebookの開発者モード</h2><p>アマゾンで一番安かったこの機種を使っています。</p>
+<p><img src="http://www.amazon.co.jp/exec/obidos/ASIN/B00S7ZL84C/pondadamazoz-22/ref=nosim/" alt=""></p>
+<p><img src="https://cldup.com/5aRezVwIaH.jpg" alt=""></p>
+<p>Chromebookには「隠しモード」ともいうべき「開発者モード」が存在します。この隠しモードを有効にすることでシェルコマンドを使用することが可能になります。</p>
+<p><img src="https://cldup.com/ljAb_vaqVp.jpg" alt=""></p>
+<p>ターミナルもChromeブラウザ内に表示されるのが面白いところ。<code>crouton</code> という仮想化ソフトを利用することでLinuxのOSをダウンロードすることが可能になります。</p>
+<p>Ubuntuの最新版でデスクトップは標準Unityを入れたのですが、ダウンロードに1時間半位掛かりました。気長に待ちましょう。</p>
+<p>ダウンロードが完了し、<code>$ sudo startunity</code> で仮想化環境にUbuntuが立ち上がります。</p>
+<p><img src="https://cldup.com/twJwD2Av9M.jpg" alt=""></p>
+<hr>
+<p>以下のサイトを参考にさせて頂きました。</p>
+<p><a href="http://chromesoku.com/ubuntu-on-chromebook/" target="_blank" rel="external">ChromebookにUbuntuをインストールする方法 - Chrome速報</a></p>
+<p><a href="http://chrome.hatenablog.jp/entry/2015/05/07/232732" target="_blank" rel="external">ubuntu on Chromebook の日本語化 - chrome blog</a></p>
+<hr>
+<p>ショートカットを利用して簡単にChromeOSとUbuntuOSとを切り替えることが出来ます。</p>
+<p><img src="https://cldup.com/FKPDg4TFGV.gif" alt=""></p>
+<h2 id="Ubuntuで使える便利アプリ"><a href="#Ubuntuで使える便利アプリ" class="headerlink" title="Ubuntuで使える便利アプリ"></a>Ubuntuで使える便利アプリ</h2><p>「開発」といってもまあ、大したことをやるわけではなく、Raspberry Piをちょこちょこ弄るだけなのでそれ程多くのアプリは必要ありません。こんなものを入れてみました。</p>
+<h3 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h3><p><img src="http://capture.heartrails.com/400x300?https://nodejs.org/en/" alt=""></p>
+<p><a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a></p>
+<p>まずはこれが無いと始まりません。Ubuntuの<code>apt-get</code> でインストールするとかなりバージョンが古いので<code>nvm</code> を利用してインストールすれば最新版をダウンロードすることが出来ます。</p>
+<p>こちらを参考にダウンロードしたら上手くいきました。</p>
+<p><a href="http://qiita.com/TsutomuNakamura/items/7a8362efefde6bc3c68b" target="_blank" rel="external">Ubuntu でapt を使用してNode.js をインストールする3 つの方法(Ubuntu 15.04, Ubuntu 14.04.2 LTS) - Qiita</a></p>
+<p>Ubuntu側でNode.jsのExpressで起動したローカルサーバー、例えば<code>http://localhost:8000/</code> はChromeOS側でも開くことが出来ます。</p>
+<h3 id="Chromium"><a href="#Chromium" class="headerlink" title="Chromium"></a>Chromium</h3><p><img src="http://capture.heartrails.com/400x300?https://apps.ubuntu.com/cat/applications/chromium-browser/" alt=""></p>
+<p><a href="https://apps.ubuntu.com/cat/applications/chromium-browser/" target="_blank" rel="external">Chromium browser - Ubuntu app directory</a></p>
+<p>デフォルトはFirefoxなのですが、Chromeの開発版のChromiumをいれてみました。バージョンは４９なので最新版を利用することが出来ます。</p>
+<p><img src="https://cldup.com/j1nohu33dO.png" alt=""></p>
+<p>ChromeOS側で利用するのと変わらず利用出来ます。もちろんChromeアプリやChrome拡張を利用することも出来ます。</p>
+<h3 id="Atom"><a href="#Atom" class="headerlink" title="Atom"></a>Atom</h3><p><img src="http://capture.heartrails.com/400x300?https://atom.io/" alt=""></p>
+<p><a href="https://atom.io/" target="_blank" rel="external">Atom</a></p>
+<p>使い慣れたエディタを利用することも出来ます。Chromeアプリで大概のことは出来るのですが、唯一テキストエディタだけは良い物がありません。</p>
+<p><img src="https://cldup.com/F-3k473yOO.png" alt=""></p>
+<p>これは快適です。AtomはNode.jsとChromiumで出来ているそうですが、OSを問わず使えるのが良い所ですね。</p>
+<h3 id="Filezilla"><a href="#Filezilla" class="headerlink" title="Filezilla"></a>Filezilla</h3><p><img src="http://capture.heartrails.com/400x300?https://filezilla-project.org/" alt=""></p>
+<p><a href="https://filezilla-project.org/" target="_blank" rel="external">Filezilla</a></p>
+<p>FTP、SFTPは無料のこのアプリを利用出来ます。</p>
+<p><img src="https://cldup.com/1Dy65DTNq9.png" alt=""></p>
+<p>転送速度がサクサクなのでMacのFTPアプリもこちらに乗り換えました。</p>
+<h3 id="Google-Docs-Fs"><a href="#Google-Docs-Fs" class="headerlink" title="Google Docs Fs"></a>Google Docs Fs</h3><p><img src="http://capture.heartrails.com/400x300?https://launchpad.net/google-docs-fs" alt=""></p>
+<p><a href="https://launchpad.net/google-docs-fs" target="_blank" rel="external">Google Docs Fs</a></p>
+<p>Chromebook自体にほとんどROM容量が無いため（今時のスマホ以下の16GB）データはクラウド管理が基本になります。</p>
+<p>GoogleDriveにマウント出来る無料ソフトが公開されているのでこれを使わせてもらいます。</p>
+<p><img src="https://cldup.com/w8rBnJ7K6I.png" alt=""></p>
+<p>ChromeOS側とこれで簡単にデータ共有が出来ます。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>さすがに<strong>「貧乏人のMac Book Air」</strong> と呼ばれるChromebookさんです。</p>
+<p>2万円ちょっとで購入したことを考えると素晴らしいコストパフォーマンスを見せてくれました。</p>
+<p>仮想化デスクトップというとなんかもっさりした挙動を想像していたのですが、OSが軽量のためかサクサクと利用することが出来ます。</p>
+<p>気になる方は是非。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/chromebook/">chromebook</a> <a class="tag tag--primary tag--small t-link" href="/tags/ubuntu/">ubuntu</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/04/24/raspberrypi-advice.html"  data-tooltip="ボッチがBotに人生相談してみる。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/04/03/hubot-scripts.html" data-tooltip="HUBOTスクリプトでRaspberry Piと戯れる。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/04/10/chromebook-ubuntu.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/04/10/chromebook-ubuntu.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ChromebookにUbuntuを入れて開発マシンにしてみる。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/04/24/raspberrypi-advice.html"  data-tooltip="ボッチがBotに人生相談してみる。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/iot/2016/04/03/hubot-scripts.html" data-tooltip="HUBOTスクリプトでRaspberry Piと戯れる。">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/04/10/chromebook-ubuntu.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/04/10/chromebook-ubuntu.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ChromebookにUbuntuを入れて開発マシンにしてみる。">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/web/2016/04/10/chromebook-ubuntu.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/web/2016/04/10/chromebook-ubuntu.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=ChromebookにUbuntuを入れて開発マシンにしてみる。">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/web/2016/04/10/chromebook-ubuntu.html';
+                 
+                    this.page.identifier = 'web/2016/04/10/chromebook-ubuntu.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>

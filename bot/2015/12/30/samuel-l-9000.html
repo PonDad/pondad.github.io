@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>相棒（AI-Bot）をつくる。~  その4【Chrome extension】 - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="気がつけば今年も残すところあと僅かです、皆さん如何お過ごしですか？ポンダッドです。
+結局１ヶ月程掛かりましたがようやく対話型人工無脳「Samuel L 9000」が完成しました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+<meta property="og:url" content="https://pondad.github.io/bot/2015/12/30/samuel-l-9000.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="気がつけば今年も残すところあと僅かです、皆さん如何お過ごしですか？ポンダッドです。
+結局１ヶ月程掛かりましたがようやく対話型人工無脳「Samuel L 9000」が完成しました。">
+<meta property="og:image" content="https://cldup.com/AssdQZCOuH.png">
+<meta property="og:image" content="https://cldup.com/Sr_oOLQHJc.png">
+<meta property="og:image" content="https://cldup.com/___Y-1E9jG.png">
+<meta property="og:image" content="https://cldup.com/Vpy7Osj_83.png">
+<meta property="og:image" content="https://cldup.com/L66q8p-K2l.png">
+<meta property="og:image" content="https://cldup.com/zOwMyLmSAI.png">
+<meta property="og:image" content="https://cldup.com/jYZ9L1cZa4.png">
+<meta property="og:updated_time" content="2016-08-20T12:41:35.000Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+<meta name="twitter:description" content="気がつけば今年も残すところあと僅かです、皆さん如何お過ごしですか？ポンダッドです。
+結局１ヶ月程掛かりましたがようやく対話型人工無脳「Samuel L 9000」が完成しました。">
+<meta name="twitter:image" content="https://cldup.com/AssdQZCOuH.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://cldup.com/V1JXVSxOD8.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/V1JXVSxOD8.png" />
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://cldup.com/V1JXVSxOD8.png');"
+             data-behavior="4">
+            
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            相棒（AI-Bot）をつくる。~  その4【Chrome extension】
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2015-12-30T22:00:00+09:00">
+	
+		    2015/12/30
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/bot/">bot</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>気がつけば今年も残すところあと僅かです、皆さん如何お過ごしですか？ポンダッドです。</p>
+<p>結局１ヶ月程掛かりましたがようやく対話型人工無脳「Samuel L 9000」が完成しました。</p>
+<a id="more"></a>
+<p>##Samuel L 9000</p>
+<p>今回はChrome拡張機能として、Chromeウェブストアに公開しました。PVをつくったので御覧下さい。</p>
+<div class="video-container"><iframe src="//www.youtube.com/embed/T2RdENgHdEc" frameborder="0" allowfullscreen></iframe></div>
+<p>ダウンロードと使い方を紹介します。まずはこちらのリンクよりChromeウェブストアを訪れて下さい。</p>
+<p><img src="https://cldup.com/AssdQZCOuH.png" alt=""></p>
+<p> <a href="https://chrome.google.com/webstore/detail/samuel-l-9000/nandojgoojiihniaoijodgebljbgbbkp?utm_source=chrome-app-launcher-search" target="_blank" rel="external">Samuel L 9000 - Chromeウェブストア</a></p>
+<p><img src="https://cldup.com/Sr_oOLQHJc.png" alt=""></p>
+<p>ダウンロードが完了するとツールバー横にアイコンが出現します。アイコンをクリックすると新しいタブが開き、「Samuel L 9000」が出現します。</p>
+<p><img src="https://cldup.com/___Y-1E9jG.png" alt=""></p>
+<p>アイコンをクリックし、マイクの使用を許可すると人工無脳と会話が楽しめます。マイクの入力が終わったら録音終了の為もう一度クリックして下さい。</p>
+<p>この人工無脳は、一部放送禁止用語を発言する為「成人向け」コンテンツ指定をしております。小さなお子様が利用しない様にご注意下さい。</p>
+<p>##Chrome拡張機能（エクステンション）のつくりかた。</p>
+<p>以前Chromeアプリを公開した際、こんな感じでまとめました。</p>
+<p><a href="http://www.pondad.com/?p=9510" target="_blank" rel="external">【はじめての方向け】Chromeアプリのつくりかた。- フタパパ</a></p>
+<p>拡張機能の場合も基本的なファイル構成は一緒なのですが、<code>manifest.json</code> の記述の仕方が一部異なります。[^1]</p>
+<p>今回の様に拡張機能のボタンをクリックして新しいタブにhtmlを表示させる場合を例としてまとめてみます。</p>
+<p> <a href="https://github.com/PonDad/Samuel-L-9000" target="_blank" rel="external">PonDad/Samuel-L-9000 - GitHub</a></p>
+<p>コード、画像類は全てGitHubで公開していますのでよろしければ御覧下さい。</p>
+<h3 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> &#123;</div><div class="line">    <span class="string">"manifest_version"</span>: <span class="number">2</span>,</div><div class="line">    <span class="string">"name"</span>: <span class="string">"Samuel L 9000"</span>,</div><div class="line">    <span class="string">"description"</span>: <span class="string">"My Brother AI-Bot"</span>,</div><div class="line">    <span class="string">"short_name"</span>: <span class="string">"S_L_9000"</span>,</div><div class="line">    <span class="string">"version"</span>: <span class="string">"1.1.0"</span>,</div><div class="line"></div><div class="line">   <span class="string">"browser_action"</span>: &#123;</div><div class="line">   <span class="string">"default_title"</span>: <span class="string">"Samuel L 9000"</span>,</div><div class="line">  <span class="string">"default_icon"</span>: &#123;</div><div class="line">    <span class="string">"default_icon"</span>: &#123;<span class="string">"38"</span>:<span class="string">"icon_38.png"</span>&#125;</div><div class="line">  &#125;</div><div class="line">&#125;,</div><div class="line"><span class="string">"background"</span>: &#123;</div><div class="line"><span class="string">"scripts"</span>: [ <span class="string">"icon_clicked.js"</span> ],</div><div class="line"><span class="string">"persistent"</span>: <span class="literal">false</span></div><div class="line">&#125;,</div><div class="line">    <span class="string">"icons"</span>: &#123;</div><div class="line">        <span class="string">"128"</span>: <span class="string">"icon_128.png"</span>,</div><div class="line">        <span class="string">"16"</span>: <span class="string">"icon_16.png"</span></div><div class="line">    &#125;,</div><div class="line"> <span class="string">"permissions"</span>: [</div><div class="line">    <span class="string">"tabs"</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="icon-clicked-js"><a href="#icon-clicked-js" class="headerlink" title="icon_clicked.js"></a>icon_clicked.js</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">chrome.browserAction.onClicked.addListener(<span class="function"><span class="keyword">function</span>(<span class="params">tab</span>) </span>&#123;</div><div class="line">  chrome.tabs.create(&#123;<span class="string">"url"</span>: <span class="string">"www/index.html"</span> &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>Chromeアプリの場合は<code>app</code> で指定した部分を今回の拡張機能では<code>browser_action</code> と記述しています。バックグラウンドの処理として指定したJavaScriptファイルの実行を許可します。</p>
+<p>バックグラウンド処理をするJavaScriptファイル（ここでは<code>icon_clicked.js</code> ）にはChrome独自の実行処理を記述します。</p>
+<p>ここでは拡張機能のボタンをクリックすると新しいタブで<code>index.html</code> を開く様に記述しています。[^2]</p>
+<p>外部APIを利用する場合にはもう少し追記しなくてはなりませんが、簡単なものならこの様に簡単なバックグラウンド処理を指定するだけでWebアプリをChrome拡張として公開することが可能です。</p>
+<p>##Chrome拡張機能の豆知識</p>
+<p>あまり知られていないと思うのですが、開発者登録を行わなくても自分のブラウザにChrome拡張を追加することが出来ます。</p>
+<p>今回は先ほど紹介したGitHubのブランチよりファイルをまるごとダウンロードしてみます。</p>
+<p><img src="https://cldup.com/Vpy7Osj_83.png" alt=""></p>
+<p>Chromeブラウザ右上のメニューアイコンより「拡張機能」に入り、「デベロッパーモード」のチェックボックスにチェックを入れます。</p>
+<p><img src="https://cldup.com/L66q8p-K2l.png" alt=""></p>
+<p>「パッケージ化されていない拡張機能を読み込む」を選択します。</p>
+<p><img src="https://cldup.com/zOwMyLmSAI.png" alt=""></p>
+<p>ここに先ほどダウンロードしたファイルを読み込みます。通常の拡張機能として利用することが出来ます。</p>
+<p>GitHubなどで公開されているものは、自分で使いやすい様にカスタマイズして利用することも出来ますね。</p>
+<p>##まとめ</p>
+<p>今回の相棒（AI-Bot）は言わば私の分身なので下らない事しか喋れませんが、もう少し工夫すれば気の利いたコメントを話す自分の相棒が作れるかもしれません。</p>
+<p>私も今度は（放送禁止用語とかを話さない）子供向けのおしゃべりBotを作ってみたいなと思っています。では。</p>
+<p><a href="https://chrome.google.com/webstore/detail/samuel-l-9000/nandojgoojiihniaoijodgebljbgbbkp?utm_source=chrome-ntp-icon" target="_blank" rel="external"><img src="https://cldup.com/jYZ9L1cZa4.png" alt="Samuel L 9000 - Chromeウェブストア"></a></p>
+<hr>
+<p>[^1]: <a href="https://developer.chrome.com/extensions/manifest" target="_blank" rel="external">Manifest File Format - Chrome</a></p>
+<p>[^2]: <a href="http://qiita.com/Silphire/items/949b22cba0610ec9f40b" target="_blank" rel="external">Chrome拡張でツールバーからのHTMLページ表示 - Qiita</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/chrome-extension/">chrome-extension</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/01/11/oshaberi+.html"  data-tooltip="「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/27/speech-synthesis-api.html" data-tooltip="相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/30/samuel-l-9000.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/30/samuel-l-9000.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2017 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2016/01/11/oshaberi+.html"  data-tooltip="「おしゃべりたしざん」子供向けおしゃべりアプリつくったよ。">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/bot/2015/12/27/speech-synthesis-api.html" data-tooltip="相棒（AI-Bot）をつくる。~  その3【Speech Synthesis API】">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/30/samuel-l-9000.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/30/samuel-l-9000.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/bot/2015/12/30/samuel-l-9000.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/bot/2015/12/30/samuel-l-9000.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=相棒（AI-Bot）をつくる。~  その4【Chrome extension】">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/bot/2015/12/30/samuel-l-9000.html';
+                 
+                    this.page.identifier = 'bot/2015/12/30/samuel-l-9000.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>
