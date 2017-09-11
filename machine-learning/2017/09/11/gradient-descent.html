@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>微分と導関数 - ポンダッドの日記</title>
+    <title>目的関数と最急降下法 - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,26 +17,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="久しぶりの更新です。実は「微分」って良く分からなかったのでこんな本を読んでみました。
-マンガでわかる微分積分 微積ってなにをしているの?どうして教科書はわかりにくいの? (サイエンス・アイ新書)
-イラストを利用した入門書で少し理解が進んだ（様な気がする）のでまとめたいと思います。">
+    <meta name="description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="微分と導関数">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/10/differential.html">
+<meta property="og:title" content="目的関数と最急降下法">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/11/gradient-descent.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="久しぶりの更新です。実は「微分」って良く分からなかったのでこんな本を読んでみました。
-マンガでわかる微分積分 微積ってなにをしているの?どうして教科書はわかりにくいの? (サイエンス・アイ新書)
-イラストを利用した入門書で少し理解が進んだ（様な気がする）のでまとめたいと思います。">
-<meta property="og:image" content="https://cldup.com/y5cUa5qbn9.png">
-<meta property="og:image" content="https://cldup.com/imh6PcNmZJ.png">
-<meta property="og:image" content="https://cldup.com/ppdvg4Asem.png">
-<meta property="og:updated_time" content="2017-09-10T08:03:20.000Z">
+<meta property="og:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
+<meta property="og:image" content="https://cldup.com/5boYegobjv.png">
+<meta property="og:updated_time" content="2017-09-11T14:02:48.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="微分と導関数">
-<meta name="twitter:description" content="久しぶりの更新です。実は「微分」って良く分からなかったのでこんな本を読んでみました。
-マンガでわかる微分積分 微積ってなにをしているの?どうして教科書はわかりにくいの? (サイエンス・アイ新書)
-イラストを利用した入門書で少し理解が進んだ（様な気がする）のでまとめたいと思います。">
-<meta name="twitter:image" content="https://cldup.com/y5cUa5qbn9.png">
+<meta name="twitter:title" content="目的関数と最急降下法">
+<meta name="twitter:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
+<meta name="twitter:image" content="https://cldup.com/5boYegobjv.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -48,8 +40,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/wHECovZjWh.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/wHECovZjWh.jpg" />
+        <meta property="og:image" content="https://cldup.com/-bWqKT0Iex.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/-bWqKT0Iex.jpg" />
     
     
     <!-- AMP
@@ -247,19 +239,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/wHECovZjWh.jpg');"
+             style="background-image:url('https://cldup.com/-bWqKT0Iex.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            微分と導関数
+            目的関数と最急降下法
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-09-10T09:30:00+09:00">
+    <time itemprop="datePublished" datetime="2017-09-11T23:00:00+09:00">
 	
-		    2017/09/10
+		    2017/09/11
     	
     </time>
     
@@ -285,36 +277,31 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>久しぶりの更新です。実は「微分」って良く分からなかったのでこんな本を読んでみました。</p>
-<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4797342501/pondadamazon-22/ref=nosim/" name="amazletlink" target="_blank">マンガでわかる微分積分 微積ってなにをしているの?どうして教科書はわかりにくいの? (サイエンス・アイ新書)</a></p>
-<p>イラストを利用した入門書で少し理解が進んだ（様な気がする）のでまとめたいと思います。</p>
+            <p>さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a> で学習したことをちょっとまとめてみます。</p>
 <a id="more"></a>
-<h2 id="微分-differential-とは"><a href="#微分-differential-とは" class="headerlink" title="微分(differential)とは"></a>微分(differential)とは</h2><p>「変化の分析」をするものであり、微分した結果というのは直線で言えば傾きとなります。</p>
-<p>$$<br>y = f(x)<br>$$</p>
-<p>という曲線グラフ上のaという１点の傾きは以下のように求められます。</p>
-<p>$$<br>\lim_{h \to 0} \frac{f(a+h)-f(a)}{h}<br>$$</p>
-<p>数式で見ると難しく感じますが、曲線上の1点aの 縦の長さの差÷横の長さの差の最小値を求めるという意味です。</p>
-<p><img src="https://cldup.com/y5cUa5qbn9.png" alt=""></p>
-<p><img src="https://cldup.com/imh6PcNmZJ.png" alt=""></p>
-<p>画像引用： <a href="https://ja.wikipedia.org/wiki/%E5%BE%AE%E5%88%86" target="_blank" rel="external">微分 - Wikipedia</a></p>
-<p>これは　f(x)のx=aにおける微分係数 と呼ばれます。</p>
-<p>一般化すると以下の公式で表すことが出来ます。</p>
-<p>$$<br>f’(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}<br>$$</p>
-<h2 id="導関数-derivative-とは"><a href="#導関数-derivative-とは" class="headerlink" title="導関数(derivative)とは"></a>導関数(derivative)とは</h2><p>微分係数が求められる関数を導関数 と言います。上の公式だとf’()で表される関数ですね。</p>
-<p>導関数の表記法は以下の様に表すことが出来ます。</p>
-<p>$$<br>f’(x) = y’<br>$$</p>
-<p>分かり易い表記法なのですが、複数の変数をとる関数を微分するために以下の様な表し方があります。</p>
-<p>$$<br>f’(x) = \frac{dy}{dx} = \frac{df(x)}{dx} = \frac{d}{dx} f(x)<br>$$</p>
-<p>これは関数y=f(x)をxで微分する。という意味です。</p>
-<h2 id="機械学習の中で使われ方"><a href="#機械学習の中で使われ方" class="headerlink" title="機械学習の中で使われ方"></a>機械学習の中で使われ方</h2><p>機械学習の中で最急降下法(Gradient descent)というアルゴリズムを利用する場面が出てきます。</p>
-<p>最急降下法(Gradient descent)は目的関数（cost function）の最小値を、傾きを使って算出する方法なのですが、この中で上記の導関数を利用します。（実際は変数を複数利用する「偏微分」）</p>
-<p>$$<br>\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1)<br>$$</p>
-<p><img src="https://cldup.com/ppdvg4Asem.png" alt=""></p>
-<p>画像引用: <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p>このアルゴリズムの中に導関数が使われています。</p>
-<p>$$<br>f’(x) = \frac{d}{dx} f(x)<br>$$</p>
-<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>最近初めた機械学習のオンライン講座　<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a> で分かりづらかった微分に関して自分なりに整理してみました。</p>
-<p>先は長いですが、機械学習・深層学習のアルゴリズムの理解が深まれば良いなと思います。では。</p>
+<h2 id="仮説（Hypothesis）"><a href="#仮説（Hypothesis）" class="headerlink" title="仮説（Hypothesis）"></a>仮説（Hypothesis）</h2><p>訓練データセット$(x,y)$を元にして、仮説$h_\theta(x)$を立てます。</p>
+<p>$$<br>h_\theta(x) = \theta_0+\theta_1x<br>$$</p>
+<p>これは線形回帰（単回帰）と呼ばれます。</p>
+<h2 id="目的関数（Cost-Function）"><a href="#目的関数（Cost-Function）" class="headerlink" title="目的関数（Cost Function）"></a>目的関数（Cost Function）</h2><p>訓練データセット$(x,y)$を元にして、仮説 $h_\theta(x) = \hat{y} $ が $y$ に最も近づく様にします。</p>
+<p>訓練セット一つ一つ（$m$）に対して誤差の総和を求め、全ての点の誤差が最小であるパラメータ $\theta$ を求めます。</p>
+<p>$$<br>J(\theta_0, \theta<em>1) = \dfrac {1}{2m} \displaystyle \sum </em>{i=1}^m \left ( \hat{y}<em>{i}- y</em>{i} \right)^2<br>$$</p>
+<p>これは二乗誤差法と呼ばれます。誤差はプラスとマイナスがあるので、二乗してプラスにし、線形のプラスマイナスの差分を均一にするため $\dfrac {1}{2} $ します（多分。これで合ってるかな？）</p>
+<p>仮説 $h_\theta(x) = \hat{y} $ ですので、以下の様に表すことが出来ます。</p>
+<p>$$<br>J(\theta_0, \theta<em>1) = \dfrac {1}{2m} \displaystyle \sum </em>{i=1}^m \left (h<em>\theta (x</em>{i}) - y_{i} \right)^2<br>$$</p>
+<h2 id="最急降下法（Gradient-descent）"><a href="#最急降下法（Gradient-descent）" class="headerlink" title="最急降下法（Gradient descent）"></a>最急降下法（Gradient descent）</h2><p>仮説のパラメータは $\theta_0, \theta_1$ の2つの変数を持つので、目的関数 $J$（cost function）をプロットすると3次元になります。</p>
+<p><img src="https://cldup.com/5boYegobjv.png" alt=""></p>
+<p>画像引用: <a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine learning - Coursera</a></p>
+<p>目的関数の最小値を求める為にこれを導関数を利用して微分します（実際は変数が複数あるので偏微分）</p>
+<p>最小値を求める為にパラメータ $\theta_j$ を上書き（更新）して行きます。（複数のパラメータは同時に更新します）</p>
+<p>単純に微分するだけでなく、収束を早め、精度を上げる為に活性化関数 $α$ を掛けます。</p>
+<p>$$<br>\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1)\<br>(for\ j = 1\ and\ j = 0)<br>$$</p>
+<p>これは最急降下法（Gradient descent）と呼ばれます。</p>
+<h2 id="最急降下法に目的関数を代入する"><a href="#最急降下法に目的関数を代入する" class="headerlink" title="最急降下法に目的関数を代入する"></a>最急降下法に目的関数を代入する</h2><p>最急降下法（Gradient descent）に目的関数を代入することで、局所最小値が求められます。</p>
+<p>$$<br> \theta_0 :=  \theta<em>0 - \alpha \frac{1}{m} \sum\limits</em>{i=1}^{m}(h<em>\theta(x</em>{i}) - y_{i})\<br> \theta_1 :=  \theta<em>1 - \alpha \frac{1}{m} \sum\limits</em>{i=1}^{m}\left((h<em>\theta(x</em>{i}) - y<em>{i}) x</em>{i}\right) \<br>$$</p>
+<p>では。</p>
+<h2 id="参考にさせて頂きました"><a href="#参考にさせて頂きました" class="headerlink" title="参考にさせて頂きました"></a>参考にさせて頂きました</h2><p><a href="http://qiita.com/katsu1110/items/fac314996f34540da260" target="_blank" rel="external">Coursera Machine Learning (1): 機械学習とは？単回帰分析、最急降下法、目的関数 - Qiita</a></p>
+<p><a href="http://tech.mof-mof.co.jp/blog/machine-learning-cost-function.html" target="_blank" rel="external">線形回帰と目的関数(cost function)について - もふもふ技術部
+</a></p>
 
             
         </div>
@@ -333,7 +320,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/11/gradient-descent.html"  data-tooltip="目的関数と最急降下法">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -341,7 +328,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/04/24/qlearning.html" data-tooltip="Q学習やってみた - 人工知能の性格を変えてみる">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/10/differential.html" data-tooltip="微分と導関数">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -357,18 +344,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/10/differential.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/11/gradient-descent.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/10/differential.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/11/gradient-descent.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=微分と導関数">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=目的関数と最急降下法">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -427,7 +414,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/11/gradient-descent.html"  data-tooltip="目的関数と最急降下法">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -435,7 +422,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/ai/2017/04/24/qlearning.html" data-tooltip="Q学習やってみた - 人工知能の性格を変えてみる">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/10/differential.html" data-tooltip="微分と導関数">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -451,18 +438,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/10/differential.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/11/gradient-descent.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/10/differential.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/11/gradient-descent.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=微分と導関数">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=目的関数と最急降下法">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -488,18 +475,18 @@
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/10/differential.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/11/gradient-descent.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/10/differential.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/11/gradient-descent.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=微分と導関数">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=目的関数と最急降下法">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -558,9 +545,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/10/differential.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/11/gradient-descent.html';
                  
-                    this.page.identifier = 'machine-learning/2017/09/10/differential.html';
+                    this.page.identifier = 'machine-learning/2017/09/11/gradient-descent.html';
                  
              };
             (function() {
