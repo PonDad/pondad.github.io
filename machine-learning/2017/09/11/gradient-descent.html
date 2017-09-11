@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
 <meta property="og:image" content="https://cldup.com/5boYegobjv.png">
-<meta property="og:updated_time" content="2017-09-11T14:17:58.000Z">
+<meta property="og:updated_time" content="2017-09-11T14:18:50.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="目的関数と最急降下法">
 <meta name="twitter:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
@@ -284,7 +284,7 @@
 <p>これは線形回帰（単回帰）と呼ばれます。</p>
 <h2 id="目的関数（Cost-Function）"><a href="#目的関数（Cost-Function）" class="headerlink" title="目的関数（Cost Function）"></a>目的関数（Cost Function）</h2><p>訓練データセット$(x,y)$を元にして、仮説 $h_\theta(x) = \hat{y} $ が $y$ に最も近づく様にします。</p>
 <p>訓練セット一つ一つ（$m$）に対して誤差の総和を求め、全ての点の誤差が最小であるパラメータ $\theta$ を求めます。</p>
-<p>{<br>J(\theta_0, \theta<em>1) = \dfrac{1}{2m} \displaystyle \sum </em>{i=1}^m \left ( \hat{y}<em>{i}- y</em>{i} \right)^2<br>}</p>
+<span>$J(\theta_0, \theta_1) = \dfrac{1}{2m} \displaystyle \sum _{i=1}^m \left ( \hat{y}_{i}- y_{i} \right)^2$</span><!-- Has MathJax -->
 <p>これは二乗誤差法と呼ばれます。誤差はプラスとマイナスがあるので、二乗してプラスにし、線形のプラスマイナスの差分を均一にするため $\dfrac {1}{2} $ します（多分。これで合ってるかな？）</p>
 <p>仮説 $h_\theta(x) = \hat{y} $ ですので、以下の様に表すことが出来ます。</p>
 <p>{<br>J(\theta_0,\theta<em>1) = \dfrac{1}{2m}\displaystyle\sum </em>{i=1}^m \left (h<em>\theta (x</em>{i}) - y_{i}\right)^2<br>}</p>
