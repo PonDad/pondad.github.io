@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
 <meta property="og:image" content="https://cldup.com/5boYegobjv.png">
-<meta property="og:updated_time" content="2017-09-11T14:20:13.000Z">
+<meta property="og:updated_time" content="2017-09-11T14:23:11.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="目的関数と最急降下法">
 <meta name="twitter:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
@@ -280,7 +280,7 @@
             <p>さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a> で学習したことをちょっとまとめてみます。</p>
 <a id="more"></a>
 <h2 id="仮説（Hypothesis）"><a href="#仮説（Hypothesis）" class="headerlink" title="仮説（Hypothesis）"></a>仮説（Hypothesis）</h2><p>訓練データセット$(x,y)$を元にして、仮説$h_\theta(x)$を立てます。</p>
-<p>$$<br>h_\theta(x) = \theta_0+\theta_1x<br>$$</p>
+<span>$h_\theta(x) = \theta_0+\theta_1x$</span><!-- Has MathJax -->
 <p>これは線形回帰（単回帰）と呼ばれます。</p>
 <h2 id="目的関数（Cost-Function）"><a href="#目的関数（Cost-Function）" class="headerlink" title="目的関数（Cost Function）"></a>目的関数（Cost Function）</h2><p>訓練データセット$(x,y)$を元にして、仮説 $h_\theta(x) = \hat{y} $ が $y$ に最も近づく様にします。</p>
 <p>訓練セット一つ一つ（$m$）に対して誤差の総和を求め、全ての点の誤差が最小であるパラメータ $\theta$ を求めます。</p>
@@ -294,12 +294,12 @@
 <p>目的関数の最小値を求める為にこれを導関数を利用して微分します（実際は変数が複数あるので偏微分）</p>
 <p>最小値を求める為にパラメータ $\theta_j$ を上書き（更新）して行きます。（複数のパラメータは同時に更新します）</p>
 <p>単純に微分するだけでなく、収束を早め、精度を上げる為に活性化関数 $α$ を掛けます。</p>
-<p>$$<br>\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1)<br>$$</p>
-<p>$$<br>(for\ j = 1\ and\ j = 0)<br>$$</p>
+<span>$\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1)$</span><!-- Has MathJax -->
+<span>$\(for\ j = 1\ and\ j = 0)$</span><!-- Has MathJax -->
 <p>これは最急降下法（Gradient descent）と呼ばれます。</p>
 <h2 id="最急降下法に目的関数を代入する"><a href="#最急降下法に目的関数を代入する" class="headerlink" title="最急降下法に目的関数を代入する"></a>最急降下法に目的関数を代入する</h2><p>最急降下法（Gradient descent）に目的関数を代入することで、局所最小値が求められます。</p>
-<span>$\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum\limits_{i=1}^{m}(h_\theta(x_{i}) - y_{i})$</span><!-- Has MathJax -->
-<span>$\theta_1 := \theta_1 - \alpha \frac{1}{m} \sum\limits_{i=1}^{m}\left((h_\theta(x_{i}) - y_{i}) x_{i}\right)$</span><!-- Has MathJax -->
+<span>$$\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum\limits_{i=1}^{m}(h_\theta(x_{i}) - y_{i})\\
+\theta_1 := \theta_1 - \alpha \frac{1}{m} \sum\limits_{i=1}^{m}\left((h_\theta(x_{i}) - y_{i}) x_{i}\right)$$</span><!-- Has MathJax -->
 <p>では。</p>
 <h2 id="参考にさせて頂きました"><a href="#参考にさせて頂きました" class="headerlink" title="参考にさせて頂きました"></a>参考にさせて頂きました</h2><p><a href="http://qiita.com/katsu1110/items/fac314996f34540da260" target="_blank" rel="external">Coursera Machine Learning (1): 機械学習とは？単回帰分析、最急降下法、目的関数 - Qiita</a></p>
 <p><a href="http://tech.mof-mof.co.jp/blog/machine-learning-cost-function.html" target="_blank" rel="external">線形回帰と目的関数(cost function)について - もふもふ技術部
