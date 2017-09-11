@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
 <meta property="og:image" content="https://cldup.com/5boYegobjv.png">
-<meta property="og:updated_time" content="2017-09-11T14:28:23.000Z">
+<meta property="og:updated_time" content="2017-09-11T16:33:59.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="目的関数と最急降下法">
 <meta name="twitter:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
@@ -293,7 +293,7 @@ J(\theta_0,\theta_1) = \dfrac{1}{2m}\displaystyle\sum _{i=1}^m \left (h_\theta (
 <p>画像引用: <a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine learning - Coursera</a></p>
 <p>目的関数の最小値を求める為にこれを導関数を利用して微分します（実際は変数が複数あるので偏微分）</p>
 <p>最小値を求める為にパラメータ $\theta_j$ を上書き（更新）して行きます。（複数のパラメータは同時に更新します）</p>
-<p>単純に微分するだけでなく、収束を早め、精度を上げる為に活性化関数 $α$ を掛けます。</p>
+<p>単純に微分するだけでなく、収束を早め、精度を上げる為に学習率 $α$ を掛けます。</p>
 <span>$$\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1)\\
 (for\ j = 1\ and\ j = 0)$$</span><!-- Has MathJax -->
 <p>これは最急降下法（Gradient descent）と呼ばれます。</p>
