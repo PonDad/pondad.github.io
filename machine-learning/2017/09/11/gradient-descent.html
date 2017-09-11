@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
 <meta property="og:image" content="https://cldup.com/5boYegobjv.png">
-<meta property="og:updated_time" content="2017-09-11T14:18:50.000Z">
+<meta property="og:updated_time" content="2017-09-11T14:20:13.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="目的関数と最急降下法">
 <meta name="twitter:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
@@ -287,7 +287,7 @@
 <span>$J(\theta_0, \theta_1) = \dfrac{1}{2m} \displaystyle \sum _{i=1}^m \left ( \hat{y}_{i}- y_{i} \right)^2$</span><!-- Has MathJax -->
 <p>これは二乗誤差法と呼ばれます。誤差はプラスとマイナスがあるので、二乗してプラスにし、線形のプラスマイナスの差分を均一にするため $\dfrac {1}{2} $ します（多分。これで合ってるかな？）</p>
 <p>仮説 $h_\theta(x) = \hat{y} $ ですので、以下の様に表すことが出来ます。</p>
-<p>{<br>J(\theta_0,\theta<em>1) = \dfrac{1}{2m}\displaystyle\sum </em>{i=1}^m \left (h<em>\theta (x</em>{i}) - y_{i}\right)^2<br>}</p>
+<span>$J(\theta_0,\theta_1) = \dfrac{1}{2m}\displaystyle\sum _{i=1}^m \left (h_\theta (x_{i}) - y_{i}\right)^2$</span><!-- Has MathJax -->
 <h2 id="最急降下法（Gradient-descent）"><a href="#最急降下法（Gradient-descent）" class="headerlink" title="最急降下法（Gradient descent）"></a>最急降下法（Gradient descent）</h2><p>仮説のパラメータは $\theta_0, \theta_1$ の2つの変数を持つので、目的関数 $J$（cost function）をプロットすると3次元になります。</p>
 <p><img src="https://cldup.com/5boYegobjv.png" alt=""></p>
 <p>画像引用: <a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine learning - Coursera</a></p>
@@ -298,8 +298,8 @@
 <p>$$<br>(for\ j = 1\ and\ j = 0)<br>$$</p>
 <p>これは最急降下法（Gradient descent）と呼ばれます。</p>
 <h2 id="最急降下法に目的関数を代入する"><a href="#最急降下法に目的関数を代入する" class="headerlink" title="最急降下法に目的関数を代入する"></a>最急降下法に目的関数を代入する</h2><p>最急降下法（Gradient descent）に目的関数を代入することで、局所最小値が求められます。</p>
-<p>$$<br>\theta_0 := \theta<em>0 - \alpha \frac{1}{m} \sum\limits</em>{i=1}^{m}(h<em>\theta(x</em>{i}) - y_{i})<br>$$</p>
-<p>$$<br>\theta_1 := \theta<em>1 - \alpha \frac{1}{m} \sum\limits</em>{i=1}^{m}\left((h<em>\theta(x</em>{i}) - y<em>{i}) x</em>{i}\right)<br>$$</p>
+<span>$\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum\limits_{i=1}^{m}(h_\theta(x_{i}) - y_{i})$</span><!-- Has MathJax -->
+<span>$\theta_1 := \theta_1 - \alpha \frac{1}{m} \sum\limits_{i=1}^{m}\left((h_\theta(x_{i}) - y_{i}) x_{i}\right)$</span><!-- Has MathJax -->
 <p>では。</p>
 <h2 id="参考にさせて頂きました"><a href="#参考にさせて頂きました" class="headerlink" title="参考にさせて頂きました"></a>参考にさせて頂きました</h2><p><a href="http://qiita.com/katsu1110/items/fac314996f34540da260" target="_blank" rel="external">Coursera Machine Learning (1): 機械学習とは？単回帰分析、最急降下法、目的関数 - Qiita</a></p>
 <p><a href="http://tech.mof-mof.co.jp/blog/machine-learning-cost-function.html" target="_blank" rel="external">線形回帰と目的関数(cost function)について - もふもふ技術部
