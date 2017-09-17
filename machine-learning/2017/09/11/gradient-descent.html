@@ -25,10 +25,11 @@
 <meta property="og:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
 <meta property="og:image" content="https://cldup.com/9EUnxRkFJW.png">
 <meta property="og:image" content="https://cldup.com/oTS8Jjn3AW.png">
+<meta property="og:image" content="https://cldup.com/HfpM2LIcPw.png">
 <meta property="og:image" content="https://cldup.com/K04_gAuYqr.png">
 <meta property="og:image" content="https://cldup.com/6595i3eGSX.png">
 <meta property="og:image" content="https://cldup.com/dx0B6FKgIr.png">
-<meta property="og:updated_time" content="2017-09-17T01:55:51.000Z">
+<meta property="og:updated_time" content="2017-09-17T02:11:33.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="目的関数と最急降下法">
 <meta name="twitter:description" content="さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、Machine Learning - Coursera で学習したことをちょっとまとめてみます。">
@@ -289,6 +290,8 @@
 <p>これは線形回帰（単回帰）と呼ばれます。</p>
 <p><img src="https://cldup.com/oTS8Jjn3AW.png" alt=""></p>
 <h2 id="目的関数（Cost-Function）"><a href="#目的関数（Cost-Function）" class="headerlink" title="目的関数（Cost Function）"></a>目的関数（Cost Function）</h2><p>訓練データセット$(x,y)$を元にして、仮説 $h_\theta(x) = \hat{y} $ が $y$ に最も近づく様にします。</p>
+<p><img src="https://cldup.com/HfpM2LIcPw.png" alt=""></p>
+<p>引用:<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">machine learning - Coursera</a></p>
 <p>訓練セット一つ一つ（$m$）に対して誤差の総和を求め、全ての点の誤差が最小であるパラメータ $\theta$ を求めます。</p>
 <p><img src="https://cldup.com/K04_gAuYqr.png" alt=""></p>
 <p>引用:<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">machine learning - Coursera</a></p>
@@ -296,7 +299,7 @@
 <p>仮説 $h_\theta(x) = \hat{y} $ ですので、以下の様に表すことが出来ます。</p>
 <span>$$J(\theta_0, \theta_1) = \dfrac{1}{2m} \displaystyle \sum _{i=1}^m \left ( \hat{y}_{i}- y_{i} \right)^2\\
 J(\theta_0,\theta_1) = \dfrac{1}{2m}\displaystyle\sum _{i=1}^m \left (h_\theta (x_{i}) - y_{i}\right)^2\\$$</span><!-- Has MathJax -->
-<h2 id="最急降下法（Gradient-descent）"><a href="#最急降下法（Gradient-descent）" class="headerlink" title="最急降下法（Gradient descent）"></a>最急降下法（Gradient descent）</h2><p>仮説のパラメータは $\theta_0, \theta_1$ の2つの変数を持つので、目的関数 $J$（cost function）をプロットすると3次元になります。</p>
+<h2 id="最急降下法（Gradient-descent）"><a href="#最急降下法（Gradient-descent）" class="headerlink" title="最急降下法（Gradient descent）"></a>最急降下法（Gradient descent）</h2><p>仮説のパラメータを変数を2つと仮定します。 $\theta_0, \theta_1$ の2つの変数の場合、目的関数 $J$（cost function）をプロットすると3次元になります。</p>
 <p><img src="https://cldup.com/6595i3eGSX.png" alt=""></p>
 <p>目的関数の最小値を求める為にこれを導関数を利用して微分します（実際は変数が複数あるので偏微分）</p>
 <p>最小値を求める為にパラメータ $\theta_j$ を上書き（更新）して行きます。（複数のパラメータは同時に更新します）</p>
