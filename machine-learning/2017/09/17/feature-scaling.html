@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、引き続き Machine Learning - Coursera で学習したことのまとめです。">
 <meta property="og:image" content="https://cldup.com/2W2YzaQd1N.png">
-<meta property="og:updated_time" content="2017-09-17T09:49:16.000Z">
+<meta property="og:updated_time" content="2017-09-17T09:50:56.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="重回帰分析とスケーリング">
 <meta name="twitter:description" content="さて、引き続き Machine Learning - Coursera で学習したことのまとめです。">
@@ -285,11 +285,11 @@
 <p>$$<br>{<br>h_\theta (X) = \theta^{\mathrm{T}} X^{\mathrm{T}}<br>}<br>$$</p>
 <p>ここでの $T$ は転置行列（行と列を入れ替えた行列）と呼ばれます。</p>
 <h2 id="重回帰分析の目的関数と最急降下法"><a href="#重回帰分析の目的関数と最急降下法" class="headerlink" title="重回帰分析の目的関数と最急降下法"></a>重回帰分析の目的関数と最急降下法</h2><p>目的関数は以下の様に表わせます。</p>
-<p>$$<br>{<br>   J(\theta) = \frac{1}{2m} \begin{eqnarray}\sum<em>{i=1}^m\end{eqnarray} (h</em>\theta (x^{(i)}) - y^{(i)})^2<br>}<br>$$</p>
+<p>$$<br>{<br>   J(\theta) = \frac{1}{2m}\sum<em>{i=1}^{m} (h</em>\theta (x^{(i)}) - y^{(i)})^2<br>}<br>$$</p>
 <p>最急降下法は以下の様に表わせます。</p>
 <p>$$<br>{<br>   \theta_j := \theta_j - \alpha\frac{\partial}{\partial \theta_j}J(\theta)<br>}<br>$$</p>
 <p>目的関数を最急降下法に代入すると以下の様になります。</p>
-<p>$$<br>{<br>   \theta_j :=  \theta<em>j - \alpha \begin{eqnarray}\sum</em>{i=1}^m\end{eqnarray} (h_\theta (x^{(i)}) - y^{(i)}) x_j ^{(i)}<br>}<br>$$</p>
+<p>$$<br>{<br>   \theta_j :=  \theta<em>j - \alpha \sum</em>{i=1}^{m} (h_\theta (x^{(i)}) - y^{(i)}) x_j ^{(i)}<br>}<br>$$</p>
 <p>基本式はパラメータが2つの時と同様です。</p>
 <h2 id="スケーリング-feature-scaling"><a href="#スケーリング-feature-scaling" class="headerlink" title="スケーリング (feature scaling)"></a>スケーリング (feature scaling)</h2><p>複数のベクトルの集合である $X$ は説明変数とも呼ばれます。これらの説明変数の範囲が不均一の場合、勾配降下が非効率に行われます。</p>
 <p><img src="https://cldup.com/2W2YzaQd1N.png" alt=""></p>
