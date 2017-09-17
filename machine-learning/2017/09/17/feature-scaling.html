@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、引き続き Machine Learning - Coursera で学習したことのまとめです。">
 <meta property="og:image" content="https://cldup.com/2W2YzaQd1N.png">
-<meta property="og:updated_time" content="2017-09-17T09:55:30.000Z">
+<meta property="og:updated_time" content="2017-09-17T09:58:35.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="重回帰分析とスケーリング">
 <meta name="twitter:description" content="さて、引き続き Machine Learning - Coursera で学習したことのまとめです。">
@@ -299,6 +299,7 @@
 <p>基本式はパラメータが2つの時と同様です。</p>
 <h2 id="スケーリング-feature-scaling"><a href="#スケーリング-feature-scaling" class="headerlink" title="スケーリング (feature scaling)"></a>スケーリング (feature scaling)</h2><p>複数のベクトルの集合である $X$ は説明変数とも呼ばれます。これらの説明変数の範囲が不均一の場合、勾配降下が非効率に行われます。</p>
 <p><img src="https://cldup.com/2W2YzaQd1N.png" alt=""></p>
+<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
 <p>特徴選択のスケーリングを行うことでそれは改善されます。</p>
 <p>$$<br>x_i := \dfrac{x_i - \mu_i}{s_i}<br>$$</p>
 <p>$μ_i$ は要素$(i)$の平均値、 $s_i$ は 要素$(i)$ の最大値と最小値の差分（標準偏差）を表します。以下の様にも表すことが出来ます。</p>
