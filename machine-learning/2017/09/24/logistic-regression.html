@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
 <meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
-<meta property="og:updated_time" content="2017-09-24T02:17:45.000Z">
+<meta property="og:updated_time" content="2017-09-24T02:18:28.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ロジスティック回帰とシグモイド関数">
 <meta name="twitter:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
@@ -298,7 +298,7 @@
 J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - y^{(i)}) log(1 - h_\theta (x^{(i)}))]
 }$$</span><!-- Has MathJax -->
 <p>目的関数を最急降下法に代入すると以下の様になります。</p>
-<p>$$<br>\begin{align<em>} &amp; Repeat \; \lbrace \newline &amp; \; \theta_j := \theta<em>j - \frac{\alpha}{m} \sum</em>{i=1}^m (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)} \newline &amp; \rbrace \end{align</em>}<br>$$</p>
+<span>$\begin{align*} &amp; Repeat \; \lbrace \newline &amp; \; \theta_j := \theta_j - \frac{\alpha}{m} \sum_{i=1}^m (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)} \newline &amp; \rbrace \end{align*}$</span><!-- Has MathJax -->
 <p>基本式は単回帰・重回帰の時と同様です。</p>
 <h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/e4ef613559f02f183af5" target="_blank" rel="external">Coursera Machine Learning (3): ロジスティック回帰、正則化 - Qiita</a></p>
 
