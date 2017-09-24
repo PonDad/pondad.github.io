@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>重回帰分析とスケーリング - ポンダッドの日記</title>
+    <title>ロジスティック回帰とシグモイド関数 - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,18 +17,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="さて、引き続き Machine Learning - Coursera で学習したことのまとめです。">
+    <meta name="description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="重回帰分析とスケーリング">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/17/feature-scaling.html">
+<meta property="og:title" content="ロジスティック回帰とシグモイド関数">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="さて、引き続き Machine Learning - Coursera で学習したことのまとめです。">
-<meta property="og:image" content="https://cldup.com/2W2YzaQd1N.png">
-<meta property="og:updated_time" content="2017-09-17T10:00:02.000Z">
+<meta property="og:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
+<meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
+<meta property="og:updated_time" content="2017-09-24T02:08:23.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="重回帰分析とスケーリング">
-<meta name="twitter:description" content="さて、引き続き Machine Learning - Coursera で学習したことのまとめです。">
-<meta name="twitter:image" content="https://cldup.com/2W2YzaQd1N.png">
+<meta name="twitter:title" content="ロジスティック回帰とシグモイド関数">
+<meta name="twitter:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
+<meta name="twitter:image" content="https://cldup.com/FeFsdzdcse.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -40,8 +40,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/bMuAPey_Qd.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/bMuAPey_Qd.jpg" />
+        <meta property="og:image" content="https://cldup.com/I4tvVxm9Ps.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/I4tvVxm9Ps.jpg" />
     
     
     <!-- AMP
@@ -239,19 +239,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/bMuAPey_Qd.jpg');"
+             style="background-image:url('https://cldup.com/I4tvVxm9Ps.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            重回帰分析とスケーリング
+            ロジスティック回帰とシグモイド関数
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-09-17T18:00:00+09:00">
+    <time itemprop="datePublished" datetime="2017-09-24T11:00:00+09:00">
 	
-		    2017/09/17
+		    2017/09/24
     	
     </time>
     
@@ -277,36 +277,26 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>さて、引き続き <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a> で学習したことのまとめです。</p>
+            <p>さて、今回は分類（Classification）に関して学習したことをまとめてみます。</p>
 <a id="more"></a>
-<h2 id="重回帰分析-Linear-Regression-with-Multiple-Variables"><a href="#重回帰分析-Linear-Regression-with-Multiple-Variables" class="headerlink" title="重回帰分析 (Linear Regression with Multiple Variables)"></a>重回帰分析 (Linear Regression with Multiple Variables)</h2><p>仮説のパラメータを2つの変数で考えてきましたが、このパラメータは複数であっても分析することが出来ます。</p>
-<p>単回帰に対し、複数パラメータがある場合は重回帰と呼ばれます。</p>
-<p>仮説は以下の様に表すことが出来ます。</p>
-<p>$$<br>{<br>h_\theta (X) = \theta^{\mathrm{T}} X^{\mathrm{T}}<br>}<br>$$</p>
-<p>ここでの $T$ は転置行列（行と列を入れ替えた行列）と呼ばれます。</p>
-<h2 id="重回帰分析の目的関数と最急降下法"><a href="#重回帰分析の目的関数と最急降下法" class="headerlink" title="重回帰分析の目的関数と最急降下法"></a>重回帰分析の目的関数と最急降下法</h2><p>目的関数は以下の様に表わせます。</p>
-<span>$${
-   J(\theta) = \frac{1}{2m} \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2
-}$$</span><!-- Has MathJax -->
-<p>最急降下法は以下の様に表わせます。</p>
-<span>$${
-   \theta_j := \theta_j - \alpha\frac{\partial}{\partial \theta_j}J(\theta)
-}$$</span><!-- Has MathJax -->
+<h2 id="ロジスティック回帰-Logistic-Regression"><a href="#ロジスティック回帰-Logistic-Regression" class="headerlink" title="ロジスティック回帰 (Logistic Regression)"></a>ロジスティック回帰 (Logistic Regression)</h2><p>予測値 $y’$ を0.5以上を1とし、0.5未満を0とすることで分類が行えますが、線形回帰では目的関数の範囲が定まっておらず、うまく分類することが出来ません。</p>
+<p>それを可能にするのがロジスティック回帰です。</p>
+<h2 id="ロジスティック関数-Logistic-Function-あるいは、シグモイド関数-Sigmoid-Function"><a href="#ロジスティック関数-Logistic-Function-あるいは、シグモイド関数-Sigmoid-Function" class="headerlink" title="ロジスティック関数 (Logistic Function)あるいは、シグモイド関数 (Sigmoid Function)"></a>ロジスティック関数 (Logistic Function)あるいは、シグモイド関数 (Sigmoid Function)</h2><p>シグモイド関数 $g(z)$ は以下の様な関数です。</p>
+<p>$$<br>g(z) = \dfrac{1}{1 + e^{-z}}<br>$$</p>
+<p>ロジスティック回帰における仮説 $h_\theta (x)$ はシグモイド関数 $g(z)$ に 特徴量 $x$ のパラメーター 　$z = \theta^T x$ を代入します。</p>
+<p>$$<br>{<br>h_\theta (x)  = \frac{1}{1 + e^{-\theta^{\mathrm{T}} x}}<br>}<br>$$</p>
+<p><img src="https://cldup.com/FeFsdzdcse.png" alt=""></p>
+<p>画像引用:  <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
+<p>$h<em>\theta (x) &gt; 0.5$ なら $y=1$<br>$h</em>\theta (x) \leq  0.5$ なら $y=0$</p>
+<p>この様に分類判定が行えます。</p>
+<h2 id="ロジスティック回帰の目的関数と最急降下法"><a href="#ロジスティック回帰の目的関数と最急降下法" class="headerlink" title="ロジスティック回帰の目的関数と最急降下法"></a>ロジスティック回帰の目的関数と最急降下法</h2><p>ロジスティック回帰の目的関数を求める時、対数 $log$ を利用します。</p>
+<p>$y=1$ なら $h<em>\theta (x) = -\log(h</em>\theta(x)) \; $<br>$y=0$ なら $h<em>\theta (x) = -\log(1-h</em>\theta(x)) \; $</p>
+<p>これをまとめると目的関数は以下の様になります。</p>
+<p>$$<br>{<br>J(\theta) = - \frac{1}{m} [ \sum<em>{i=1}^m y^{(i)} log(h</em>\theta (x^{(i)})) + (1 - y^{(i)}) log(1 - h_\theta (x^{(i)}))]<br>}<br>$$</p>
 <p>目的関数を最急降下法に代入すると以下の様になります。</p>
-<span>$${
-   \theta_j :=  \theta_j - \alpha \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)}) x_j ^{(i)}
-}$$</span><!-- Has MathJax -->
-<p>基本式は単回帰の時と同様です。</p>
-<h2 id="スケーリング-feature-scaling"><a href="#スケーリング-feature-scaling" class="headerlink" title="スケーリング (feature scaling)"></a>スケーリング (feature scaling)</h2><p>複数のベクトルの集合である $X$ は説明変数とも呼ばれます。これらの説明変数の範囲が不均一の場合、勾配降下が非効率に行われます。</p>
-<p><img src="https://cldup.com/2W2YzaQd1N.png" alt=""></p>
-<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p>特徴選択のスケーリングを行うことでそれは改善されます。</p>
-<p>$$<br>x_i := \dfrac{x_i - \mu_i}{s_i}<br>$$</p>
-<p>$μ_i$ は要素$(i)$の平均値、 $s_i$ は 要素$(i)$ の最大値と最小値の差分（標準偏差）を表します。以下の様にも表すことが出来ます。</p>
-<p>$$<br>{<br>x_i := \frac{x_i - mean(x)}{max(x) - min(x)}<br>}<br>$$</p>
-<p>重回帰分析において目的関数の最小値を求めるには正規方程式 (Normal Equation)という方法もありますが、このまとめでは省略します。</p>
-<p>では。</p>
-<h2 id="参考にさせて頂きました"><a href="#参考にさせて頂きました" class="headerlink" title="参考にさせて頂きました"></a>参考にさせて頂きました</h2><p><a href="http://qiita.com/katsu1110/items/6a6d5c5a6b8af8fbf813" target="_blank" rel="external">Coursera Machine Learning (2): 重回帰分析、スケーリング、正規方程式 - Qiita</a></p>
+<p>$$<br>\begin{align<em>} &amp; Repeat \; \lbrace \newline &amp; \; \theta_j := \theta<em>j - \frac{\alpha}{m} \sum</em>{i=1}^m (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)} \newline &amp; \rbrace \end{align</em>}<br>$$</p>
+<p>基本式は単回帰・重回帰の時と同様です。</p>
+<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/e4ef613559f02f183af5" target="_blank" rel="external">Coursera Machine Learning (3): ロジスティック回帰、正則化 - Qiita</a></p>
 
             
         </div>
@@ -325,7 +315,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/24/logistic-regression.html"  data-tooltip="ロジスティック回帰とシグモイド関数">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -333,7 +323,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/11/gradient-descent.html" data-tooltip="目的関数と最急降下法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/17/feature-scaling.html" data-tooltip="重回帰分析とスケーリング">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -349,18 +339,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/17/feature-scaling.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/17/feature-scaling.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=重回帰分析とスケーリング">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ロジスティック回帰とシグモイド関数">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -419,7 +409,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/24/logistic-regression.html"  data-tooltip="ロジスティック回帰とシグモイド関数">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -427,7 +417,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/11/gradient-descent.html" data-tooltip="目的関数と最急降下法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/17/feature-scaling.html" data-tooltip="重回帰分析とスケーリング">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -443,18 +433,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/17/feature-scaling.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/17/feature-scaling.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=重回帰分析とスケーリング">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ロジスティック回帰とシグモイド関数">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -480,18 +470,18 @@
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/17/feature-scaling.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/17/feature-scaling.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=重回帰分析とスケーリング">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=ロジスティック回帰とシグモイド関数">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -550,9 +540,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/17/feature-scaling.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html';
                  
-                    this.page.identifier = 'machine-learning/2017/09/17/feature-scaling.html';
+                    this.page.identifier = 'machine-learning/2017/09/24/logistic-regression.html';
                  
              };
             (function() {
