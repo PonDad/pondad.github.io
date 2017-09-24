@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
 <meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
-<meta property="og:updated_time" content="2017-09-24T02:11:44.000Z">
+<meta property="og:updated_time" content="2017-09-24T02:16:02.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ロジスティック回帰とシグモイド関数">
 <meta name="twitter:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
@@ -287,12 +287,12 @@
 <p>$$<br>{<br>h_\theta (x)  = \frac{1}{1 + e^{-\theta^{\mathrm{T}} x}}<br>}<br>$$</p>
 <p><img src="https://cldup.com/FeFsdzdcse.png" alt=""></p>
 <p>画像引用:  <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p>$h_\theta(x)&gt;0.5$<br>なら<br>$y=1$</p>
-<p>$h_\theta(x)\leq 0.5$<br>なら<br>$y=0$</p>
+<p>$h_\theta(x)&gt;0.5$ なら $y=1$</p>
+<p>$h_\theta(x)\leq 0.5$ なら $y=0$</p>
 <p>この様に分類判定が行えます。</p>
 <h2 id="ロジスティック回帰の目的関数と最急降下法"><a href="#ロジスティック回帰の目的関数と最急降下法" class="headerlink" title="ロジスティック回帰の目的関数と最急降下法"></a>ロジスティック回帰の目的関数と最急降下法</h2><p>ロジスティック回帰の目的関数を求める時、対数 $log$ を利用します。</p>
-<p>$y=1$<br>なら<br>$h<em>\theta(x)=-\log(h</em>\theta(x))$</p>
-<p>$y=0$<br>なら<br>$h<em>\theta(x)=-\log(1-h</em>\theta(x))$</p>
+<p>$y=1$<br>なら<br>${J(\theta) = -log(h_\theta (x)) }$</p>
+<p>$y=0$<br>なら<br>${J(\theta) = -log(1 - h_\theta (x))}$</p>
 <p>これをまとめると目的関数は以下の様になります。</p>
 <p>$$<br>{<br>J(\theta) = - \frac{1}{m} [ \sum<em>{i=1}^m y^{(i)} log(h</em>\theta (x^{(i)})) + (1 - y^{(i)}) log(1 - h_\theta (x^{(i)}))]<br>}<br>$$</p>
 <p>目的関数を最急降下法に代入すると以下の様になります。</p>
