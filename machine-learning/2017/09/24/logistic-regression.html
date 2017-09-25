@@ -25,7 +25,7 @@
 <meta property="og:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
 <meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
 <meta property="og:image" content="https://cldup.com/kc1eOVFKic.png">
-<meta property="og:updated_time" content="2017-09-25T11:05:18.000Z">
+<meta property="og:updated_time" content="2017-09-25T11:05:59.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ロジスティック回帰とシグモイド関数">
 <meta name="twitter:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
@@ -307,9 +307,9 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
 <p>画像引用:  <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
 <p>One-vs-all という手法を使います。図をみるとわかり易いのですが、多クラスを仮の2クラスに分割して分類する手法です。</p>
 <p>目的変数はどの様になるのでしょうか？</p>
-<p>応用変数 $y_1, $y_2$, $y_3$</p>
+<p>応用変数 $y_1$, $y_2$, $y_3$</p>
 <p>に対し、目的変数は</p>
-<p>$h<em>\theta ^{(1)} (x)$<br>$h</em>\theta ^{(2)} (x)$<br>$h_\theta ^{(3)} (x)$</p>
+<p>$h<em>\theta ^{(1)} (x)$,<br>$h</em>\theta ^{(2)} (x)$,<br>$h_\theta ^{(3)} (x)$</p>
 <p>の様にカテゴリーと同数のモデルが出来ます。</p>
 <p>$$<br>{<br>h_\theta ^{(i)} (x) = P (y = i | x; \theta)<br>}<br>$$</p>
 <p>それぞれのモデルは以上の様に表す事が出来ます。新たな $x$ が与えられた時、 $h_\theta ^{(i)} (x) $ が最大になるカテゴリーに分類されます。</p>
