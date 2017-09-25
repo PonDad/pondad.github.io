@@ -24,7 +24,8 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
 <meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
-<meta property="og:updated_time" content="2017-09-24T10:25:35.000Z">
+<meta property="og:image" content="https://cldup.com/kc1eOVFKic.png">
+<meta property="og:updated_time" content="2017-09-25T10:47:14.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ロジスティック回帰とシグモイド関数">
 <meta name="twitter:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
@@ -301,6 +302,15 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
    \theta_j : \theta_j - \alpha \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)}) x_j ^{(i)}
 }$$</span><!-- Has MathJax -->
 <p>基本式は単回帰・重回帰の時と同様です。</p>
+<h2 id="ロジスティック回帰の多クラス分類"><a href="#ロジスティック回帰の多クラス分類" class="headerlink" title="ロジスティック回帰の多クラス分類"></a>ロジスティック回帰の多クラス分類</h2><p>応用変数 $y$  を複数設定する事で多クラス分類（Multiclass Classification）する事が出来ます。</p>
+<p><img src="https://cldup.com/kc1eOVFKic.png" alt=""></p>
+<p>画像引用:  <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
+<p>One-vs-all という手法を使います。図をみるとわかり易いのですが、多クラスを仮の2クラスに分割して分類する手法です。</p>
+<p>目的変数はどの様になるのでしょうか？</p>
+<p>応用変数 $y_1$  ・ $y_2$ ・ $y<em>3$ に対し、目的変数は $h</em>\theta ^{(1)} (x) $ ・ $h<em>\theta ^{(2)} (x) $ ・$h</em>\theta ^{(3)} (x) $ の様にカテゴリーと同数のモデルが出来ます。</p>
+<p>$$<br>{<br>h_\theta ^{(i)} (x) = P (y = i | x; \theta)<br>}<br>$$</p>
+<p>それぞれのモデルは以上の様に表す事が出来ます。新たな $x$ が与えられた時、 $h_\theta ^{(i)} (x) $ が最大になるカテゴリーに分類されます。</p>
+<p>では。</p>
 <h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/e4ef613559f02f183af5" target="_blank" rel="external">Coursera Machine Learning (3): ロジスティック回帰、正則化 - Qiita</a></p>
 
             
