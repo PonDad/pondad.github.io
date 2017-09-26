@@ -25,7 +25,7 @@
 <meta property="og:description" content="正則化 (Regularization)についてまとめてみます。">
 <meta property="og:image" content="https://cldup.com/1ddKbTdmEd.png">
 <meta property="og:image" content="https://cldup.com/6V2RoovroO.png">
-<meta property="og:updated_time" content="2017-09-26T12:31:43.000Z">
+<meta property="og:updated_time" content="2017-09-26T12:33:40.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="多項式回帰とオーバーフィッティング">
 <meta name="twitter:description" content="正則化 (Regularization)についてまとめてみます。">
@@ -310,12 +310,10 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
 <p>2つ目の $\sum$ の項が目的関数 $J(\theta)$ に入ることにより、$\theta$ の値を大きく取ると目的関数が最小値に近づけないように設計しています。</p>
 </blockquote>
 <p>引用：<a href="https://qiita.com/katsu1110/items/e4ef613559f02f183af5" target="_blank" rel="external">Coursera Machine Learning (3): ロジスティック回帰、正則化 - Qiita</a></p>
-<p>なるほど。パラメーターが大きすぎると、目的関数が永遠に0に近づかない様に設計されているという事です。</p>
-<p>ここで正則化パラメーター $γ$ （ラムダ）が生きてきます。</p>
+<p>なるほど。パラメーターが大きすぎると、目的関数が0に近づかない様に設計されているという事です。ここで正則化パラメーター $γ$ （ラムダ）が生きてきます。</p>
 <p>$γ$ （ラムダ）を大きくする事でより正則化が行えますが、あまりに大きすぎると $\theta_1$ 以降のパラメータが0の近似値となり、特徴量が失われてしまいます。</p>
 <p>$γ$ （ラムダ）によりオーバーフィッティング、アンダーフィッティングを調整し、適正な正則化が行えるという訳です。</p>
-<p>正則化はロジスティック回帰でも行えますが、ここでは省略します。</p>
-<p>では。</p>
+<p>正則化はロジスティック回帰でも行えますが、ここでは省略します。では。</p>
 
             
         </div>
