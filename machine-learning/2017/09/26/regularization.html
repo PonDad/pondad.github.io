@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>ロジスティック回帰とシグモイド関数 - ポンダッドの日記</title>
+    <title>多項式回帰とオーバーフィッティング - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,19 +17,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
+    <meta name="description" content="正則化 (Regularization)についてまとめてみます。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="ロジスティック回帰とシグモイド関数">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
+<meta property="og:title" content="多項式回帰とオーバーフィッティング">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
-<meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
-<meta property="og:image" content="https://cldup.com/kc1eOVFKic.png">
-<meta property="og:updated_time" content="2017-09-25T11:10:50.000Z">
+<meta property="og:description" content="正則化 (Regularization)についてまとめてみます。">
+<meta property="og:image" content="https://cldup.com/1ddKbTdmEd.png">
+<meta property="og:image" content="https://cldup.com/6V2RoovroO.png">
+<meta property="og:updated_time" content="2017-09-26T12:31:43.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ロジスティック回帰とシグモイド関数">
-<meta name="twitter:description" content="さて、今回は分類（Classification）に関して学習したことをまとめてみます。">
-<meta name="twitter:image" content="https://cldup.com/FeFsdzdcse.png">
+<meta name="twitter:title" content="多項式回帰とオーバーフィッティング">
+<meta name="twitter:description" content="正則化 (Regularization)についてまとめてみます。">
+<meta name="twitter:image" content="https://cldup.com/1ddKbTdmEd.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -41,8 +41,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/I4tvVxm9Ps.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/I4tvVxm9Ps.jpg" />
+        <meta property="og:image" content="https://cldup.com/9mSV4gKa7p.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/9mSV4gKa7p.jpg" />
     
     
     <!-- AMP
@@ -240,19 +240,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/I4tvVxm9Ps.jpg');"
+             style="background-image:url('https://cldup.com/9mSV4gKa7p.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            ロジスティック回帰とシグモイド関数
+            多項式回帰とオーバーフィッティング
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-09-24T11:00:00+09:00">
+    <time itemprop="datePublished" datetime="2017-09-26T21:20:00+09:00">
 	
-		    2017/09/24
+		    2017/09/26
     	
     </time>
     
@@ -278,41 +278,44 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>さて、今回は分類（Classification）に関して学習したことをまとめてみます。</p>
+            <p>正則化 (Regularization)についてまとめてみます。</p>
 <a id="more"></a>
-<h2 id="ロジスティック回帰-Logistic-Regression"><a href="#ロジスティック回帰-Logistic-Regression" class="headerlink" title="ロジスティック回帰 (Logistic Regression)"></a>ロジスティック回帰 (Logistic Regression)</h2><p>予測値 $y’$ を0.5以上を1とし、0.5未満を0とすることで分類を行います。線形回帰では目的関数の範囲が定まっておらず、分類することが出来ないため、ロジスティック回帰を使います。</p>
-<h2 id="ロジスティック関数-Logistic-Function-あるいは、シグモイド関数-Sigmoid-Function"><a href="#ロジスティック関数-Logistic-Function-あるいは、シグモイド関数-Sigmoid-Function" class="headerlink" title="ロジスティック関数 (Logistic Function)あるいは、シグモイド関数 (Sigmoid Function)"></a>ロジスティック関数 (Logistic Function)あるいは、シグモイド関数 (Sigmoid Function)</h2><p>シグモイド関数（別名：ロジスティック関数） $g(z)$ は以下の様な関数です。</p>
-<p>$$<br>g(z) = \dfrac{1}{1 + e^{-z}}<br>$$</p>
-<p>ロジスティック回帰における仮説 $h_\theta (x)$ はシグモイド関数 $g(z)$ に予測変数 $x$ のパラメーター 　$z = \theta^T x$ を代入します。</p>
-<p>$$<br>{<br>h_\theta (x)  = \frac{1}{1 + e^{-\theta^{\mathrm{T}} x}}<br>}<br>$$</p>
-<p><img src="https://cldup.com/FeFsdzdcse.png" alt=""></p>
+<h2 id="多項式回帰-（Polynomial-Regression）"><a href="#多項式回帰-（Polynomial-Regression）" class="headerlink" title="多項式回帰 （Polynomial Regression）"></a>多項式回帰 （Polynomial Regression）</h2><p>予測変数 $x$ 一つを元にして応用変数 $y$ を説明する場合、単回帰を利用します。</p>
+<p>予測変数 $x$ が複数ある場合は重回帰となります。</p>
+<p>$x$ のパラメータ $\theta$ が複数ある回帰分析を多項式分析（Polynomial Regression）と呼びます。</p>
+<p>予測する為のデータである $x$ を複数設定するのは分かるのですが、パラメータ $\theta$ を複数持つとどんな良い事があるのでしょうか？</p>
+<p><img src="https://cldup.com/1ddKbTdmEd.png" alt=""></p>
 <p>画像引用:  <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p>$h_\theta(x)&gt;0.5$ なら $y=1$</p>
-<p>$h_\theta(x)\leq 0.5$ なら $y=0$</p>
-<p>この様に分類判定が行えます。</p>
-<h2 id="ロジスティック回帰の目的関数と最急降下法"><a href="#ロジスティック回帰の目的関数と最急降下法" class="headerlink" title="ロジスティック回帰の目的関数と最急降下法"></a>ロジスティック回帰の目的関数と最急降下法</h2><p>ロジスティック回帰の目的関数を求める時、対数 $log$ を利用します。</p>
-<p>$y=1$ なら ${J(\theta) = -log(h_\theta (x)) }$</p>
-<p>$y=0$ なら ${J(\theta) = -log(1 - h_\theta (x))}$</p>
-<p>これをまとめると目的関数は以下の様になります。</p>
-<span>$${
-J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - y^{(i)}) log(1 - h_\theta (x^{(i)}))]
-}$$</span><!-- Has MathJax -->
-<p>目的関数を最急降下法に代入すると以下の様になります。</p>
-<span>$${
-   \theta_j : \theta_j - \alpha \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)}) x_j ^{(i)}
-}$$</span><!-- Has MathJax -->
-<p>基本式は単回帰・重回帰の時と同様です。</p>
-<h2 id="ロジスティック回帰の多クラス分類"><a href="#ロジスティック回帰の多クラス分類" class="headerlink" title="ロジスティック回帰の多クラス分類"></a>ロジスティック回帰の多クラス分類</h2><p>応用変数 $y$  を複数設定する事で多クラス分類（Multiclass Classification）する事が出来ます。</p>
-<p><img src="https://cldup.com/kc1eOVFKic.png" alt=""></p>
+<p>仮説関数は必ずしも直線を利用しなくてはいけないという事です。図の様にパラメータを複数設定する事でよりデータにフィットさせる事が可能になります。</p>
+<h2 id="オーバーフィッティング"><a href="#オーバーフィッティング" class="headerlink" title="オーバーフィッティング"></a>オーバーフィッティング</h2><p><img src="https://cldup.com/6V2RoovroO.png" alt=""></p>
 <p>画像引用:  <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p>One-vs-all という手法を使います。図をみるとわかり易いのですが、多クラスを仮の2クラスに分割して分類する手法です。</p>
-<p>目的変数はどの様になるのでしょうか？</p>
-<p>応用変数 $y_1$, $y_2$, $y_3$</p>
-<p>に対し、目的変数はカテゴリーと同数のモデルが出来ます。</p>
-<p>$$<br>{<br>h_\theta ^{(i)} (x) = P (y = i | x; \theta)<br>}<br>$$</p>
-<p>それぞれのモデルは以上の様に表す事が出来ます。新たな $x$ が与えられた時、 $h_\theta ^{(i)} (x) $ が最大になるカテゴリーに分類されます。</p>
+<p>多項式を使う事でよりデータにフィットした目的関数を得る事が出来ますが、オーバーフィッティング（過学習）した状態になると新しいデータに対して正しく推測する事が出来ません。</p>
+<p>その対応として2つ方法があります。</p>
+<ul>
+<li>特徴選択の数を減らす。（モデル選択のアルゴリズムを使う）</li>
+<li>正則化する。（特徴選択の数は減らさずパラメータの値を小さくする）</li>
+</ul>
+<h2 id="正則化-（Regularization）"><a href="#正則化-（Regularization）" class="headerlink" title="正則化 （Regularization）"></a>正則化 （Regularization）</h2><p>特徴選択の数を減らさずパラメータの値を小さくする事でよりスムーズに仮説関数を表す事が出来ます。</p>
+<span>$${
+J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^n \theta_j^2]
+}$$</span><!-- Has MathJax -->
+<p>一つ目の　$\sum$ （ループ）で二乗誤差法を用いて全ての点の誤差が最小であるパラメータ $\theta$ を求めます。</p>
+<p>これだけ見るとかなり難しく感じるので、正則化パラメーター $γ$ （ラムダ）の中身をみてみます。</p>
+<span>$${
+ \lambda \sum_{j=1}^n \theta_j^2
+}$$</span><!-- Has MathJax -->
+<p>別の$\sum$ （ループ）を使いパラメータ $\theta$ が膨張するのを妨げます。</p>
+<p>この式のポイントは、以下の通り。</p>
+<blockquote>
+<p>2つ目の $\sum$ の項が目的関数 $J(\theta)$ に入ることにより、$\theta$ の値を大きく取ると目的関数が最小値に近づけないように設計しています。</p>
+</blockquote>
+<p>引用：<a href="https://qiita.com/katsu1110/items/e4ef613559f02f183af5" target="_blank" rel="external">Coursera Machine Learning (3): ロジスティック回帰、正則化 - Qiita</a></p>
+<p>なるほど。パラメーターが大きすぎると、目的関数が永遠に0に近づかない様に設計されているという事です。</p>
+<p>ここで正則化パラメーター $γ$ （ラムダ）が生きてきます。</p>
+<p>$γ$ （ラムダ）を大きくする事でより正則化が行えますが、あまりに大きすぎると $\theta_1$ 以降のパラメータが0の近似値となり、特徴量が失われてしまいます。</p>
+<p>$γ$ （ラムダ）によりオーバーフィッティング、アンダーフィッティングを調整し、適正な正則化が行えるという訳です。</p>
+<p>正則化はロジスティック回帰でも行えますが、ここでは省略します。</p>
 <p>では。</p>
-<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/e4ef613559f02f183af5" target="_blank" rel="external">Coursera Machine Learning (3): ロジスティック回帰、正則化 - Qiita</a></p>
 
             
         </div>
@@ -331,7 +334,7 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/26/regularization.html"  data-tooltip="多項式回帰とオーバーフィッティング">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -339,7 +342,7 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/17/feature-scaling.html" data-tooltip="重回帰分析とスケーリング">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/24/logistic-regression.html" data-tooltip="ロジスティック回帰とシグモイド関数">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -355,18 +358,18 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ロジスティック回帰とシグモイド関数">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=多項式回帰とオーバーフィッティング">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -425,7 +428,7 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/26/regularization.html"  data-tooltip="多項式回帰とオーバーフィッティング">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -433,7 +436,7 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/17/feature-scaling.html" data-tooltip="重回帰分析とスケーリング">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/24/logistic-regression.html" data-tooltip="ロジスティック回帰とシグモイド関数">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -449,18 +452,18 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ロジスティック回帰とシグモイド関数">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=多項式回帰とオーバーフィッティング">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -486,18 +489,18 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=ロジスティック回帰とシグモイド関数">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=多項式回帰とオーバーフィッティング">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -556,9 +559,9 @@ J(\theta) = - \frac{1}{m} [ \sum_{i=1}^m y^{(i)} log(h_\theta (x^{(i)})) + (1 - 
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/24/logistic-regression.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/26/regularization.html';
                  
-                    this.page.identifier = 'machine-learning/2017/09/24/logistic-regression.html';
+                    this.page.identifier = 'machine-learning/2017/09/26/regularization.html';
                  
              };
             (function() {
