@@ -20,13 +20,13 @@
     <meta name="description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="ニューラルネットワークの順伝播">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
 <meta property="og:image" content="https://cldup.com/0sej6vEGJI.jpg">
 <meta property="og:image" content="https://cldup.com/jQE7dsKYO0.png">
 <meta property="og:image" content="https://cldup.com/o6V5V0pxFd.png">
-<meta property="og:updated_time" content="2017-09-30T16:07:54.000Z">
+<meta property="og:updated_time" content="2017-09-30T16:11:02.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ニューラルネットワークの順伝播">
 <meta name="twitter:description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
@@ -251,9 +251,9 @@
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-09-30T23:00:00+09:00">
+    <time itemprop="datePublished" datetime="2017-10-01T01:00:00+09:00">
 	
-		    2017/09/30
+		    2017/10/01
     	
     </time>
     
@@ -305,7 +305,9 @@
 <p>多項式回帰を使い、複雑な曲線で分類する事は可能ですが、非線形分類（例：XORやXNORなどの論理演算）を行う事は出来ません。</p>
 <p>ニューラルネットワークを利用する事で複雑な特徴量を学習出来て結果として より良い仮説が 得られる。という訳です。</p>
 <h2 id="ニューラルネットワークの仮説"><a href="#ニューラルネットワークの仮説" class="headerlink" title="ニューラルネットワークの仮説"></a>ニューラルネットワークの仮説</h2><p>引用画像の様な3層構造の仮説 $h_\Theta(x)$ は以下の様に表わせます。</p>
-<p>$$<br>{<br>h_\Theta (x) = a<em>1 ^{(3)} = g(\Theta</em>{10} ^{(2)} a<em>0 ^{(2)} + \Theta</em>{11} ^{(2)} a<em>1 ^{(2)} + \Theta</em>{12} ^{(2)} a<em>2 ^{(2)} + \Theta</em>{13} ^{(2)} a<em>3 ^{(2)} + \Theta</em>{14} ^{(2)} a_4 ^{(2)} )<br>}<br>$$</p>
+<span>$${
+h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)} a_1 ^{(2)} + \Theta_{12} ^{(2)} a_2 ^{(2)} + \Theta_{13} ^{(2)} a_3 ^{(2)} + \Theta_{14} ^{(2)} a_4 ^{(2)} )
+}$$</span><!-- Has MathJax -->
 <p>ぱっと見た瞬間、根をあげそうになりますが、添え字を省略するとロジスティック回帰の仮説</p>
 <p>$$<br>{<br>h_\theta (x) = g(\theta_0 x_0 + \theta_1 x_1 + \theta_3 x_3 + \theta_4 x_4)<br>}<br>$$</p>
 <p>と同じであるとが分かります。では。</p>
@@ -353,13 +355,13 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
@@ -447,13 +449,13 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
@@ -484,13 +486,13 @@
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
@@ -554,9 +556,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html';
                  
-                    this.page.identifier = 'machine-learning/2017/09/30/forward-propagation.html';
+                    this.page.identifier = 'machine-learning/2017/10/01/forward-propagation.html';
                  
              };
             (function() {
