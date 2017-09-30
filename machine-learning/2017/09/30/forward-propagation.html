@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>多項式回帰とオーバーフィッティング - ポンダッドの日記</title>
+    <title>ニューラルネットワークの順伝播 - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,19 +17,20 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="正則化 (Regularization)についてまとめてみます。">
+    <meta name="description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="多項式回帰とオーバーフィッティング">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
+<meta property="og:title" content="ニューラルネットワークの順伝播">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="正則化 (Regularization)についてまとめてみます。">
-<meta property="og:image" content="https://cldup.com/1ddKbTdmEd.png">
-<meta property="og:image" content="https://cldup.com/6V2RoovroO.png">
-<meta property="og:updated_time" content="2017-09-26T12:57:02.000Z">
+<meta property="og:description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
+<meta property="og:image" content="https://cldup.com/0sej6vEGJI.jpg">
+<meta property="og:image" content="https://cldup.com/jQE7dsKYO0.png">
+<meta property="og:image" content="https://cldup.com/o6V5V0pxFd.png">
+<meta property="og:updated_time" content="2017-09-30T16:07:54.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="多項式回帰とオーバーフィッティング">
-<meta name="twitter:description" content="正則化 (Regularization)についてまとめてみます。">
-<meta name="twitter:image" content="https://cldup.com/1ddKbTdmEd.png">
+<meta name="twitter:title" content="ニューラルネットワークの順伝播">
+<meta name="twitter:description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
+<meta name="twitter:image" content="https://cldup.com/0sej6vEGJI.jpg">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -41,8 +42,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/9mSV4gKa7p.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/9mSV4gKa7p.jpg" />
+        <meta property="og:image" content="https://cldup.com/5kjT8Fep-K.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/5kjT8Fep-K.jpg" />
     
     
     <!-- AMP
@@ -240,19 +241,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/9mSV4gKa7p.jpg');"
+             style="background-image:url('https://cldup.com/5kjT8Fep-K.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            多項式回帰とオーバーフィッティング
+            ニューラルネットワークの順伝播
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-09-26T21:20:00+09:00">
+    <time itemprop="datePublished" datetime="2017-09-30T23:00:00+09:00">
 	
-		    2017/09/26
+		    2017/09/30
     	
     </time>
     
@@ -278,42 +279,38 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>正則化 (Regularization)についてまとめてみます。</p>
+            <p>思い返せば去年の<a href="https://pondad.net/ai/2016/12/18/artificial-intelligence.html" target="_blank" rel="external">12月</a> 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。</p>
 <a id="more"></a>
-<h2 id="多項式回帰-（Polynomial-Regression）"><a href="#多項式回帰-（Polynomial-Regression）" class="headerlink" title="多項式回帰 （Polynomial Regression）"></a>多項式回帰 （Polynomial Regression）</h2><p>予測変数 $x$ 一つを元にして応用変数 $y$ を説明する場合、単回帰を利用します。</p>
-<p>予測変数 $x$ が複数ある場合は重回帰となります。</p>
-<p>$x$ のパラメータ $\theta$ が複数ある回帰分析を多項式分析（Polynomial Regression）と呼びます。</p>
-<p>予測する為のデータである $x$ を複数設定するのは分かるのですが、パラメータ $\theta$ を複数持つとどんな良い事があるのでしょうか？</p>
-<p><img src="https://cldup.com/1ddKbTdmEd.png" alt=""></p>
-<p>画像引用:  <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p>仮説関数は必ずしも直線を利用しなくてはいけないという事です。図の様にパラメータを複数設定する事でよりデータにフィットさせる事が可能になります。</p>
-<h2 id="オーバーフィッティング"><a href="#オーバーフィッティング" class="headerlink" title="オーバーフィッティング"></a>オーバーフィッティング</h2><p><img src="https://cldup.com/6V2RoovroO.png" alt=""></p>
-<p>画像引用:  <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p>多項式を使う事でよりデータにフィットした目的関数を得る事が出来ますが、オーバーフィッティング（過学習）した状態になると新しいデータに対して正しく推測する事が出来ません。</p>
-<p>その対応として2つ方法があります。</p>
-<ul>
-<li>特徴選択の数を減らす。（モデル選択のアルゴリズムを使う）</li>
-<li>正則化する。（特徴選択の数は減らさずパラメータの値を小さくする）</li>
-</ul>
-<h2 id="正則化-（Regularization）"><a href="#正則化-（Regularization）" class="headerlink" title="正則化 （Regularization）"></a>正則化 （Regularization）</h2><p>特徴選択の数を減らさずパラメータの値を小さくする事でよりスムーズに仮説関数を表す事が出来ます。</p>
-<span>$${
-J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^n \theta_j^2]
-}$$</span><!-- Has MathJax -->
-<p>一つ目の　$\sum$ （ループ）で二乗誤差法を用いて全ての点の誤差が最小であるパラメータ $\theta$ を求めます。</p>
-<p>これだけ見るとかなり難しく感じるので、正則化パラメーター $\lambda$ （ラムダ）の中身をみてみます。</p>
-<span>$${
- \lambda \sum_{j=1}^n \theta_j^2
-}$$</span><!-- Has MathJax -->
-<p>別の$\sum$ （ループ）を使いパラメータ $\theta$ が膨張するのを妨げます。</p>
-<p>この式のポイントは、以下の通り。</p>
+<p><a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Mchine Learning - Coursera</a> がちょうどニューラルネットワークの章に入ったので、改めてその仕組みを考えてみたいと思います。</p>
+<h2 id="ロジスティック回帰-Logistic-Regression"><a href="#ロジスティック回帰-Logistic-Regression" class="headerlink" title="ロジスティック回帰 (Logistic Regression)"></a>ロジスティック回帰 (Logistic Regression)</h2><p>ロジスティック回帰を利用する事で分類問題を解く事が出来ますが、ニューラルネットワークを使う事の利点は何なのでしょうか？</p>
+<p>改めて図でまとめてみます。</p>
+<p><img src="https://cldup.com/0sej6vEGJI.jpg" alt=""></p>
+<p>予測変数 $x$ を元にして 応用変数 $y = h_\theta(x)$ を推測します。</p>
+<p>$\sum$（ループ）で二乗誤差法を用いて全ての点の誤差が最小であるパラメータ$\theta^T x$ を求め、シグモイド関数 $g(z) = \dfrac{1}{1 + e^{-z}}$  に代入する事で分類判定を行いました。</p>
+<p>図を改めて見て分かったのですが、パラメータ $\theta$ はニューラルネットワークで言う所の「重み」 $w$ と同じなんですね。</p>
+<h2 id="ニューラルネットワークの順伝播"><a href="#ニューラルネットワークの順伝播" class="headerlink" title="ニューラルネットワークの順伝播"></a>ニューラルネットワークの順伝播</h2><p>講座の中でのアンドリュー先生の説明が分かりやすかったのでまとめてみます。</p>
+<p><img src="https://cldup.com/jQE7dsKYO0.png" alt=""></p>
+<p>画像引用： <a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Mchine Learning - Coursera</a></p>
+<p>ニューラルネットワークの順伝播（フォワードプロパゲーション）はこの様な図で表わせます。</p>
+<p>パラメータ $\Theta$ の伝播が複雑になりますので、出力層の一つ前の隠れ層を入力層と考えてみます。</p>
+<p><img src="https://cldup.com/o6V5V0pxFd.png" alt=""></p>
+<p>画像引用： <a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Mchine Learning - Coursera</a></p>
+<p>こんな感じになり、ロジスティック回帰と同じ形になります。以下講義内容の抜粋です。</p>
 <blockquote>
-<p>2つ目の $\sum$ の項が目的関数 $J(\theta)$ に入ることにより、$\theta$ の値を大きく取ると目的関数が最小値に近づけないように設計しています。</p>
+<p>これがやってる事は 単なるロジスティック回帰だ。</p>
+<p>ニューラルネットワークがやる事は ロジスティック回帰みたいなものだが、 もとの特徴量である $x_1$、$x_2$、$x_3$を使う代わりに新しい特徴量$a_1$、$a_2$、$a_3$を使うって所だけが違う。</p>
+<p>これのクールな所は、特徴量 $a_1$、$a_2$、$a_3$，は それら自身が入力の関数として 学習された物である、という事だ。</p>
+<p>複雑な特徴量を学習出来て結果として より良い仮説が 得られる。</p>
 </blockquote>
-<p>引用：<a href="https://qiita.com/katsu1110/items/e4ef613559f02f183af5" target="_blank" rel="external">Coursera Machine Learning (3): ロジスティック回帰、正則化 - Qiita</a></p>
-<p>なるほど。パラメーターが大きすぎると、目的関数が0に近づかない様に設計されているという事です。ここで正則化パラメーター $\lambda$ （ラムダ）が生きてきます。</p>
-<p>$\lambda$ （ラムダ）を大きくする事でより正則化が行えますが、あまりに大きすぎると $\theta_1$ 以降のパラメータが0の近似値となり、特徴量が失われてしまいます。</p>
-<p>$\lambda$ （ラムダ）によりオーバーフィッティング、アンダーフィッティングを調整し、適正な正則化が行えるという訳です。</p>
-<p>正則化はロジスティック回帰でも行えますが、ここでは省略します。では。</p>
+<p>多項式回帰を使い、複雑な曲線で分類する事は可能ですが、非線形分類（例：XORやXNORなどの論理演算）を行う事は出来ません。</p>
+<p>ニューラルネットワークを利用する事で複雑な特徴量を学習出来て結果として より良い仮説が 得られる。という訳です。</p>
+<h2 id="ニューラルネットワークの仮説"><a href="#ニューラルネットワークの仮説" class="headerlink" title="ニューラルネットワークの仮説"></a>ニューラルネットワークの仮説</h2><p>引用画像の様な3層構造の仮説 $h_\Theta(x)$ は以下の様に表わせます。</p>
+<p>$$<br>{<br>h_\Theta (x) = a<em>1 ^{(3)} = g(\Theta</em>{10} ^{(2)} a<em>0 ^{(2)} + \Theta</em>{11} ^{(2)} a<em>1 ^{(2)} + \Theta</em>{12} ^{(2)} a<em>2 ^{(2)} + \Theta</em>{13} ^{(2)} a<em>3 ^{(2)} + \Theta</em>{14} ^{(2)} a_4 ^{(2)} )<br>}<br>$$</p>
+<p>ぱっと見た瞬間、根をあげそうになりますが、添え字を省略するとロジスティック回帰の仮説</p>
+<p>$$<br>{<br>h_\theta (x) = g(\theta_0 x_0 + \theta_1 x_1 + \theta_3 x_3 + \theta_4 x_4)<br>}<br>$$</p>
+<p>と同じであるとが分かります。では。</p>
+<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/cc54c258f2533f8a0149" target="_blank" rel="external">Coursera Machine Learning (4): ニューラルネットワーク入門 - Qiita</a></p>
+<p><a href="https://qiita.com/TomokIshii/items/bb9c39c964e5e51b8653" target="_blank" rel="external">Coursera Machine Learning week2の課題で復習する交差エントロピー - Qiita</a></p>
 
             
         </div>
@@ -332,7 +329,7 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/30/forward-propagation.html"  data-tooltip="ニューラルネットワークの順伝播">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -340,7 +337,7 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/24/logistic-regression.html" data-tooltip="ロジスティック回帰とシグモイド関数">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/26/regularization.html" data-tooltip="多項式回帰とオーバーフィッティング">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -356,18 +353,18 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=多項式回帰とオーバーフィッティング">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ニューラルネットワークの順伝播">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -426,7 +423,7 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/30/forward-propagation.html"  data-tooltip="ニューラルネットワークの順伝播">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -434,7 +431,7 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/24/logistic-regression.html" data-tooltip="ロジスティック回帰とシグモイド関数">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/26/regularization.html" data-tooltip="多項式回帰とオーバーフィッティング">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -450,18 +447,18 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=多項式回帰とオーバーフィッティング">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ニューラルネットワークの順伝播">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -487,18 +484,18 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/26/regularization.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=多項式回帰とオーバーフィッティング">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=ニューラルネットワークの順伝播">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -557,9 +554,9 @@ J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lamb
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/26/regularization.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/09/30/forward-propagation.html';
                  
-                    this.page.identifier = 'machine-learning/2017/09/26/regularization.html';
+                    this.page.identifier = 'machine-learning/2017/09/30/forward-propagation.html';
                  
              };
             (function() {
