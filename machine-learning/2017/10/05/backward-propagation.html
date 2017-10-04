@@ -25,7 +25,7 @@
 <meta property="og:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
 <meta property="og:image" content="https://cldup.com/I2hC73Pafg.png">
 <meta property="og:image" content="https://cldup.com/PAzSqzjP67.png">
-<meta property="og:updated_time" content="2017-10-04T15:35:43.000Z">
+<meta property="og:updated_time" content="2017-10-04T15:37:31.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ニューラルネットワークの逆伝播">
 <meta name="twitter:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
@@ -298,9 +298,10 @@
 <p>$$<br>h_\theta(x) = (\theta_0x_0+\theta_1x_1+\theta_2x_2)<br>$$</p>
 <p>と同じである事が分かります。さて、講義の中で逆伝播はこの順伝播と同じ様な計算であり、計算の流れが逆になっている事が異なると説明されます。</p>
 <h2 id="ニューラルネットワークの逆伝播"><a href="#ニューラルネットワークの逆伝播" class="headerlink" title="ニューラルネットワークの逆伝播"></a>ニューラルネットワークの逆伝播</h2><p>ここでは簡単の為出力層が一つで設定している為、目的関数を計算するのにループ処理や正則化を省いて考えます。</p>
-<p>$(x^{(i)}, y^{(i)})$</p>
-<p>$(\lambda = 0)$</p>
-<p>$$<br>cost(i) = y^{(i)}log(h<em>\Theta (x^{(i)})) + (1 - y^{(i)}) log(1 - h</em>\Theta (x^{(i)})<br>$$<br>つまり予測値 $i$ に対してのコストは以下の様に<br>$$<br>cost(i) ≈ (h_\theta(x^{(i)}-y^{(i)})^2)<br>$$<br>ニューラルネットワークの出力の値と実際の値の誤差の2乗（の様なものでる）と考えてみる。という事です。実際に図でみてみます。</p>
+<p>$$<br>cost(i) = y^{(i)}log(h<em>\Theta (x^{(i)})) + (1 - y^{(i)}) log(1 - h</em>\Theta (x^{(i)})<br>$$</p>
+<p>つまり予測値 $i$ に対してのコストは以下の様に</p>
+<p>$$<br>cost(i) ≈ (h_\theta(x^{(i)}-y^{(i)})^2)<br>$$</p>
+<p>ニューラルネットワークの出力の値と実際の値の誤差の2乗（の様なものでる）と考えてみる。という事です。実際に図でみてみます。</p>
 <p><img src="https://cldup.com/PAzSqzjP67.png" alt=""></p>
 <p>試しに $\delta_2^{(2)} $ のプロセスをみてみます。</p>
 <p>$$<br>\delta<em>2^{(2)} = \Theta</em>{12}^{(2)}×\delta<em>1^{(3)} + \Theta</em>{22}^{(2)}×\delta_2^{(3)}<br>$$</p>
