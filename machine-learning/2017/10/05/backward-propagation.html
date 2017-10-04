@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>ニューラルネットワークの順伝播 - ポンダッドの日記</title>
+    <title>ニューラルネットワークの逆伝播 - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,20 +17,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
+    <meta name="description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="ニューラルネットワークの順伝播">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
+<meta property="og:title" content="ニューラルネットワークの逆伝播">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/05/backward-propagation.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
-<meta property="og:image" content="https://cldup.com/0sej6vEGJI.jpg">
-<meta property="og:image" content="https://cldup.com/jQE7dsKYO0.png">
-<meta property="og:image" content="https://cldup.com/o6V5V0pxFd.png">
-<meta property="og:updated_time" content="2017-09-30T16:14:30.000Z">
+<meta property="og:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
+<meta property="og:image" content="https://cldup.com/I2hC73Pafg.png">
+<meta property="og:updated_time" content="2017-10-04T15:34:29.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ニューラルネットワークの順伝播">
-<meta name="twitter:description" content="思い返せば去年の12月 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。">
-<meta name="twitter:image" content="https://cldup.com/0sej6vEGJI.jpg">
+<meta name="twitter:title" content="ニューラルネットワークの逆伝播">
+<meta name="twitter:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
+<meta name="twitter:image" content="https://cldup.com/I2hC73Pafg.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -42,8 +40,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/5kjT8Fep-K.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/5kjT8Fep-K.jpg" />
+        <meta property="og:image" content="https://cldup.com/Uj9eKjrRUW.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/Uj9eKjrRUW.jpg" />
     
     
     <!-- AMP
@@ -241,19 +239,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/5kjT8Fep-K.jpg');"
+             style="background-image:url('https://cldup.com/Uj9eKjrRUW.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            ニューラルネットワークの順伝播
+            ニューラルネットワークの逆伝播
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-10-01T01:00:00+09:00">
+    <time itemprop="datePublished" datetime="2017-10-05T00:00:00+09:00">
 	
-		    2017/10/01
+		    2017/10/05
     	
     </time>
     
@@ -279,39 +277,17 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>思い返せば去年の<a href="https://pondad.net/ai/2016/12/18/artificial-intelligence.html" target="_blank" rel="external">12月</a> 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。</p>
+            <p>さて、ニューラルネットワークの逆伝播法についてまとめてみます。</p>
 <a id="more"></a>
-<p><a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Mchine Learning - Coursera</a> がちょうどニューラルネットワークの章に入ったので、改めてその仕組みを考えてみたいと思います。</p>
-<h2 id="ロジスティック回帰-Logistic-Regression"><a href="#ロジスティック回帰-Logistic-Regression" class="headerlink" title="ロジスティック回帰 (Logistic Regression)"></a>ロジスティック回帰 (Logistic Regression)</h2><p>ロジスティック回帰を利用する事で分類問題を解く事が出来ますが、ニューラルネットワークを使う事の利点は何なのでしょうか？</p>
-<p>改めて図でまとめてみます。</p>
-<p><img src="https://cldup.com/0sej6vEGJI.jpg" alt=""></p>
-<p>予測変数 $x$ を元にして 応用変数 $y = h_\theta(x)$ を推測します。</p>
-<p>$\sum$（ループ）で二乗誤差法を用いて全ての点の誤差が最小であるパラメータ$\theta^T x$ を求め、シグモイド関数 $g(z) = \dfrac{1}{1 + e^{-z}}$  に代入する事で分類判定を行いました。</p>
-<p>図を改めて見て分かったのですが、パラメータ $\theta$ はニューラルネットワークで言う所の「重み」 $w$ と同じなんですね。</p>
-<h2 id="ニューラルネットワークの順伝播"><a href="#ニューラルネットワークの順伝播" class="headerlink" title="ニューラルネットワークの順伝播"></a>ニューラルネットワークの順伝播</h2><p>講座の中でのアンドリュー先生の説明が分かりやすかったのでまとめてみます。</p>
-<p><img src="https://cldup.com/jQE7dsKYO0.png" alt=""></p>
-<p>画像引用： <a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Mchine Learning - Coursera</a></p>
-<p>ニューラルネットワークの順伝播（フォワードプロパゲーション）はこの様な図で表わせます。</p>
-<p>パラメータ $\Theta$ の伝播が複雑になりますので、出力層の一つ前の隠れ層を入力層と考えてみます。</p>
-<p><img src="https://cldup.com/o6V5V0pxFd.png" alt=""></p>
-<p>画像引用： <a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Mchine Learning - Coursera</a></p>
-<p>こんな感じになり、ロジスティック回帰と同じ形になります。以下講義内容の抜粋です。</p>
+<p><a href="">Machine Learning - Coursera</a> 講義の中でアンドリュー先生はこんな風に言っています。</p>
 <blockquote>
-<p>これがやってる事は 単なるロジスティック回帰だ。ニューラルネットワークがやる事は ロジスティック回帰みたいなものだが、 もとの特徴量である $x_1$、$x_2$、$x_3$を使う代わりに新しい特徴量$a_1$、$a_2$、$a_3$を使うって所だけが違う。</p>
-<p>これのクールな所は、特徴量 $a_1$、$a_2$、$a_3$，は それら自身が入力の関数として 学習された物である、という事だ。</p>
-<p>複雑な特徴量を学習出来て結果として より良い仮説が 得られる。</p>
+<p>多くの人にとっては 最初に見たら 第一印象は 「うげぇ。こりゃすげー複雑な アルゴリズムだ！ そしてこんなたくさんの ステップがあるなんて！」と。</p>
+<p> あなたがバックプロパゲーションを、 もしそんな風に感じていたとしても、 実は問題ありません。</p>
+<p> でも実の所、私も長年、ひょっとしたら今日ですら、 バックプロパゲーションが何やってるのか いまいち直感的に理解出来てないなぁ、と 思う事はあるけれど、 使う分には問題なく とてもしっかりと 使えてきました。</p>
 </blockquote>
-<p>多項式回帰を使い、複雑な曲線で分類する事は可能ですが、非線形分類（例：XORやXNORなどの論理演算）を行う事は出来ません。</p>
-<p>ニューラルネットワークを利用する事で複雑な特徴量を学習出来て結果として より良い仮説が 得られる。という訳です。</p>
-<h2 id="ニューラルネットワークの仮説"><a href="#ニューラルネットワークの仮説" class="headerlink" title="ニューラルネットワークの仮説"></a>ニューラルネットワークの仮説</h2><p>引用画像の様な3層構造の仮説 $h_\Theta(x)$ は以下の様に表わせます。</p>
-<span>$${
-h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)} a_1 ^{(2)} + \Theta_{12} ^{(2)} a_2 ^{(2)} + \Theta_{13} ^{(2)} a_3 ^{(2)} + \Theta_{14} ^{(2)} a_4 ^{(2)} )
-}$$</span><!-- Has MathJax -->
-<p>ぱっと見た瞬間、根をあげそうになりますが、添え字を省略するとロジスティック回帰の仮説</p>
-<p>$$<br>{<br>h_\theta (x) = g(\theta_0 x_0 + \theta_1 x_1 + \theta_3 x_3 + \theta_4 x_4)<br>}<br>$$</p>
-<p>と同じであることが分かります。では。</p>
-<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/cc54c258f2533f8a0149" target="_blank" rel="external">Coursera Machine Learning (4): ニューラルネットワーク入門 - Qiita</a></p>
-<p><a href="https://qiita.com/TomokIshii/items/bb9c39c964e5e51b8653" target="_blank" rel="external">Coursera Machine Learning week2の課題で復習する交差エントロピー - Qiita</a></p>
+<p>こんな気さくな語り口が人気の秘密ですね。</p>
+<p>さて、そうは言いつつも逆伝播に関し出来る限り仕組みが理解できる様、図を使いながら説明されています。</p>
+<h2 id="ニューラルネットワークの順伝播"><a href="#ニューラルネットワークの順伝播" class="headerlink" title="ニューラルネットワークの順伝播"></a>ニューラルネットワークの順伝播</h2><p><img src="https://cldup.com/I2hC73Pafg.png" alt=""></p>
 
             
         </div>
@@ -330,7 +306,7 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/05/backward-propagation.html"  data-tooltip="ニューラルネットワークの逆伝播">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -338,7 +314,7 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/26/regularization.html" data-tooltip="多項式回帰とオーバーフィッティング">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/01/forward-propagation.html" data-tooltip="ニューラルネットワークの順伝播">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -354,18 +330,18 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/05/backward-propagation.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/05/backward-propagation.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ニューラルネットワークの順伝播">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ニューラルネットワークの逆伝播">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -424,7 +400,7 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/05/backward-propagation.html"  data-tooltip="ニューラルネットワークの逆伝播">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -432,7 +408,7 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/09/26/regularization.html" data-tooltip="多項式回帰とオーバーフィッティング">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/01/forward-propagation.html" data-tooltip="ニューラルネットワークの順伝播">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -448,18 +424,18 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/05/backward-propagation.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/05/backward-propagation.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ニューラルネットワークの順伝播">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=ニューラルネットワークの逆伝播">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -485,18 +461,18 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/05/backward-propagation.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/05/backward-propagation.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=ニューラルネットワークの順伝播">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=ニューラルネットワークの逆伝播">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -555,9 +531,9 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/10/01/forward-propagation.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/10/05/backward-propagation.html';
                  
-                    this.page.identifier = 'machine-learning/2017/10/01/forward-propagation.html';
+                    this.page.identifier = 'machine-learning/2017/10/05/backward-propagation.html';
                  
              };
             (function() {
@@ -581,24 +557,7 @@ h_\Theta (x) = a_1 ^{(3)} = g(\Theta_{10} ^{(2)} a_0 ^{(2)} + \Theta_{11} ^{(2)}
      }
      var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
     </body>
 </html>
