@@ -25,7 +25,7 @@
 <meta property="og:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
 <meta property="og:image" content="https://cldup.com/I2hC73Pafg.png">
 <meta property="og:image" content="https://cldup.com/PAzSqzjP67.png">
-<meta property="og:updated_time" content="2017-10-04T15:45:08.000Z">
+<meta property="og:updated_time" content="2017-10-04T15:47:01.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ニューラルネットワークの逆伝播">
 <meta name="twitter:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
@@ -290,9 +290,9 @@
 <p>さて、そうは言いつつも逆伝播に関し出来る限り仕組みが理解できる様、図を使いながら説明されています。</p>
 <h2 id="ニューラルネットワークの順伝播"><a href="#ニューラルネットワークの順伝播" class="headerlink" title="ニューラルネットワークの順伝播"></a>ニューラルネットワークの順伝播</h2><p><img src="https://cldup.com/I2hC73Pafg.png" alt=""></p>
 <p>$(x^{(i)}, y^{(i)})$ である場合のニューラルネットワークの順伝播を見ていきます。</p>
-<p>パラメータ（重み） $\Theta$ の総和が $z_{j}^{(l)}$ となり、活性化関数（ここではシグモイド関数）を適応した値が $a_j^{(l)}$ となります。</p>
+<p>パラメータ（重み） $\Theta$ の総和が $z_j^{(l)}$ となり、活性化関数（ここではシグモイド関数）を適応した値が $a_j^{(l)}$ となります。</p>
 <p>※実際の活性化関数はReLu関数を使われる事が多い様ですが、ここでは講座に則ってシグモイド関数で考えます。</p>
-<p><a href="https://pondad.net/machine-learning/2017/10/01/forward-propagation.html" target="_blank" rel="external">前回記事</a> で見た様に、特徴量 $a<em>j^{(l)}$ を元にしたロジスティック回帰です。試しに $z</em>{3}^{(1)}$ のプロセスを見てみます。</p>
+<p><a href="https://pondad.net/machine-learning/2017/10/01/forward-propagation.html" target="_blank" rel="external">前回記事</a> で見た様に、特徴量 $a_j^{(l)}$ を元にしたロジスティック回帰です。試しに $z_3^{(1)}$ のプロセスを見てみます。</p>
 <p>$$<br>z<em>{3}^{(1)} = \Theta</em>{10}^{(2)}×1+\Theta_{11}^{(2)}×a<em>1^{(2)}+\Theta</em>{11}^{(2)}×a_2^{(2)}　<br>$$</p>
 <p>こんな風に表わせます。添え字を外せばロジスティック回帰</p>
 <p>$$<br>h_\theta(x) = (\theta_0x_0+\theta_1x_1+\theta_2x_2)<br>$$</p>
