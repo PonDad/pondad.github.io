@@ -25,7 +25,7 @@
 <meta property="og:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
 <meta property="og:image" content="https://cldup.com/I2hC73Pafg.png">
 <meta property="og:image" content="https://cldup.com/PAzSqzjP67.png">
-<meta property="og:updated_time" content="2017-10-06T12:42:32.000Z">
+<meta property="og:updated_time" content="2017-10-06T12:46:56.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ニューラルネットワークの逆伝播">
 <meta name="twitter:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
@@ -304,7 +304,7 @@
 <p>試しに $\delta_2^{(2)} $ のプロセスをみてみます。</p>
 <span>$$\delta_2^{(2)} = \Theta_{12}^{(2)}&times;\delta_1^{(3)} + \Theta_{22}^{(2)}&times;\delta_2^{(3)}$$</span><!-- Has MathJax -->
 <p>ここではバイアス $b$ は微分に影響しない為計算から除外しています。確かに順伝播と同じ様な計算をしている事が分かります。</p>
-<p>上の順伝播の図にある $\Theta<em>{12}^{(2)}$ に対する、<br>下の逆伝播の $\Theta</em>{12}^{(2)}$ の二乗誤差を最急降下法などのアルゴリズムに代入する事で最小点を導く事が出来ます。（多分。これで合ってるのだろうか。）</p>
+<p>上の順伝播の図にある $\Theta<em>{12}^{(2)} $ に対する、下の逆伝播の $\Theta</em>{12}^{(2)} $ の二乗誤差を最急降下法などのアルゴリズムに代入する事で最小点を導く事が出来ます。（多分。これで合ってるのだろうか。）</p>
 <h2 id="備考：連鎖律（chain-rule）-複合関数の微分"><a href="#備考：連鎖律（chain-rule）-複合関数の微分" class="headerlink" title="備考：連鎖律（chain rule）- 複合関数の微分"></a>備考：連鎖律（chain rule）- 複合関数の微分</h2><p>さて、この講義では触れられませんでしたが（逆伝播に関してはOctaveを実装する事で理解を深める内容になっていました）、実際に誤差逆伝播法を計算するには連鎖律（chain rule）が必要になります。</p>
 <p>$$<br>\frac{dz}{dx}  = \frac{dz}{dt}  ×\frac{dt}{dx}<br>$$</p>
 <p>この計算式を用いることによって勾配の計算を早く行う事が出来ます。</p>
