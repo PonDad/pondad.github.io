@@ -25,7 +25,7 @@
 <meta property="og:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
 <meta property="og:image" content="https://cldup.com/I2hC73Pafg.png">
 <meta property="og:image" content="https://cldup.com/PAzSqzjP67.png">
-<meta property="og:updated_time" content="2017-10-06T12:49:01.000Z">
+<meta property="og:updated_time" content="2017-10-10T13:58:08.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ニューラルネットワークの逆伝播">
 <meta name="twitter:description" content="さて、ニューラルネットワークの逆伝播法についてまとめてみます。">
@@ -293,7 +293,7 @@
 <p>パラメータ（重み） $\Theta$ の総和が $z_j^{(l)}$ となり、活性化関数（ここではシグモイド関数）を適応した値が $a_j^{(l)}$ となります。</p>
 <p>※実際の活性化関数はReLu関数を使われる事が多い様ですが、ここでは講座に則ってシグモイド関数で考えます。</p>
 <p><a href="https://pondad.net/machine-learning/2017/10/01/forward-propagation.html" target="_blank" rel="external">前回記事</a> で見た様に、特徴量 $a_j^{(l)}$ を元にしたロジスティック回帰です。試しに $z_3^{(1)}$ のプロセスを見てみます。</p>
-<span>$$z_3^{(1)} = \Theta_10^{(2)}&times;1+\Theta_11^{(2)}&times;a_1^{(2)}+\Theta_11^{(2)}&times;a_2^{(2)}$$</span><!-- Has MathJax -->
+<span>$$z_3^{(1)} = \Theta_{10}^{(2)}&times;1+\Theta_{11}^{(2)}&times;a_1^{(2)}+\Theta_{11}^{(2)}&times;a_2^{(2)}$$</span><!-- Has MathJax -->
 <p>こんな風に表わせます。さて、講義の中で逆伝播はこの順伝播と同じ様な計算であり、計算の流れが逆になっている事が異なると説明されます。</p>
 <h2 id="ニューラルネットワークの逆伝播"><a href="#ニューラルネットワークの逆伝播" class="headerlink" title="ニューラルネットワークの逆伝播"></a>ニューラルネットワークの逆伝播</h2><p>ここでは簡単の為出力層が一つで設定している為、目的関数を計算するのにループ処理や正則化を省いて考えます。</p>
 <span>$$cost(i) = y^{(i)}log(h_\Theta(x^{(i)}))+ (1 - y^{(i)}) log(1-h_\Theta (x^{(i)}))$$</span><!-- Has MathJax -->
