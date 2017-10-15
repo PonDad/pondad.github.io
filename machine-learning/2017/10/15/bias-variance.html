@@ -17,26 +17,17 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）
-
-今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。
-仮説の評価仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それ">
+    <meta name="description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="バイアスとバリアンス">
 <meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）
-
-今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。
-仮説の評価仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それ">
+<meta property="og:description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）">
 <meta property="og:image" content="https://cldup.com/l80csCUEjT.png">
-<meta property="og:updated_time" content="2017-10-15T02:50:35.000Z">
+<meta property="og:updated_time" content="2017-10-15T02:53:05.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="バイアスとバリアンス">
-<meta name="twitter:description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）
-
-今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。
-仮説の評価仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それ">
+<meta name="twitter:description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）">
 <meta name="twitter:image" content="https://cldup.com/l80csCUEjT.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
@@ -287,12 +278,14 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <p>さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）</p>
-<!-- moer -->
+<a id="more"></a>
 <p>今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。</p>
 <h2 id="仮説の評価"><a href="#仮説の評価" class="headerlink" title="仮説の評価"></a>仮説の評価</h2><p>仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それによってエラー率を測ります。</p>
 <p>多項式回帰でより精度を上げる際、トレーニングセット60%、交差検定 (Cross Validation)セット20%、テストセット20%でデータセットを構成し、一般化エラー率をさせることが出来ます。</p>
 <h2 id="正則化パラメーター-λ-（ラムダ）"><a href="#正則化パラメーター-λ-（ラムダ）" class="headerlink" title="正則化パラメーター $λ$（ラムダ）"></a>正則化パラメーター $λ$（ラムダ）</h2><p>さて、<a href="https://pondad.net/machine-learning/2017/09/26/regularization.html" target="_blank" rel="external">前々々回</a> 正則化パラメーター $λ$（ラムダ）を使うことを学びました。</p>
-<p>$$<br>{<br>J(\theta) = \frac{1}{2m}  \sum<em>{i=1}^m (h</em>\theta (x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^n \theta_j^2<br>}<br>$$</p>
+<span>$${
+J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^n \theta_j^2
+}$$</span><!-- Has MathJax -->
 <p>$λ$（ラムダ）によりオーバーフィッティング、アンダーフィッティングを調整し、適正な正則化が行うことが出来ます。</p>
 <h2 id="バイアス-（Bias-）とバリアンス（Variance）"><a href="#バイアス-（Bias-）とバリアンス（Variance）" class="headerlink" title="バイアス （Bias ）とバリアンス（Variance）"></a>バイアス （Bias ）とバリアンス（Variance）</h2><p>講義の中で、オーバーフィッティング（高バリアンス）、アンダーフィッティング（高バイアス）を解消するため$λ$（ラムダ）の最小値を得る手法を解説しています。</p>
 <ul>
