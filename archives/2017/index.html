@@ -244,6 +244,88 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/machine-learning/2017/10/15/bias-variance.html">
+                            バイアスとバリアンス
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-10-15T11:48:00+09:00">
+	
+		    2017/10/15
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <p>さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）</p>
+<!-- moer -->
+<p>今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。</p>
+<h2 id="仮説の評価"><a href="#仮説の評価" class="headerlink" title="仮説の評価"></a>仮説の評価</h2><p>仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それによってエラー率を測ります。</p>
+<p>多項式回帰でより精度を上げる際、トレーニングセット60%、交差検定 (Cross Validation)セット20%、テストセット20%でデータセットを構成し、一般化エラー率をさせることが出来ます。</p>
+<h2 id="正則化パラメーター-λ-（ラムダ）"><a href="#正則化パラメーター-λ-（ラムダ）" class="headerlink" title="正則化パラメーター $λ$（ラムダ）"></a>正則化パラメーター $λ$（ラムダ）</h2><p>さて、<a href="https://pondad.net/machine-learning/2017/09/26/regularization.html" target="_blank" rel="external">前々々回</a> 正則化パラメーター $λ$（ラムダ）を使うことを学びました。</p>
+<p>$$<br>{<br>J(\theta) = \frac{1}{2m}  \sum<em>{i=1}^m (h</em>\theta (x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^n \theta_j^2<br>}<br>$$</p>
+<p>$λ$（ラムダ）によりオーバーフィッティング、アンダーフィッティングを調整し、適正な正則化が行うことが出来ます。</p>
+<h2 id="バイアス-（Bias-）とバリアンス（Variance）"><a href="#バイアス-（Bias-）とバリアンス（Variance）" class="headerlink" title="バイアス （Bias ）とバリアンス（Variance）"></a>バイアス （Bias ）とバリアンス（Variance）</h2><p>講義の中で、オーバーフィッティング（高バリアンス）、アンダーフィッティング（高バイアス）を解消するため$λ$（ラムダ）の最小値を得る手法を解説しています。</p>
+<ul>
+<li>バイアス （Bias）日本語では「偏り」平均値の大きさ</li>
+<li>バリアンス（Variance）日本語では「分散」最大値 - 最小値の大きさ</li>
+</ul>
+<p>「分散」が大きい → 多項式回帰の次元が大きい。「偏り」が大きい → 多項式回帰の次元が小さい。とも言えます。</p>
+<p>では、 $λ$（ラムダ）の値はどのように選択すれば良いのでようか？</p>
+<p>講義の中では手動で計算する方法として $λ$（ラムダ）の値を10個程度設定し、トレーニングセットと交差検定セットに対する目的関数が一番接近する値を抽出する手法が説明されていました。</p>
+<p>※ $λ$（ラムダ）の数値は0.01、0.02、0.04…の様に２倍づつ進めてある程度の大きさまで（ここでは10.24）進めるとのこと。</p>
+<p>図で表すと以下の様になります。</p>
+<p><img src="https://cldup.com/l80csCUEjT.png" alt=""></p>
+<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Lear0ningu - Coursera</a></p>
+<p>こういった手法を使うことで、オーバーフィッティング、アンダーフィッティングがどれ位起きているか客観的な指標を得ることが出来るという訳です。</p>
+<h2 id="意思決定のプロセス"><a href="#意思決定のプロセス" class="headerlink" title="意思決定のプロセス"></a>意思決定のプロセス</h2><p>講座の中で次の様にまとめられていますので転記します。</p>
+<blockquote>
+<ul>
+<li>より多くの訓練用データセット → オーバーフィッティング（高バリアンス）を修正する</li>
+<li>トレーニングセットの特徴量の数を減らす → オーバーフィッティング（高バリアンス）を修正する</li>
+<li>トレーニングセットの特徴量の数を増やす → アンダーフィッティング（高バイアス）を修正する</li>
+<li>多項式の項を増やす → アンダーフィッティング（高バイアス）を修正する</li>
+<li>$λ$ を小さくする → アンダーフィッティング（高バイアス）を修正する</li>
+<li>$λ$ を大きくする → オーバーフィッティング（高バリアンス）を修正する</li>
+</ul>
+</blockquote>
+<p>今日はここまで。では。</p>
+<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/97c3f98a987ea92b2cc1" target="_blank" rel="external">Coursera Machine Learning (6): 機械学習のモデル評価（交差検定、Bias &amp; Variance、適合率 &amp; 再現率）- Qiita</a></p>
+<p><a href="http://aokiji.science/blog/?p=263" target="_blank" rel="external">バイアスとバリアンス - NANAKOROBI</a></p>
+
+                    
+                        
+                    
+                    
+                        <p>
+                            <a href="/machine-learning/2017/10/15/bias-variance.html#post-footer" class="postShorten-excerpt_link link">
+                                コメント・シェア
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/machine-learning/2017/10/05/backward-propagation.html">
                             ニューラルネットワークの逆伝播
                         </a>
@@ -626,49 +708,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/ai/2017/03/30/keras-cnn-3.html">
-                            感情モデルを考える〜プルチック感情の輪
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-03-30T23:30:00+09:00">
-	
-		    2017/03/30
-    	
-    </time>
-    
-        <span>カテゴリー:  </span>
-        
-    <a class="category-link" href="/categories/ai/">ai</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>人工知能に（擬似的な）感情を持たすことが出来ないだろうか？そんなことを考えて見ました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。</p>
-                    
-                        <a href="/ai/2017/03/30/keras-cnn-3.html" class="postShorten-excerpt_link link">
-                            続きを読む
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -765,7 +804,24 @@
      }
      var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
-</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
     </body>
 </html>

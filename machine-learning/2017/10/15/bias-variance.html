@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>カテゴリー: machine-learning - ポンダッドの日記</title>
+    <title>バイアスとバリアンス - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,15 +17,27 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="人工知能はチーズバーガーの夢を見るか">
+    <meta name="description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）
+
+今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。
+仮説の評価仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それ">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="ポンダッドの日記">
-<meta property="og:url" content="https://pondad.github.io/categories/machine-learning/index.html">
+<meta property="og:title" content="バイアスとバリアンス">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="人工知能はチーズバーガーの夢を見るか">
+<meta property="og:description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）
+
+今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。
+仮説の評価仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それ">
+<meta property="og:image" content="https://cldup.com/l80csCUEjT.png">
+<meta property="og:updated_time" content="2017-10-15T02:50:35.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ポンダッドの日記">
-<meta name="twitter:description" content="人工知能はチーズバーガーの夢を見るか">
+<meta name="twitter:title" content="バイアスとバリアンス">
+<meta name="twitter:description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）
+
+今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。
+仮説の評価仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それ">
+<meta name="twitter:image" content="https://cldup.com/l80csCUEjT.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -36,6 +48,9 @@
         <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
     
     
+    
+        <meta property="og:image" content="https://cldup.com/voQOEadB91.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/voQOEadB91.jpg" />
     
     
     <!-- AMP
@@ -64,7 +79,7 @@
         
     
 
-<header id="header" data-behavior="1">
+<header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">ポンダッドの日記</a>
@@ -88,7 +103,7 @@
         
     
 
-<nav id="sidebar" data-behavior="1">
+<nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -230,26 +245,19 @@
 </nav>
 
             
-            <div id="main" data-behavior="1"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                
-    <section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
+        <div class="post-header-cover
+                    text-left
+                    "
+             style="background-image:url('https://cldup.com/voQOEadB91.jpg');"
+             data-behavior="4">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/machine-learning/2017/10/15/bias-variance.html">
-                            バイアスとバリアンス
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+                <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            バイアスとバリアンス
+        </h1>
+    
+    <div class="post-meta">
     <time itemprop="datePublished" datetime="2017-10-15T11:48:00+09:00">
 	
 		    2017/10/15
@@ -264,10 +272,21 @@
     
 </div>
 
-            </div>
+</div>
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）</p>
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）</p>
 <!-- moer -->
 <p>今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。</p>
 <h2 id="仮説の評価"><a href="#仮説の評価" class="headerlink" title="仮説の評価"></a>仮説の評価</h2><p>仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それによってエラー率を測ります。</p>
@@ -303,334 +322,88 @@
 <h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/97c3f98a987ea92b2cc1" target="_blank" rel="external">Coursera Machine Learning (6): 機械学習のモデル評価（交差検定、Bias &amp; Variance、適合率 &amp; 再現率）- Qiita</a></p>
 <p><a href="http://aokiji.science/blog/?p=263" target="_blank" rel="external">バイアスとバリアンス - NANAKOROBI</a></p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/machine-learning/2017/10/15/bias-variance.html#post-footer" class="postShorten-excerpt_link link">
-                                コメント・シェア
-                            </a>
-                        </p>
-                    
-                </div>
             
         </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/machine-learning/2017/10/05/backward-propagation.html">
-                            ニューラルネットワークの逆伝播
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-10-05T00:00:00+09:00">
-	
-		    2017/10/05
-    	
-    </time>
-    
-        <span>カテゴリー:  </span>
-        
-    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
-
-
-    
-</div>
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/machine-learning/">machine-learning</a>
 
             </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>さて、ニューラルネットワークの逆伝播法についてまとめてみます。</p>
-                    
-                        <a href="/machine-learning/2017/10/05/backward-propagation.html" class="postShorten-excerpt_link link">
-                            続きを読む
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/machine-learning/2017/10/01/forward-propagation.html">
-                            ニューラルネットワークの順伝播
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-10-01T01:00:00+09:00">
-	
-		    2017/10/01
-    	
-    </time>
-    
-        <span>カテゴリー:  </span>
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/05/backward-propagation.html" data-tooltip="ニューラルネットワークの逆伝播">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=バイアスとバリアンス">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
         
-    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>思い返せば去年の<a href="https://pondad.net/ai/2016/12/18/artificial-intelligence.html">12月</a> 以来、今ひとつ良く分からなかったがニューラルネットワークの仕組みでした。</p>
-                    
-                        <a href="/machine-learning/2017/10/01/forward-propagation.html" class="postShorten-excerpt_link link">
-                            続きを読む
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
+        <li class="post-action">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/machine-learning/2017/09/26/regularization.html">
-                            多項式回帰とオーバーフィッティング
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-09-26T21:20:00+09:00">
-	
-		    2017/09/26
-    	
-    </time>
-    
-        <span>カテゴリー:  </span>
-        
-    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
-
-
-    
-</div>
-
-            </div>
+                <a class="post-action-btn btn btn--default" href="#">
             
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>正則化 (Regularization)についてまとめてみます。</p>
-                    
-                        <a href="/machine-learning/2017/09/26/regularization.html" class="postShorten-excerpt_link link">
-                            続きを読む
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/machine-learning/2017/09/24/logistic-regression.html">
-                            ロジスティック回帰とシグモイド関数
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-09-24T11:00:00+09:00">
-	
-		    2017/09/24
-    	
-    </time>
-    
-        <span>カテゴリー:  </span>
-        
-    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>さて、今回は分類（Classification）に関して学習したことをまとめてみます。</p>
-                    
-                        <a href="/machine-learning/2017/09/24/logistic-regression.html" class="postShorten-excerpt_link link">
-                            続きを読む
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/machine-learning/2017/09/17/feature-scaling.html">
-                            重回帰分析とスケーリング
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-09-17T18:00:00+09:00">
-	
-		    2017/09/17
-    	
-    </time>
-    
-        <span>カテゴリー:  </span>
-        
-    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>さて、引き続き <a href="https://www.coursera.org/learn/machine-learning">Machine Learning - Coursera</a> で学習したことのまとめです。</p>
-                    
-                        <a href="/machine-learning/2017/09/17/feature-scaling.html" class="postShorten-excerpt_link link">
-                            続きを読む
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/machine-learning/2017/09/11/gradient-descent.html">
-                            目的関数と最急降下法
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-09-11T23:00:00+09:00">
-	
-		    2017/09/11
-    	
-    </time>
-    
-        <span>カテゴリー:  </span>
-        
-    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>さて、数式をウェブ上で書くのにも（LaTeXというそうです）少し慣れてきましたので、<a href="https://www.coursera.org/learn/machine-learning">Machine Learning - Coursera</a> で学習したことをちょっとまとめてみます。</p>
-                    
-                        <a href="/machine-learning/2017/09/11/gradient-descent.html" class="postShorten-excerpt_link link">
-                            続きを読む
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/machine-learning/2017/09/10/differential.html">
-                            微分と導関数
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-09-10T09:30:00+09:00">
-	
-		    2017/09/10
-    	
-    </time>
-    
-        <span>カテゴリー:  </span>
-        
-    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>久しぶりの更新です。実は「微分」って良く分からなかったのでこんな本を読んでみました。</p>
-<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4797342501/pondadamazon-22/ref=nosim/" name="amazletlink" target="_blank">マンガでわかる微分積分 微積ってなにをしているの?どうして教科書はわかりにくいの? (サイエンス・アイ新書)</a></p>
-<p>イラストを利用した入門書で少し理解が進んだ（様な気がする）のでまとめたいと思います。</p>
-                    
-                        <a href="/machine-learning/2017/09/10/differential.html" class="postShorten-excerpt_link link">
-                            続きを読む
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-        <li class="pagination-number">page 1 of 1</li>
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
 
 
 
@@ -653,6 +426,93 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/05/backward-propagation.html" data-tooltip="ニューラルネットワークの逆伝播">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=バイアスとバリアンス">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=バイアスとバリアンス">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
             
         </div>
         
@@ -700,6 +560,25 @@
         <!--SCRIPTS-->
 <script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
 <!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html';
+                 
+                    this.page.identifier = 'machine-learning/2017/10/15/bias-variance.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
 
 
 
