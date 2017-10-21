@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
 <meta property="og:image" content="https://cldup.com/3saO0H1IxD.png">
 <meta property="og:image" content="https://cldup.com/CnadGfQJ3X.png">
-<meta property="og:updated_time" content="2017-10-21T13:53:42.000Z">
+<meta property="og:updated_time" content="2017-10-21T13:55:15.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="サポートベクターマシン">
 <meta name="twitter:description" content="さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。">
@@ -294,7 +294,10 @@
 <p>これがSVMの分類です。ロジスティック回帰はこんな感じで分類しました。</p>
 <p><img src="https://cldup.com/FeFsdzdcse.png" alt=""></p>
 <p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
-<p>ロジスティック回帰では仮説 $h<em>\theta(x)$ はシグモイド関数に予測変数のパラメーターを代入し、$h</em>\theta(x)&gt;0.5$ なら $y=1$ 、$h_\theta(x)\leq 0.5$ なら $y=0$ となることで分類出判定を行いました。</p>
+<p>ロジスティック回帰では仮説はシグモイド関数に予測変数のパラメーターを代入し、</p>
+<p>$h_\theta(x)&gt;0.5$ なら $y=1$</p>
+<p>$h_\theta(x)\leq 0.5$ なら $y=0$</p>
+<p>となることで分類出判定を行いました。</p>
 <p>目的関数を最小にするには、予測変数のパラメーターを最急降下法の式に代入します。</p>
 <p>SVMは少しやり方が異ります。</p>
 <p>目的関数を最小にする為に最急降下法を使うのは同じなのですが、分類のマージンを最大化する為にロジスティック関数よりシンプルな関数を使います。</p>
