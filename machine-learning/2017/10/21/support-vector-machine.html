@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>バイアスとバリアンス - ポンダッドの日記</title>
+    <title>サポートベクターマシン - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,18 +17,21 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）">
+    <meta name="description" content="さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="バイアスとバリアンス">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+<meta property="og:title" content="サポートベクターマシン">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）">
-<meta property="og:image" content="https://cldup.com/l80csCUEjT.png">
-<meta property="og:updated_time" content="2017-10-15T07:39:35.000Z">
+<meta property="og:description" content="さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。">
+<meta property="og:image" content="https://cldup.com/Hyr0GQdrNK.png">
+<meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
+<meta property="og:image" content="https://cldup.com/3saO0H1IxD.png">
+<meta property="og:image" content="https://cldup.com/CnadGfQJ3X.png">
+<meta property="og:updated_time" content="2017-10-21T13:45:42.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="バイアスとバリアンス">
-<meta name="twitter:description" content="さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）">
-<meta name="twitter:image" content="https://cldup.com/l80csCUEjT.png">
+<meta name="twitter:title" content="サポートベクターマシン">
+<meta name="twitter:description" content="さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。">
+<meta name="twitter:image" content="https://cldup.com/Hyr0GQdrNK.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -40,8 +43,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/voQOEadB91.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/voQOEadB91.jpg" />
+        <meta property="og:image" content="https://cldup.com/zwcntw1Uwe.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/zwcntw1Uwe.jpg" />
     
     
     <!-- AMP
@@ -239,19 +242,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/voQOEadB91.jpg');"
+             style="background-image:url('https://cldup.com/zwcntw1Uwe.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            バイアスとバリアンス
+            サポートベクターマシン
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-10-15T11:48:00+09:00">
+    <time itemprop="datePublished" datetime="2017-10-21T22:32:00+09:00">
 	
-		    2017/10/15
+		    2017/10/21
     	
     </time>
     
@@ -277,43 +280,56 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>さて、機械学習講座を粛々と受講してきたのですが、ようやく6週目が終わり折り返し地点に来ました。（長いな）</p>
+            <p>さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。</p>
 <a id="more"></a>
-<p>今週は機械学習のアルゴリズム精度を高めるための手法を学びました。今回はオーバーフィッティング、アンダーフィッティングをどのように避けるのかについてまとめてみます。</p>
-<h2 id="仮説の評価"><a href="#仮説の評価" class="headerlink" title="仮説の評価"></a>仮説の評価</h2><p>仮説を評価するための訓練用データセットは、トレーニングセット70%、テストセット30%で構成するのが一般的であり、それによってエラー率を測ります。</p>
-<p>多項式回帰でより精度を上げる際、トレーニングセット60%、交差検定 (Cross Validation)セット20%、テストセット20%でデータセットを構成し、一般化エラー率をさせることが出来ます。</p>
-<h2 id="正則化パラメーター-λ-（ラムダ）"><a href="#正則化パラメーター-λ-（ラムダ）" class="headerlink" title="正則化パラメーター $λ$（ラムダ）"></a>正則化パラメーター $λ$（ラムダ）</h2><p>さて、<a href="https://pondad.net/machine-learning/2017/09/26/regularization.html" target="_blank" rel="external">前々々回</a> 正則化パラメーター $λ$（ラムダ）を使うことを学びました。</p>
-<span>$${
-J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^n \theta_j^2
-}$$</span><!-- Has MathJax -->
-<p>$λ$（ラムダ）によりオーバーフィッティング、アンダーフィッティングを調整し、適正な正則化が行うことが出来ます。</p>
-<h2 id="バイアス-（Bias-）とバリアンス（Variance）"><a href="#バイアス-（Bias-）とバリアンス（Variance）" class="headerlink" title="バイアス （Bias ）とバリアンス（Variance）"></a>バイアス （Bias ）とバリアンス（Variance）</h2><p>講義の中で、オーバーフィッティング（高バリアンス）、アンダーフィッティング（高バイアス）を解消するため$λ$（ラムダ）の最小値を得る手法を解説しています。</p>
+<p>丁度１年前、<a href="https://pondad.net/web/2016/12/03/scikit-learn.html" target="_blank" rel="external">この記事</a> ではじめて機械学習をやってみました。10種類のワイン成分データを元にして、8段階のおいしさランクに分類するという例題でした。</p>
+<p>何も考えずに scikit-learn の標準的アルゴリズム SVM を利用していました。こんな感じ。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">from sklearn import svm</div><div class="line">clf = svm.SVC()</div><div class="line">clf.fit(data, label)</div></pre></td></tr></table></figure>
+<p>ライブラリを使えばpythonでたった３行で学習させる事が出来るのですが、さてこのアルゴリズム、先週まで利用したロジスティック回帰と何が違うのでしょうか。</p>
+<h2 id="ロジスティック回帰との違い"><a href="#ロジスティック回帰との違い" class="headerlink" title="ロジスティック回帰との違い"></a>ロジスティック回帰との違い</h2><p>ロジスティック回帰との比較に関しては以下の記事で詳しくまとめられています。</p>
+<p><a href="https://qiita.com/katsu1110/items/43b69436723daf6d34e7" target="_blank" rel="external">Coursera Machine Learning (7): サポートベクターマシーン (SVM)、カーネル (Kernel) - Qiita</a></p>
+<p>こちらを参考に自分なりにまとめてみます。</p>
+<p><img src="https://cldup.com/Hyr0GQdrNK.png" alt=""></p>
+<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
+<p>これがSVMの分類です。ロジスティック回帰はこんな感じで分類しました。</p>
+<p><img src="https://cldup.com/FeFsdzdcse.png" alt=""></p>
+<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
+<p>ロジスティック回帰では仮説 $h<em>\theta (x)$ はシグモイド関数に予測変数のパラメーターを代入し、$h</em>\theta(x)&gt;0.5$ なら$y=1$、$h_\theta(x)\leq 0.5$ なら $y=0$ となることで分類出判定を行いました。</p>
+<p>目的関数を最小にするには、予測変数のパラメーターを最急降下法の式に代入します。</p>
+<p>SVMは少しやり方が異ります。</p>
+<p>目的関数を最小にする為に最急降下法を使うのは同じなのですが、分類のマージンを最大化する為にロジスティック関数よりシンプルな関数を使います。</p>
+<p>そして目的関数の最小値を求める際、「内積」を利用します。</p>
+<p>内積に関してはこちらの高校生向けのサイトが参考になりました。</p>
+<p><a href="https://juken-mikata.net/how-to/mathematics/vector-inner-product.html" target="_blank" rel="external">ベクトル 内積の公式＆高校生必見のよくある間違いとは？ - 受験のミカタ</a></p>
+<h2 id="線形SVM"><a href="#線形SVM" class="headerlink" title="線形SVM"></a>線形SVM</h2><p><img src="https://cldup.com/3saO0H1IxD.png" alt=""></p>
+<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
+<p>SMVでは目的関数を算出するのにシグモイド関数（ロジスティック関数）の代わりに上記の図の様な関数を利用します。</p>
 <ul>
-<li>バイアス （Bias）日本語では「偏り」平均値の大きさ</li>
-<li>バリアンス（Variance）日本語では「分散」最大値 - 最小値の大きさ</li>
+<li>$y=1$ のとき$z \ge 1$ ならばコストを0にする</li>
+<li>$y=0$ のとき$z \le -1$ ならばコストを0にする</li>
 </ul>
-<p>「分散」が大きい → 多項式回帰の次元が大きい。「偏り」が大きい → 多項式回帰の次元が小さい。とも言えます。</p>
-<p>では、 $λ$（ラムダ）の値はどのように選択すれば良いのでようか？</p>
-<p>講義の中では手動で計算する方法として $λ$（ラムダ）の値を10個程度設定し、トレーニングセットと交差検定セットに対する目的関数が一番接近する値を抽出する手法が説明されていました。</p>
-<p>※ $λ$（ラムダ）の数値は0.01、0.02、0.04…の様に２倍づつ進めてある程度の大きさまで（ここでは10.24）進めるとのこと。</p>
-<p>図で表すと以下の様になります。</p>
-<p><img src="https://cldup.com/l80csCUEjT.png" alt=""></p>
-<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p>こういった手法を使うことで、オーバーフィッティング、アンダーフィッティングがどれ位起きているか客観的な指標を得ることが出来るという訳です。</p>
-<h2 id="意思決定のプロセス"><a href="#意思決定のプロセス" class="headerlink" title="意思決定のプロセス"></a>意思決定のプロセス</h2><p>講座の中で次の様にまとめられていますので転記します。</p>
+<p>これを利用した目的関数は以下の様に表せます。</p>
+<span>$$\min_{\theta} C \sum^m_{i=1} [y^{(i)} cost_1 (\theta^{\mathrm{T}} x^{(i)}) + (1 - y^{(i)}) cost_0 (\theta^{\mathrm{T}} x^{(i)})] + \frac{1}{2} \sum^n_{i=1} \theta^2_j$$</span><!-- Has MathJax -->
+<p>最初の$\sum$ 部分は条件を当てはめると0になるため</p>
+<span>$$\min_{\theta} C +\frac{1}{2} \sum^n_{i=1} \theta^2_j$$</span><!-- Has MathJax -->
+<span>$$s.t. \hspace{15pt} \theta^{\mathrm{T}}x^{(i)} \ge 1 \hspace{10pt} if \hspace{5pt}y^{(i)} = 1 \\
+\hspace{30pt} \theta^{\mathrm{T}}x^{(i)} \le -1 \hspace{10pt} if \hspace{5pt}y^{(i)} = 0$$</span><!-- Has MathJax -->
+<p>この課題を最小値することがSVMの課題になります。</p>
+<p>微分の代わりにSVMではベクトルの内積 （Inner Product）を利用して決定境界 （Decision Boundary）を決定します。</p>
+<p><img src="https://cldup.com/CnadGfQJ3X.png" alt=""></p>
+<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
+<p>ここでは内積の定義を利用してパラメータ $\theta$ を算出するという理解に留めます。</p>
+<p>SVMは非線形分類を行う事も出来、これはカーネル（Kernel）と呼ばれます。</p>
+<p>ここまで必死に板書を書き写してみましたが、ロジスティック回帰の様に視覚的にパラメータが降下していくアルゴリズムではない為、イメージが掴みづらく理解が難しかったです。</p>
+<p>アンドリュー先生は講義の中でこんな風に説明しています。</p>
 <blockquote>
-<ul>
-<li>より多くの訓練用データセット → オーバーフィッティング（高バリアンス）を修正する</li>
-<li>トレーニングセットの特徴量の数を減らす → オーバーフィッティング（高バリアンス）を修正する</li>
-<li>トレーニングセットの特徴量の数を増やす → アンダーフィッティング（高バイアス）を修正する</li>
-<li>多項式の項を増やす → アンダーフィッティング（高バイアス）を修正する</li>
-<li>$λ$ を小さくする → アンダーフィッティング（高バイアス）を修正する</li>
-<li>$λ$ を大きくする → オーバーフィッティング（高バリアンス）を修正する</li>
-</ul>
+<p>サポートベクタマシンアルゴリズムは 特定の最適化問題を導く。 だが以前のビデオで 簡単に述べた通り、 パラメータシータを解くソフトウェアを 自力で書く事は、全く推奨しない。</p>
+<p> SVMの最適化問題を 解くソフトウェアは、 とても複雑だ。</p>
+<p>であるから、自分で実装しよう、なんて考えないで それらの高度に最適化されたソフトウェアライブラリのどれかを使う事を 強く推奨する。</p>
 </blockquote>
-<p>今日はここまで。では。</p>
-<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/97c3f98a987ea92b2cc1" target="_blank" rel="external">Coursera Machine Learning (6): 機械学習のモデル評価（交差検定、Bias &amp; Variance、適合率 &amp; 再現率）- Qiita</a></p>
-<p><a href="http://aokiji.science/blog/?p=263" target="_blank" rel="external">バイアスとバリアンス - NANAKOROBI</a></p>
+<h2 id="アルゴリズムの選択"><a href="#アルゴリズムの選択" class="headerlink" title="アルゴリズムの選択"></a>アルゴリズムの選択</h2><p>講義の最後にいつ、どんなアルゴリズムを使うべきか解説がありました。特徴量の数量とデータセットの数によって適正なアルゴリズムを選択すすことで精度の高い分類が行なえるということです。</p>
+<p>学習時間はｓｖ多く掛かるものの、よく計算されたニューラルネットワークはどの条件でも上手く機能するだろうとまとめられています。</p>
+<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/43b69436723daf6d34e7" target="_blank" rel="external">Coursera Machine Learning (7): サポートベクターマシーン (SVM)、カーネル (Kernel) - Qiita</a></p>
 
             
         </div>
@@ -332,7 +348,7 @@ J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambd
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/21/support-vector-machine.html"  data-tooltip="サポートベクターマシン">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -340,7 +356,7 @@ J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambd
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/05/backward-propagation.html" data-tooltip="ニューラルネットワークの逆伝播">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/15/bias-variance.html" data-tooltip="バイアスとバリアンス">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -356,18 +372,18 @@ J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambd
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=バイアスとバリアンス">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=サポートベクターマシン">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -426,7 +442,7 @@ J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambd
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/21/support-vector-machine.html"  data-tooltip="サポートベクターマシン">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -434,7 +450,7 @@ J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambd
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/05/backward-propagation.html" data-tooltip="ニューラルネットワークの逆伝播">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/15/bias-variance.html" data-tooltip="バイアスとバリアンス">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -450,18 +466,18 @@ J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambd
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=バイアスとバリアンス">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=サポートベクターマシン">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -487,18 +503,18 @@ J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambd
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=バイアスとバリアンス">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=サポートベクターマシン">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -557,9 +573,9 @@ J(\theta) = \frac{1}{2m}  \sum_{i=1}^m (h_\theta (x^{(i)}) - y^{(i)})^2 + \lambd
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/10/15/bias-variance.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html';
                  
-                    this.page.identifier = 'machine-learning/2017/10/15/bias-variance.html';
+                    this.page.identifier = 'machine-learning/2017/10/21/support-vector-machine.html';
                  
              };
             (function() {
