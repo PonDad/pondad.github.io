@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>サポートベクターマシン - ポンダッドの日記</title>
+    <title>クラスタリング - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,21 +17,21 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。">
+    <meta name="description" content="ちょっと前まで「教師なし学習」と聞いて、機械が自分で学習して知識を身につける AlphaGo Zero みたいなやつを想像していました。ポンダッドです。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="サポートベクターマシン">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
+<meta property="og:title" content="クラスタリング">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/10/29/k-means.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。">
-<meta property="og:image" content="https://cldup.com/Hyr0GQdrNK.png">
-<meta property="og:image" content="https://cldup.com/FeFsdzdcse.png">
-<meta property="og:image" content="https://cldup.com/3saO0H1IxD.png">
-<meta property="og:image" content="https://cldup.com/CnadGfQJ3X.png">
-<meta property="og:updated_time" content="2017-10-24T13:18:08.000Z">
+<meta property="og:description" content="ちょっと前まで「教師なし学習」と聞いて、機械が自分で学習して知識を身につける AlphaGo Zero みたいなやつを想像していました。ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/4r9tRJOq_B.gif">
+<meta property="og:image" content="https://cldup.com/OsuAG8tv2a.png">
+<meta property="og:image" content="https://cldup.com/TivdAqWC5h.png">
+<meta property="og:image" content="https://cldup.com/2eXSesnhP2.png">
+<meta property="og:updated_time" content="2017-10-29T13:55:43.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="サポートベクターマシン">
-<meta name="twitter:description" content="さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。">
-<meta name="twitter:image" content="https://cldup.com/Hyr0GQdrNK.png">
+<meta name="twitter:title" content="クラスタリング">
+<meta name="twitter:description" content="ちょっと前まで「教師なし学習」と聞いて、機械が自分で学習して知識を身につける AlphaGo Zero みたいなやつを想像していました。ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/4r9tRJOq_B.gif">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -43,8 +43,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/zwcntw1Uwe.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/zwcntw1Uwe.jpg" />
+        <meta property="og:image" content="https://cldup.com/k4pFXlcpJZ.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/k4pFXlcpJZ.jpg" />
     
     
     <!-- AMP
@@ -242,19 +242,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/zwcntw1Uwe.jpg');"
+             style="background-image:url('https://cldup.com/k4pFXlcpJZ.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            サポートベクターマシン
+            クラスタリング
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-10-21T22:32:00+09:00">
+    <time itemprop="datePublished" datetime="2017-10-29T22:55:00+09:00">
 	
-		    2017/10/21
+		    2017/10/29
     	
     </time>
     
@@ -280,59 +280,28 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>さて、Courseraの機械学習講座も折返し地点を過ぎ、様々なアルゴリズムの解説へと進んで行きます。今回はサポートベクターマシンです。</p>
+            <p>ちょっと前まで「教師なし学習」と聞いて、機械が自分で学習して知識を身につける <a href="https://deepmind.com/blog/alphago-zero-learning-scratch/" target="_blank" rel="external">AlphaGo Zero</a> みたいなやつを想像していました。ポンダッドです。</p>
 <a id="more"></a>
-<p>丁度１年前、<a href="https://pondad.net/web/2016/12/03/scikit-learn.html" target="_blank" rel="external">この記事</a> ではじめて機械学習をやってみました。10種類のワイン成分データを元にして、8段階のおいしさランクに分類するという例題です。</p>
-<p>何も考えずに scikit-learn の標準的アルゴリズム SVM を利用していました。こんな感じ。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">from sklearn import svm</div><div class="line">clf = svm.SVC()</div><div class="line">clf.fit(data, label)</div></pre></td></tr></table></figure>
-<p>ライブラリを使えばpythonでたった３行で学習させる事が出来るのですが、さてこのアルゴリズム、先週まで利用したロジスティック回帰と何が違うのでしょうか。</p>
-<h2 id="ロジスティック回帰との違い"><a href="#ロジスティック回帰との違い" class="headerlink" title="ロジスティック回帰との違い"></a>ロジスティック回帰との違い</h2><p>ロジスティック回帰との比較に関しては以下の記事で詳しくまとめられています。</p>
-<p><a href="https://qiita.com/katsu1110/items/43b69436723daf6d34e7" target="_blank" rel="external">Coursera Machine Learning (7): サポートベクターマシーン (SVM)、カーネル (Kernel) - Qiita</a></p>
-<p>こちらを参考に自分なりにまとめてみます。</p>
-<p><img src="https://cldup.com/Hyr0GQdrNK.png" alt=""></p>
-<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
-<p>これがSVMの分類です。ロジスティック回帰はこんな感じで分類しました。</p>
-<p><img src="https://cldup.com/FeFsdzdcse.png" alt=""></p>
-<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
-<p>ロジスティック回帰では仮説はシグモイド関数に予測変数のパラメーターを代入し、</p>
-<ul>
-<li>$h_\theta(x)&gt;0.5$ なら $y=1$</li>
-<li>$h_\theta(x)\leq 0.5$ なら $y=0$</li>
-</ul>
-<p>となることで分類出判定を行いました。目的関数を最小にするには、予測変数のパラメーターを最急降下法の式に代入します。</p>
-<p>SVMは少しやり方が異ります。</p>
-<p>目的関数を最小にする為に最急降下法を使うのは同じなのですが、分類のマージンを最大化する為にロジスティック関数よりシンプルな関数を使います。</p>
-<p>そして目的関数の最小値を求める際、「内積」を利用します。内積に関してはこちらの高校生向けのサイトが参考になりました。</p>
-<p><a href="https://juken-mikata.net/how-to/mathematics/vector-inner-product.html" target="_blank" rel="external">ベクトル 内積の公式＆高校生必見のよくある間違いとは？ - 受験のミカタ</a></p>
-<h2 id="線形SVM"><a href="#線形SVM" class="headerlink" title="線形SVM"></a>線形SVM</h2><p><img src="https://cldup.com/3saO0H1IxD.png" alt=""></p>
-<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
-<p>SVMでは目的関数を算出するのにシグモイド関数（ロジスティック関数）の代わりに上記の図の様な関数を利用します。</p>
-<ul>
-<li>$y=1$ のとき$z \ge 1$ ならばコストを0にする</li>
-<li>$y=0$ のとき$z \le -1$ ならばコストを0にする</li>
-</ul>
-<p>これを利用した目的関数は以下の様に表せます。</p>
-<span>$$\min_{\theta} C \sum^m_{i=1} [y^{(i)} cost_1 (\theta^{\mathrm{T}} x^{(i)}) + (1 - y^{(i)}) cost_0 (\theta^{\mathrm{T}} x^{(i)})] + \frac{1}{2} \sum^n_{i=1} \theta^2_j$$</span><!-- Has MathJax -->
-<p>最初の$\sum$ 部分は条件を当てはめると0になるため</p>
-<span>$$\min_{\theta} C +\frac{1}{2} \sum^n_{i=1} \theta^2_j$$</span><!-- Has MathJax -->
-<span>$$s.t. \hspace{15pt} \theta^{\mathrm{T}}x^{(i)} \ge 1 \hspace{10pt} if \hspace{5pt}y^{(i)} = 1 \\
-\hspace{30pt} \theta^{\mathrm{T}}x^{(i)} \le -1 \hspace{10pt} if \hspace{5pt}y^{(i)} = 0$$</span><!-- Has MathJax -->
-<p>この課題を最小値することがSVMの課題になります。</p>
-<p>微分の代わりにSVMではベクトルの内積 （Inner Product）を利用して決定境界 （Decision Boundary）を決定します。</p>
-<p><img src="https://cldup.com/CnadGfQJ3X.png" alt=""></p>
-<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning -Coursera</a></p>
-<p>ここでは内積の定義を利用してパラメータ $\theta$ を算出するという理解に留めます。</p>
-<p>SVMは非線形分類を行う事も出来、これはカーネル（Kernel）と呼ばれます。</p>
-<p>ここまで必死に板書を書き写してみましたが、ロジスティック回帰の様に視覚的にパラメータが降下していくアルゴリズムではない為、イメージが掴みづらく理解が難しかったです。</p>
-<p>アンドリュー先生は講義の中でこんな風に説明しています。</p>
-<blockquote>
-<p>サポートベクタマシンアルゴリズムは 特定の最適化問題を導く。 だが以前のビデオで 簡単に述べた通り、 パラメータシータを解くソフトウェアを 自力で書く事は、全く推奨しない。</p>
-<p> SVMの最適化問題を 解くソフトウェアは、 とても複雑だ。</p>
-<p>であるから、自分で実装しよう、なんて考えないで それらの高度に最適化されたソフトウェアライブラリのどれかを使う事を 強く推奨する。</p>
-</blockquote>
-<h2 id="アルゴリズムの選択"><a href="#アルゴリズムの選択" class="headerlink" title="アルゴリズムの選択"></a>アルゴリズムの選択</h2><p>講義の最後にいつ、どんなアルゴリズムを使うべきか解説がありました。特徴量の数量とデータセットの数によって適正なアルゴリズムを選択することで精度の高い分類が行なえます。</p>
-<p>また学習時間は多く掛かるものの、よく計算されたニューラルネットワークはどの条件でも上手く機能するだろうとまとめられています。</p>
-<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/43b69436723daf6d34e7" target="_blank" rel="external">Coursera Machine Learning (7): サポートベクターマシーン (SVM)、カーネル (Kernel) - Qiita</a></p>
+<p>さて、Coursera Machine Learning 8週目は「教師なし学習」の講義でした。クラスタリング （Clustering）と呼ばれる正解ラベルのないデータを元に似たグループをまとめる手法です。</p>
+<h2 id="K-means（k平均法）"><a href="#K-means（k平均法）" class="headerlink" title="K-means（k平均法）"></a>K-means（k平均法）</h2><p>まずはグラフを見ていきましょう。</p>
+<p><img src="https://cldup.com/4r9tRJOq_B.gif" alt=""></p>
+<p>回帰分析の目的関数を最急降下法で算出している形に似ており、イメージはしやすそうな感じです。</p>
+<p>ただ正解ラベルと推測の誤差（二乗誤差）の最小値を求めるのとは違い、これらのデータ群に特に正解ラベルはありません。</p>
+<p>どうやって似たグループを見つけているのでしょうか？</p>
+<p>「教師なし」とはいえ、グループ分けする数は $K$ 個のクラスタリングとして予め指定します。</p>
+<p>その中心点として $\mu_1, \mu_2,…, \mu_K$ をまずはランダムに指定します。</p>
+<p>データ群 $x^{(i)}$ のラベルは $K$ 個になりますが、<br>これら$x^{(i)}$ は$\mu_1, \mu_2,…, \mu_K$ の中で一番近いものにクラスタリングされます。</p>
+<p><img src="https://cldup.com/OsuAG8tv2a.png" alt=""></p>
+<p>ここから中心点 $\mu_1, \mu_2,…, \mu_K$ を更新していきます。新しい中心点はクラスタリングされた $x^{(i)}$ と $\mu$ の平均値に更新されていきます。</p>
+<p><img src="https://cldup.com/TivdAqWC5h.png" alt=""></p>
+<p>これを繰り返せば上手くクラスタリングされていきそうですが、どれ位繰り返せば良いのでしょうか？</p>
+<p>これは回帰分析と同様に二乗誤差を用いて目的関数の最適化を図ります。</p>
+<p><img src="https://cldup.com/2eXSesnhP2.png" alt=""></p>
+<p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/l" target="_blank" rel="external">Machine Learning - Coursera</a></p>
+<p>数式で表すと以下の様に表せます。</p>
+<p>$$<br>{<br>J(c^{(1)},…,c^{(m)},\mu_1,…,\mu<em>K) = \frac{1}{m} \sum^m</em>{i=1} ||x^{(i)} - \mu_{c^{(i)}}||^2<br>}<br>$$</p>
+<p>以上です。</p>
+<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/10ae4a62cfd37e37cd0b" target="_blank" rel="external">Coursera Machine Learning (8): 教師なし学習 (K-Means)、主成分分析 (PCA) - Qiita</a></p>
 
             
         </div>
@@ -351,7 +320,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/29/k-means.html"  data-tooltip="クラスタリング">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -359,7 +328,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/15/bias-variance.html" data-tooltip="バイアスとバリアンス">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/21/support-vector-machine.html" data-tooltip="サポートベクターマシン">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -375,18 +344,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/29/k-means.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/29/k-means.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=サポートベクターマシン">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=クラスタリング">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -445,7 +414,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/29/k-means.html"  data-tooltip="クラスタリング">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -453,7 +422,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/15/bias-variance.html" data-tooltip="バイアスとバリアンス">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/21/support-vector-machine.html" data-tooltip="サポートベクターマシン">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -469,18 +438,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/29/k-means.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/29/k-means.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=サポートベクターマシン">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=クラスタリング">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -506,18 +475,18 @@
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/10/29/k-means.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/10/29/k-means.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=サポートベクターマシン">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=クラスタリング">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -576,9 +545,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/10/21/support-vector-machine.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/10/29/k-means.html';
                  
-                    this.page.identifier = 'machine-learning/2017/10/21/support-vector-machine.html';
+                    this.page.identifier = 'machine-learning/2017/10/29/k-means.html';
                  
              };
             (function() {
