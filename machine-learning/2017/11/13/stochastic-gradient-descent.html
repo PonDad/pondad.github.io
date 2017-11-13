@@ -17,17 +17,17 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SDG）について学びました。">
+    <meta name="description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SGD）について学びました。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="確率的最急降下法">
 <meta property="og:url" content="https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SDG）について学びました。">
+<meta property="og:description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SGD）について学びました。">
 <meta property="og:image" content="https://cldup.com/peYXj2WBOH.png">
-<meta property="og:updated_time" content="2017-11-13T12:58:46.000Z">
+<meta property="og:updated_time" content="2017-11-13T13:05:53.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="確率的最急降下法">
-<meta name="twitter:description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SDG）について学びました。">
+<meta name="twitter:description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SGD）について学びました。">
 <meta name="twitter:image" content="https://cldup.com/peYXj2WBOH.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
@@ -277,7 +277,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>さて、<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">コーセラの機械学習講座</a>も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SDG）について学びました。</p>
+            <p>さて、<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">コーセラの機械学習講座</a>も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SGD）について学びました。</p>
 <a id="more"></a>
 <p>今年のはじめ、ニューラルネットワークのライブラリ<a href="https://pondad.net/ai/2017/01/02/keras-neural-network.html" target="_blank" rel="external">Kerasを使ったとき</a>に活性化関数をメソッドとして使いました。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Kerasドキュメンテーションより</span></div><div class="line">model.compile(loss=<span class="string">'mean_squared_error'</span>, optimizer=<span class="string">'sgd'</span>)</div></pre></td></tr></table></figure>
