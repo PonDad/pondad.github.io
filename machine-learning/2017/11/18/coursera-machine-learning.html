@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>確率的最急降下法 - ポンダッドの日記</title>
+    <title>Coursera機械学習講座のまとめ - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,18 +17,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SGD）について学びました。">
+    <meta name="description" content="さて、長いようで短いようで長かった11週が過ぎ、Courseraの機械学習講座を終えました。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="確率的最急降下法">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html">
+<meta property="og:title" content="Coursera機械学習講座のまとめ">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/11/18/coursera-machine-learning.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SGD）について学びました。">
-<meta property="og:image" content="https://cldup.com/peYXj2WBOH.png">
-<meta property="og:updated_time" content="2017-11-13T13:05:53.000Z">
+<meta property="og:description" content="さて、長いようで短いようで長かった11週が過ぎ、Courseraの機械学習講座を終えました。">
+<meta property="og:image" content="https://cldup.com/7MAlVmiEn2.png">
+<meta property="og:updated_time" content="2017-11-18T01:35:24.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="確率的最急降下法">
-<meta name="twitter:description" content="さて、コーセラの機械学習講座も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SGD）について学びました。">
-<meta name="twitter:image" content="https://cldup.com/peYXj2WBOH.png">
+<meta name="twitter:title" content="Coursera機械学習講座のまとめ">
+<meta name="twitter:description" content="さて、長いようで短いようで長かった11週が過ぎ、Courseraの機械学習講座を終えました。">
+<meta name="twitter:image" content="https://cldup.com/7MAlVmiEn2.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -40,8 +40,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/c9lx4v-YvQ.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/c9lx4v-YvQ.jpg" />
+        <meta property="og:image" content="https://cldup.com/a46eIk_cnu.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/a46eIk_cnu.jpg" />
     
     
     <!-- AMP
@@ -239,19 +239,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/c9lx4v-YvQ.jpg');"
+             style="background-image:url('https://cldup.com/a46eIk_cnu.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            確率的最急降下法
+            Coursera機械学習講座のまとめ
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-11-13T21:50:00+09:00">
+    <time itemprop="datePublished" datetime="2017-11-18T10:30:00+09:00">
 	
-		    2017/11/13
+		    2017/11/18
     	
     </time>
     
@@ -277,21 +277,41 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>さて、<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">コーセラの機械学習講座</a>も残り僅かになりました（先週はまとめブログサボっちゃっいましたが…）。今回は確率的最急降下法（SGD）について学びました。</p>
+            <p>さて、長いようで短いようで長かった11週が過ぎ、Courseraの機械学習講座を終えました。</p>
 <a id="more"></a>
-<p>今年のはじめ、ニューラルネットワークのライブラリ<a href="https://pondad.net/ai/2017/01/02/keras-neural-network.html" target="_blank" rel="external">Kerasを使ったとき</a>に活性化関数をメソッドとして使いました。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Kerasドキュメンテーションより</span></div><div class="line">model.compile(loss=<span class="string">'mean_squared_error'</span>, optimizer=<span class="string">'sgd'</span>)</div></pre></td></tr></table></figure>
-<p>こんな感じで指定します。その時は「損失をアルゴリズムによって減少させる」ものというざっくりとした理解でしたがもう少し理解を深めてみます。</p>
-<h2 id="確率的最急降下法-（Stochastic-Gradient-Descent）"><a href="#確率的最急降下法-（Stochastic-Gradient-Descent）" class="headerlink" title="確率的最急降下法 （Stochastic Gradient Descent）"></a>確率的最急降下法 （Stochastic Gradient Descent）</h2><p><a href="https://pondad.net/machine-learning/2017/09/11/gradient-descent.html" target="_blank" rel="external">第2週で学んだ</a>、最急降下法はパラメータ $\theta$ を更新する際データ $m$ すべての誤差を計算することで目的関数 $J(\theta)$ の最小値を求めました。</p>
-<p>これはバッジ最急降下法（Batch Gradient Descent）とも呼ばれます。この手法の問題点は大量のデータ処理する際、多くの時間が掛かってしまうことです。</p>
-<p>そこで大量のデータを扱う際、パラメータ更新を全てのデータを使うのではなく1つのデータを $m$ 回更新するアルゴリズムを用いることで目的関数 $J(\theta)$ の最小値に近づける事ができます。</p>
-<p><img src="https://cldup.com/peYXj2WBOH.png" alt=""></p>
+<p>最後のビデオに、講座のまとめがされていましたのでそちらを転記します。</p>
+<p><img src="https://cldup.com/7MAlVmiEn2.png" alt=""></p>
 <p>画像引用：<a href="https://www.coursera.org/learn/machine-learning/" target="_blank" rel="external">Machine Learning - Coursera</a></p>
-<p> 最初にデータをシャッフルすることがポイントとなります。</p>
-<p>バッジ最急降下法と違って最小値へ向かって勾配を下る動きは出来ないのですが、最小値の付近に次第に接近していきます。</p>
-<h2 id="ミニバッジ最急降下法（Mini-Batch-Gradient-Descent）"><a href="#ミニバッジ最急降下法（Mini-Batch-Gradient-Descent）" class="headerlink" title="ミニバッジ最急降下法（Mini-Batch Gradient Descent）"></a>ミニバッジ最急降下法（Mini-Batch Gradient Descent）</h2><p>更新用のデータを1つではなく、合計 $m$ 個のうち $b$ 個使用するアルゴリズムをミニバッジ最急降下法といいます。</p>
-<p>収束が上手く行えない際は学習率 $\alpha$ を小さくし、確実に収束させるためにはリピート回数を増やすごとに学習率を小さくなるように設計します。</p>
-<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/ea1b1309a7e4ccd89106" target="_blank" rel="external">Coursera Machine Learning (10): 大規模機械学習 - Qiita</a></p>
+<h2 id="まとめ：主なトピック"><a href="#まとめ：主なトピック" class="headerlink" title="まとめ：主なトピック"></a>まとめ：主なトピック</h2><h3 id="教師あり学習（supervised-learning）"><a href="#教師あり学習（supervised-learning）" class="headerlink" title="教師あり学習（supervised learning）"></a>教師あり学習（supervised learning）</h3><ul>
+<li>線形回帰（linear regression）</li>
+<li>ロジスティック回帰（logistic regression）</li>
+<li>ニューラルネットワーク（neural networks）</li>
+<li>SVM（SVMs）</li>
+</ul>
+<h3 id="教師無し学習（unsupervised-learning）"><a href="#教師無し学習（unsupervised-learning）" class="headerlink" title="教師無し学習（unsupervised learning）"></a>教師無し学習（unsupervised learning）</h3><ul>
+<li>K-meansクラスタリング（K-means clustering）</li>
+<li>次元削減の為の主成分分析（Principal Components Analysis）</li>
+<li>アノマリー検出のアルゴリズム（Anomaly Detection algorithms）</li>
+</ul>
+<h3 id="特別な応用や特別なトピック（special-applications-or-special-topics）"><a href="#特別な応用や特別なトピック（special-applications-or-special-topics）" class="headerlink" title="特別な応用や特別なトピック（special applications or special topics）"></a>特別な応用や特別なトピック（special applications or special topics）</h3><ul>
+<li>リコメンダーシステム（Recommender Systems）</li>
+<li>大規模機械学習システム（large scale machine learning systems ）</li>
+</ul>
+<h3 id="機械学習のシステムを構築するにあたりアドバイス（advice-on-building-a-machine-learning-system）"><a href="#機械学習のシステムを構築するにあたりアドバイス（advice-on-building-a-machine-learning-system）" class="headerlink" title="機械学習のシステムを構築するにあたりアドバイス（advice on building a machine learning system）"></a>機械学習のシステムを構築するにあたりアドバイス（advice on building a machine learning system）</h3><ul>
+<li>バイアスとバリアンス（bias and variance）</li>
+<li>正規化（regularization）</li>
+<li>次に何をすべきか：（decide what to work on next:）</li>
+<li>学習曲線（learning curves）</li>
+<li>エラー分析（error analysis）</li>
+<li>シーリング（天井）分析（ceiling analysis）</li>
+</ul>
+<h2 id="そして"><a href="#そして" class="headerlink" title="そして"></a>そして</h2><p>振り返りをしてみると、前半のニューラルネットワークに至るまでがなかなか大変だった印象が強いです。</p>
+<p>講座を継続して受講するうちに、機械学習のアルゴリズムにもある種の「型」の様なものがあって、それを頭の中で組み立てる事が出来るようになると少し理解が進みやすくなった気がします。</p>
+<p>アンドリュー先生も講座の中で繰り返し「直感的理解」を深めて下さい。と言っていました。最初は難解で理解することは到底不可能に思えた数式も段階を踏んで見直してみるとその意味が少し分かるようになりました。</p>
+<p>数式からプログラミングに落とし込む事は技量的に難しいので、ライブラリのメソッドやパラメータの意味を理解し、パラメータの調整でどれ位精度が変化するか理解出来るようになりたいと思います。</p>
+<p>さて、夏に一度やってみて理解不足で挫折した（クイズが自力では2〜3割しか正解出来なかった）<a href="https://www.coursera.org/learn/neural-networks-deep-learning/" target="_blank" rel="external">Neural Networks and Deep Learning - Coursera</a> に再度挑戦してみようと思います。では。</p>
+<h2 id="参考にさせていただきました"><a href="#参考にさせていただきました" class="headerlink" title="参考にさせていただきました"></a>参考にさせていただきました</h2><p><a href="https://qiita.com/katsu1110/items/423fc9ac567710a1bd9b" target="_blank" rel="external">数学の苦手なバイオの学生がCourseraの機械学習コースを修了して気づいたこと - Qiita</a></p>
+<p> Qiitaで11週全週に渡りまとめを公開して下さった <a href="https://qiita.com/katsu1110" target="_blank" rel="external">@katsu1110</a> さんの記事を予習、復習に参考にさせて頂きました。</p>
 
             
         </div>
@@ -310,7 +330,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/18/coursera-machine-learning.html"  data-tooltip="Coursera機械学習講座のまとめ">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -318,7 +338,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/29/k-means.html" data-tooltip="クラスタリング">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/13/stochastic-gradient-descent.html" data-tooltip="確率的最急降下法">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -334,18 +354,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/18/coursera-machine-learning.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/18/coursera-machine-learning.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=確率的最急降下法">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Coursera機械学習講座のまとめ">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -404,7 +424,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/18/coursera-machine-learning.html"  data-tooltip="Coursera機械学習講座のまとめ">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -412,7 +432,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/10/29/k-means.html" data-tooltip="クラスタリング">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/13/stochastic-gradient-descent.html" data-tooltip="確率的最急降下法">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -428,18 +448,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/18/coursera-machine-learning.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/18/coursera-machine-learning.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=確率的最急降下法">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=Coursera機械学習講座のまとめ">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -465,18 +485,18 @@
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/18/coursera-machine-learning.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/18/coursera-machine-learning.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=確率的最急降下法">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=Coursera機械学習講座のまとめ">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -535,9 +555,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/11/13/stochastic-gradient-descent.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/11/18/coursera-machine-learning.html';
                  
-                    this.page.identifier = 'machine-learning/2017/11/13/stochastic-gradient-descent.html';
+                    this.page.identifier = 'machine-learning/2017/11/18/coursera-machine-learning.html';
                  
              };
             (function() {
@@ -561,24 +581,7 @@
      }
      var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
     </body>
 </html>
