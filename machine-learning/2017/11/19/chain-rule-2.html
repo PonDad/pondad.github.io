@@ -25,7 +25,7 @@
 <meta property="og:description" content="さて、前回 からの続きです。">
 <meta property="og:image" content="https://cldup.com/DmoOOBzFjb.jpg">
 <meta property="og:image" content="https://cldup.com/nrRh73CZWd.png">
-<meta property="og:updated_time" content="2017-11-19T03:18:22.000Z">
+<meta property="og:updated_time" content="2017-11-19T03:19:32.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
 <meta name="twitter:description" content="さて、前回 からの続きです。">
@@ -283,9 +283,7 @@
 <p>機械学習講座のまとめで <a href="https://pondad.net/machine-learning/2017/09/24/logistic-regression.html" target="_blank" rel="external">ロジスティック回帰とシグモイド関数</a> こんなまとめをしました。</p>
 <p>ニューラルネットワークの仕組みを理解しやすくする為に、計算グラフと微分（連鎖律）を使って最急降下法を視覚的に理解します。</p>
 <h2 id="ロジスティック回帰-（Logistic-Regression）のおさらい"><a href="#ロジスティック回帰-（Logistic-Regression）のおさらい" class="headerlink" title="ロジスティック回帰 （Logistic Regression）のおさらい"></a>ロジスティック回帰 （Logistic Regression）のおさらい</h2><p>機械学習講座で学んだパラメータ $\theta$ は重さ $w$ に、対数 $log$ を利用した分類判定は損失関数 $\mathcal{L}(a,y)$ にまとめています。</p>
-<p>$$<br>z = {W^T}{x}+b</p>
-<p>\hat{y} = a = \sigma(g)</p>
-<p>\mathcal{L}(a,y) = - (y\ log(a) + (1-y)log(1 - a))<br>$$</p>
+<p>$$<br>z = {W^T}{x}+b\newline<br>\hat{y} = a = \sigma(g)\newline<br>\mathcal{L}(a,y) = - (y\ log(a) + (1-y)log(1 - a))<br>$$</p>
 <p>ニューラルネットワークで使われる用語に置き換えて考えてみるという事ですね。さて、この最急降下法を計算グラフで考えてきます。</p>
 <h2 id="最急降下法（Gradient-descent）"><a href="#最急降下法（Gradient-descent）" class="headerlink" title="最急降下法（Gradient descent）"></a>最急降下法（Gradient descent）</h2><p><img src="https://cldup.com/DmoOOBzFjb.jpg" alt=""></p>
 <p>特徴量に重さを掛けたものにバイアスを足し、シグモイド関数に代入します。結果とラベルとの誤差を損失関数とし、最小値を求めます。</p>
@@ -302,10 +300,7 @@
 <p>目的関数の最小値を求めるため重さ $dw^{(i)}$ を更新します。上の式をまとめると以下の様になります。</p>
 <p>$$<br>dw_1= \frac{dJ}{dw_1}<br>$$</p>
 <p>最急降下法に代入します。</p>
-<p>$$<br>w_1 := w_1-\alpha dw_1</p>
-<p>w_2 := w_2-\alpha dw_2</p>
-<p>…\</p>
-<p>b := b-\alpha db<br>$$</p>
+<p>$$<br>w_1 := w_1-\alpha dw_1\newline<br>w_2 := w_2-\alpha dw_2\newline<br>…\newline<br>b := b-\alpha db<br>$$</p>
 <h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>今回は計算グラフと連鎖律を使ってロジスティック回帰の最急降下法の仕組みをまとめてみました。</p>
 <p>次回はいよいよニューラルネットワークの誤差逆伝播法の詳細をみていきたいと思います。</p>
 <h2 id="参考にさせて頂きました"><a href="#参考にさせて頂きました" class="headerlink" title="参考にさせて頂きました"></a>参考にさせて頂きました</h2><p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4797342501/pondadamazon-22/ref=nosim/" target="_blank" rel="external">マンガでわかる微分積分 - サイエンス・アイ新書</a></p>
