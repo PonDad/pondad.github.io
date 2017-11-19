@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>連鎖律と計算グラフ - ポンダッドの日記</title>
+    <title>連鎖律と計算グラフその１（順伝播と逆伝播） - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -19,15 +19,15 @@
     
     <meta name="description" content="今回よりdeeplearning.ai の深層学習講座のまとめになります。コースは現在までのところ5コース用意されており、4コースが開講されています。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="連鎖律と計算グラフ">
+<meta property="og:title" content="連鎖律と計算グラフその１（順伝播と逆伝播）">
 <meta property="og:url" content="https://pondad.github.io/machine-learning/2017/11/18/chain-rule.html">
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="今回よりdeeplearning.ai の深層学習講座のまとめになります。コースは現在までのところ5コース用意されており、4コースが開講されています。">
 <meta property="og:image" content="https://cldup.com/vdsKt34AAh.jpg">
 <meta property="og:image" content="https://cldup.com/vLlTO7BOUC.jpg">
-<meta property="og:updated_time" content="2017-11-19T00:06:13.000Z">
+<meta property="og:updated_time" content="2017-11-19T00:21:16.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="連鎖律と計算グラフ">
+<meta name="twitter:title" content="連鎖律と計算グラフその１（順伝播と逆伝播）">
 <meta name="twitter:description" content="今回よりdeeplearning.ai の深層学習講座のまとめになります。コースは現在までのところ5コース用意されており、4コースが開講されています。">
 <meta name="twitter:image" content="https://cldup.com/vdsKt34AAh.jpg">
 <meta name="twitter:creator" content="@pon_dad">
@@ -246,7 +246,7 @@
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            連鎖律と計算グラフ
+            連鎖律と計算グラフその１（順伝播と逆伝播）
         </h1>
     
     <div class="post-meta">
@@ -290,7 +290,7 @@
 <p>ここでは $a, b, c$ 3つの変数をノードによって計算していきます。左から右に計算することを順伝播、左から右に計算することを逆伝播と言います。</p>
 <p>なぜ計算グラフを使うのかというと、複雑な計算をノード毎の局所的に計算に置き換えることが出来るからです。それにより逆伝播の微分を効率良く計算することが出来ます。</p>
 <p>微分の表し方は複数あるのですが、ここでは関数 $y=f(x)$ を $x$ で微分する、という意味で $f(x) = \frac{dy}{dx}$ という表記を使います。</p>
-<p>さて、逆伝播の微分は上の図のように表すことが出来ますが、一つ一つ微分して更新していくのでは計算量が膨大になる為、合成関数（複合関数）と連鎖率という手法を使って計算します。</p>
+<p>さて、逆伝播の微分は上の図のように表すことが出来ますが、一つ一つ微分して更新していくのでは計算量が膨大になる為、合成関数（複合関数）と連鎖律という手法を使って計算します。</p>
 <h2 id="連鎖律（Chain-Rule）"><a href="#連鎖律（Chain-Rule）" class="headerlink" title="連鎖律（Chain Rule）"></a>連鎖律（Chain Rule）</h2><p>「連鎖律の原理」は次のように表すことが出来ます。</p>
 <blockquote>
 <p>ある関数が合成関数で表される場合、その合成関数の微分は、合成関数を構成するそれぞれの関数の微分の積によって表すことが出来る<br><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873117585/pondadamazon-22/ref=nosim/" target="_blank" rel="external">ゼロから作るDeep Learning - O’REILLYジャパン</a> より引用</p>
@@ -358,7 +358,7 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフ">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその１（順伝播と逆伝播）">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -452,7 +452,7 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフ">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその１（順伝播と逆伝播）">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -489,7 +489,7 @@
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフ">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその１（順伝播と逆伝播）">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
