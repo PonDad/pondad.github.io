@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>連鎖律と計算グラフその２（ロジスティック回帰と最急降下法） - ポンダッドの日記</title>
+    <title>連鎖律と計算グラフその3（誤差逆伝播法） - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,">
@@ -17,19 +17,20 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="さて、前回 からの続きです。">
+    <meta name="description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/11/19/chain-rule-2.html">
+<meta property="og:title" content="連鎖律と計算グラフその3（誤差逆伝播法）">
+<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="さて、前回 からの続きです。">
-<meta property="og:image" content="https://cldup.com/DmoOOBzFjb.jpg">
-<meta property="og:image" content="https://cldup.com/nrRh73CZWd.png">
-<meta property="og:updated_time" content="2017-11-19T03:21:20.000Z">
+<meta property="og:description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
+<meta property="og:image" content="https://cldup.com/L2AXk2spDV.jpg">
+<meta property="og:image" content="https://cldup.com/Sh8mTVQNq6.jpg">
+<meta property="og:image" content="https://cldup.com/iM6G_Y4jpI.png">
+<meta property="og:updated_time" content="2017-11-22T14:51:54.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
-<meta name="twitter:description" content="さて、前回 からの続きです。">
-<meta name="twitter:image" content="https://cldup.com/DmoOOBzFjb.jpg">
+<meta name="twitter:title" content="連鎖律と計算グラフその3（誤差逆伝播法）">
+<meta name="twitter:description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
+<meta name="twitter:image" content="https://cldup.com/L2AXk2spDV.jpg">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -41,8 +42,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/mvjWznliJB.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/mvjWznliJB.jpg" />
+        <meta property="og:image" content="https://cldup.com/yWUc9Uxvq9.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/yWUc9Uxvq9.jpg" />
     
     
     <!-- AMP
@@ -240,19 +241,19 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/mvjWznliJB.jpg');"
+             style="background-image:url('https://cldup.com/yWUc9Uxvq9.jpg');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）
+            連鎖律と計算グラフその3（誤差逆伝播法）
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-11-19T12:10:00+09:00">
+    <time itemprop="datePublished" datetime="2017-11-22T23:50:00+09:00">
 	
-		    2017/11/19
+		    2017/11/22
     	
     </time>
     
@@ -278,38 +279,43 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>さて、<a href="https://pondad.net/machine-learning/2017/11/18/chain-rule.html" target="_blank" rel="external">前回</a> からの続きです。</p>
+            <p><a href="https://pondad.net/machine-learning/2017/11/19/chain-rule-2.html" target="_blank" rel="external">前回</a> 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。</p>
 <a id="more"></a>
-<p>機械学習講座のまとめで <a href="https://pondad.net/machine-learning/2017/09/24/logistic-regression.html" target="_blank" rel="external">ロジスティック回帰とシグモイド関数</a> こんなまとめをしました。</p>
-<p>ニューラルネットワークの仕組みを理解しやすくする為に、計算グラフと微分（連鎖律）を使って最急降下法を視覚的に理解します。</p>
-<h2 id="ロジスティック回帰-（Logistic-Regression）のおさらい"><a href="#ロジスティック回帰-（Logistic-Regression）のおさらい" class="headerlink" title="ロジスティック回帰 （Logistic Regression）のおさらい"></a>ロジスティック回帰 （Logistic Regression）のおさらい</h2><p>機械学習講座で学んだパラメータ $\theta$ は重さ $w$ に、対数 $log$ を利用した分類判定は損失関数 $\mathcal{L}(a,y)$ にまとめています。</p>
-<span>$$z = {W^T}{x}+b\\
-\hat{y} = a = \sigma(g)\\
-\mathcal{L}(a,y) = - (y\ log(a) + (1-y)log(1 - a))$$</span><!-- Has MathJax -->
-<p>ニューラルネットワークで使われる用語に置き換えて考えてみるという事ですね。さて、この最急降下法を計算グラフで考えてきます。</p>
-<h2 id="最急降下法（Gradient-descent）"><a href="#最急降下法（Gradient-descent）" class="headerlink" title="最急降下法（Gradient descent）"></a>最急降下法（Gradient descent）</h2><p><img src="https://cldup.com/DmoOOBzFjb.jpg" alt=""></p>
-<p>特徴量に重さを掛けたものにバイアスを足し、シグモイド関数に代入します。結果とラベルとの誤差を損失関数とし、最小値を求めます。</p>
-<p>損失関数の最小値を得るため、微分を使いますが、前回みた様に「連鎖律の原理」を利用することで計算を簡単にします。</p>
+<p>さらりとそんなことを書きましたが、そんなに甘いものではなく何度も何度も繰り返して講座を復習してみましたものの、しっかりと理解できたとは言い難い状況です。</p>
+<p>ふわっとした理解で恐縮ですが、まとめてみます。</p>
+<h2 id="浅いニューラルネットワーク（Shallow-neural-networks）"><a href="#浅いニューラルネットワーク（Shallow-neural-networks）" class="headerlink" title="浅いニューラルネットワーク（Shallow neural networks）"></a>浅いニューラルネットワーク（Shallow neural networks）</h2><p>ディープラーニングを見る前にまずは隠れ層が1層となるニューラルネットワークを考えていきます。</p>
+<p><img src="https://cldup.com/L2AXk2spDV.jpg" alt=""></p>
+<p>図で表すとこんな感じです。$m$ 個の学習データの特徴量 $X$ を元にラベル $y$ と学習した結果 $\hat{y}$ （ここでは $a^{[2]}$ ）であることを示します。</p>
+<p>損失関数を $\mathcal{L}$ としていますので、その最小値を求めていくことが目的となります。</p>
+<p>前回ロジスティック回帰の最急降下法をまとめました。隠れ層が増えることでその逆伝播にどんな変化が現れるのでしょうか？</p>
+<h2 id="誤差逆伝播法（Backpropagation-）"><a href="#誤差逆伝播法（Backpropagation-）" class="headerlink" title="誤差逆伝播法（Backpropagation ）"></a>誤差逆伝播法（Backpropagation ）</h2><p><img src="https://cldup.com/Sh8mTVQNq6.jpg" alt=""></p>
+<p>上の図を計算グラフで書き直すとこのようになります。重み $W$ が大文字になっているのがポイントです。重み $w$ を配列に格納したものです。</p>
+<p>これも計算リソースを削減させる工夫のひとつです。膨大なデータをひとつひとつループ処理を使って計算するのでは無く行列を使い一気に計算していきます。</p>
+<p>機械学習講座の <a href="https://pondad.net/machine-learning/2017/10/01/forward-propagation.html" target="_blank" rel="external">ニューラルネットワークの順伝播</a> でまとめたように、ディープラーニングの出力層（分類の場合）はロジスティック回帰と同じ形になります。</p>
+<p>誤差逆伝播法を利用する場合でも、</p>
+<p>$$<br>dz^{[2]} = a^{[2]} - y<br>$$</p>
+<p>という逆伝播の微分式は同じ形になります。（図の右黄色い丸部分）</p>
+<p>連鎖率によって導き出す式ですが、出来過ぎな位良くできています。これは、計算結果 $a^{[2]}$ とラベル $y$ の誤差と全く一緒です。</p>
+<p>あまりにも整いすぎていて不思議だったのですが、これは「そのように設計しているから」という事の様です。すごいよ！</p>
+<p>さて、ここからが最大のポイントです。隠れ層の微分は以下の様になります。</p>
+<p>$$<br>dz^{[1]} = W^{[2]T}dz^{[2]} * g^{[1]’}(z^{[1]})<br>$$</p>
+<p>あれ、なんか予想と違う（出力層と形が違う）。</p>
+<p>これは合成関数の処理の仕方が違うので形が変わっているのです。「連鎖律の原理」により$dz$ はこんな式で表せます。</p>
+<p>$$<br>\frac{dL}{dz}  = \frac{dL}{da} \frac{da}{dz}<br>$$</p>
+<p>この式を右の $dz^{[1]}$ にあてはめてみます。$\frac{da}{dz}$ はシグモイド関数の微分 $g^{[1]’}(z^{[1]})$ として表せます。</p>
+<p>そうするとのこりの $\frac{dL}{da} $ （省略すると $da$ ）は…</p>
+<p>隣りにある $da^{[1]}$ になります。ちょっと引用してみます。</p>
 <blockquote>
-<p>ある関数が合成関数で表される場合、その合成関数の微分は、合成関数を構成するそれぞれの関数の微分の積によって表すことが出来る</p>
+<p>行列（多次元配列）を対象とした逆伝播を求める場合は、行列の要素ごとに書き下すことで、スカラ値を対象とした計算グラフと同じ手順で考えることが出来ます。実際に書き下してみると次の式が得られます<br>$$<br>\frac{dL}{dW}  = X^{[T]} \frac{dL}{dY}<br>$$</p>
+<p>式の $W^{[T]}$ の $T$ は転置を表します。<br><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4873117585/pondadamazon-22/ref=nosim/" target="_blank" rel="external">ゼロから作るDeep Learning - O’REILLYジャパン</a></p>
 </blockquote>
-<p>これにより、微分 $\frac{dJ}{dz}$ （省略すると $dz$）は以下の様になります。</p>
-<p>$$<br>dz = a-y<br>$$</p>
-<p>計算のリソースをこの様にして削減します。</p>
-<h2 id="目的関数（Cost-function）の最小値を求める"><a href="#目的関数（Cost-function）の最小値を求める" class="headerlink" title="目的関数（Cost function）の最小値を求める"></a>目的関数（Cost function）の最小値を求める</h2><p><img src="https://cldup.com/nrRh73CZWd.png" alt=""></p>
+<p>この式と同じです。$X$ は配列なので、転置するとちょうど上の図のように行列の形になります。</p>
+<h2 id="最急降下法"><a href="#最急降下法" class="headerlink" title="最急降下法"></a>最急降下法</h2><p>機械学習講座の<a href="https://pondad.net/machine-learning/2017/10/05/backward-propagation.html" target="_blank" rel="external">ニューラルネットワークの逆伝播</a> では目的関数の誤差を二乗誤差（のようなもの）で最小値をもとめる、と考えました。実際どのように計算するのでしょう。</p>
+<p><img src="https://cldup.com/iM6G_Y4jpI.png" alt=""></p>
 <p>画像引用：<a href="https://www.coursera.org/learn/neural-networks-deep-learning/" target="_blank" rel="external">Neural networks and Deep learning - Coursera</a></p>
-<p>トレーニングセット $(x^{(i)},y^{(i)})$ に対する目的関数は $J(w,b)$ は上記のように表せます。</p>
-<p>目的関数の最小値を求めるため重さ $dw^{(i)}$ を更新します。上の式をまとめると以下の様になります。</p>
-<p>$$<br>dw_1= \frac{dJ}{dw_1}<br>$$</p>
-<p>最急降下法に代入します。</p>
-<span>$$w_1 := w_1-\alpha dw_1\\
-w_2 := w_2-\alpha dw_2\\
-...\\
-b := b-\alpha db$$</span><!-- Has MathJax -->
-<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>今回は計算グラフと連鎖律を使ってロジスティック回帰の最急降下法の仕組みをまとめてみました。</p>
-<p>次回はいよいよニューラルネットワークの誤差逆伝播法の詳細をみていきたいと思います。</p>
-<h2 id="参考にさせて頂きました"><a href="#参考にさせて頂きました" class="headerlink" title="参考にさせて頂きました"></a>参考にさせて頂きました</h2><p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4797342501/pondadamazon-22/ref=nosim/" target="_blank" rel="external">マンガでわかる微分積分 - サイエンス・アイ新書</a></p>
-<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873117585/pondadamazon-22/ref=nosim/" target="_blank" rel="external">ゼロから作るDeep Learning - O’REILLYジャパン</a></p>
+<p>計算グラフで考えた微分を使い二乗誤差（のようなもの）で最小値を求めていきます。計算式で表すよりもNumPy形式で考えたほうが分かりやすそうですね。</p>
+<p>…ふう。自分の理解力の限界を超えてしまいました。ふわっとしていますが今日はここまで。</p>
+<h2 id="参考にさせて頂きました"><a href="#参考にさせて頂きました" class="headerlink" title="参考にさせて頂きました"></a>参考にさせて頂きました</h2><p><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4873117585/pondadamazon-22/ref=nosim/" target="_blank" rel="external">ゼロから作るDeep Learning - O’REILLYジャパン</a></p>
 
             
         </div>
@@ -328,7 +334,7 @@ b := b-\alpha db$$</span><!-- Has MathJax -->
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/22/chain-rule-3.html"  data-tooltip="連鎖律と計算グラフその3（誤差逆伝播法）">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -336,7 +342,7 @@ b := b-\alpha db$$</span><!-- Has MathJax -->
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/18/chain-rule.html" data-tooltip="連鎖律と計算グラフその１（順伝播と逆伝播）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/19/chain-rule-2.html" data-tooltip="連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -352,18 +358,18 @@ b := b-\alpha db$$</span><!-- Has MathJax -->
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/19/chain-rule-2.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/19/chain-rule-2.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその3（誤差逆伝播法）">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -422,7 +428,7 @@ b := b-\alpha db$$</span><!-- Has MathJax -->
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/22/chain-rule-3.html"  data-tooltip="連鎖律と計算グラフその3（誤差逆伝播法）">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -430,7 +436,7 @@ b := b-\alpha db$$</span><!-- Has MathJax -->
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/18/chain-rule.html" data-tooltip="連鎖律と計算グラフその１（順伝播と逆伝播）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/19/chain-rule-2.html" data-tooltip="連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -446,18 +452,18 @@ b := b-\alpha db$$</span><!-- Has MathJax -->
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/19/chain-rule-2.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/19/chain-rule-2.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその3（誤差逆伝播法）">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -483,18 +489,18 @@ b := b-\alpha db$$</span><!-- Has MathJax -->
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/19/chain-rule-2.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/19/chain-rule-2.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその3（誤差逆伝播法）">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -553,9 +559,9 @@ b := b-\alpha db$$</span><!-- Has MathJax -->
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/11/19/chain-rule-2.html';
+                 this.page.url = 'https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html';
                  
-                    this.page.identifier = 'machine-learning/2017/11/19/chain-rule-2.html';
+                    this.page.identifier = 'machine-learning/2017/11/22/chain-rule-3.html';
                  
              };
             (function() {
