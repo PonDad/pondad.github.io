@@ -24,9 +24,9 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
 <meta property="og:image" content="https://cldup.com/L2AXk2spDV.jpg">
-<meta property="og:image" content="https://cldup.com/Sh8mTVQNq6.jpg">
+<meta property="og:image" content="https://cldup.com/a-ew3ndXyW.jpg">
 <meta property="og:image" content="https://cldup.com/iM6G_Y4jpI.png">
-<meta property="og:updated_time" content="2017-11-22T14:51:54.000Z">
+<meta property="og:updated_time" content="2017-11-23T00:01:27.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="連鎖律と計算グラフその3（誤差逆伝播法）">
 <meta name="twitter:description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
@@ -288,7 +288,7 @@
 <p>図で表すとこんな感じです。$m$ 個の学習データの特徴量 $X$ を元にラベル $y$ と学習した結果 $\hat{y}$ （ここでは $a^{[2]}$ ）であることを示します。</p>
 <p>損失関数を $\mathcal{L}$ としていますので、その最小値を求めていくことが目的となります。</p>
 <p>前回ロジスティック回帰の最急降下法をまとめました。隠れ層が増えることでその逆伝播にどんな変化が現れるのでしょうか？</p>
-<h2 id="誤差逆伝播法（Backpropagation-）"><a href="#誤差逆伝播法（Backpropagation-）" class="headerlink" title="誤差逆伝播法（Backpropagation ）"></a>誤差逆伝播法（Backpropagation ）</h2><p><img src="https://cldup.com/Sh8mTVQNq6.jpg" alt=""></p>
+<h2 id="誤差逆伝播法（Backpropagation-）"><a href="#誤差逆伝播法（Backpropagation-）" class="headerlink" title="誤差逆伝播法（Backpropagation ）"></a>誤差逆伝播法（Backpropagation ）</h2><p><img src="https://cldup.com/a-ew3ndXyW.jpg" alt=""></p>
 <p>上の図を計算グラフで書き直すとこのようになります。重み $W$ が大文字になっているのがポイントです。重み $w$ を配列に格納したものです。</p>
 <p>これも計算リソースを削減させる工夫のひとつです。膨大なデータをひとつひとつループ処理を使って計算するのでは無く行列を使い一気に計算していきます。</p>
 <p>機械学習講座の <a href="https://pondad.net/machine-learning/2017/10/01/forward-propagation.html" target="_blank" rel="external">ニューラルネットワークの順伝播</a> でまとめたように、ディープラーニングの出力層（分類の場合）はロジスティック回帰と同じ形になります。</p>
@@ -297,7 +297,7 @@
 <p>という逆伝播の微分式は同じ形になります。（図の右黄色い丸部分）</p>
 <p>連鎖率によって導き出す式ですが、出来過ぎな位良くできています。これは、計算結果 $a^{[2]}$ とラベル $y$ の誤差と全く一緒です。</p>
 <p>あまりにも整いすぎていて不思議だったのですが、これは「そのように設計しているから」という事の様です。すごいよ！</p>
-<p>さて、ここからが最大のポイントです。隠れ層の微分は以下の様になります。</p>
+<p>さて、ここからが最大のポイントです。隠れ層の微分は以下の様になります。（図の左黄色い丸部分）</p>
 <p>$$<br>dz^{[1]} = W^{[2]T}dz^{[2]} * g^{[1]’}(z^{[1]})<br>$$</p>
 <p>あれ、なんか予想と違う（出力層と形が違う）。</p>
 <p>これは合成関数の処理の仕方が違うので形が変わっているのです。「連鎖律の原理」により$dz$ はこんな式で表せます。</p>
