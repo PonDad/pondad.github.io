@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://cldup.com/L2AXk2spDV.jpg">
 <meta property="og:image" content="https://cldup.com/a-ew3ndXyW.jpg">
 <meta property="og:image" content="https://cldup.com/iM6G_Y4jpI.png">
-<meta property="og:updated_time" content="2017-11-23T00:01:27.000Z">
+<meta property="og:updated_time" content="2017-11-23T00:03:29.000Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="連鎖律と計算グラフその3（誤差逆伝播法）">
 <meta name="twitter:description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
@@ -300,7 +300,7 @@
 <p>さて、ここからが最大のポイントです。隠れ層の微分は以下の様になります。（図の左黄色い丸部分）</p>
 <p>$$<br>dz^{[1]} = W^{[2]T}dz^{[2]} * g^{[1]’}(z^{[1]})<br>$$</p>
 <p>あれ、なんか予想と違う（出力層と形が違う）。</p>
-<p>これは合成関数の処理の仕方が違うので形が変わっているのです。「連鎖律の原理」により$dz$ はこんな式で表せます。</p>
+<p>これは合成関数の処理の仕方が違うので形が変わっています。「連鎖律の原理」により$dz$ はこんな式で表せます。</p>
 <p>$$<br>\frac{dL}{dz}  = \frac{dL}{da} \frac{da}{dz}<br>$$</p>
 <p>この式を右の $dz^{[1]}$ にあてはめてみます。$\frac{da}{dz}$ はシグモイド関数の微分 $g^{[1]’}(z^{[1]})$ として表せます。</p>
 <p>そうするとのこりの $\frac{dL}{da} $ （省略すると $da$ ）は…</p>
