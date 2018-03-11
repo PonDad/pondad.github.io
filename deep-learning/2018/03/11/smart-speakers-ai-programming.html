@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ポンダッドの日記">
-    <title>連鎖律と計算グラフその3（誤差逆伝播法） - ポンダッドの日記</title>
+    <title>スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売 - ポンダッドの日記</title>
     <meta name="author" content="ポンダッド">
     
         <meta name="keywords" content="bot,ai,iot,deep-learning,">
@@ -17,20 +17,22 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
+    <meta name="description" content="久しぶりのブログ更新となります。この度マイナビ出版より3月23日書籍刊行の運びとなりましたので、内容をご紹介します。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="連鎖律と計算グラフその3（誤差逆伝播法）">
-<meta property="og:url" content="https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
+<meta property="og:title" content="スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売">
+<meta property="og:url" content="https://pondad.github.io/deep-learning/2018/03/11/smart-speakers-ai-programming.html">
 <meta property="og:site_name" content="ポンダッドの日記">
-<meta property="og:description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
-<meta property="og:image" content="https://cldup.com/L2AXk2spDV.jpg">
-<meta property="og:image" content="https://cldup.com/a-ew3ndXyW.jpg">
-<meta property="og:image" content="https://cldup.com/iM6G_Y4jpI.png">
-<meta property="og:updated_time" content="2017-11-23T00:03:29.000Z">
+<meta property="og:description" content="久しぶりのブログ更新となります。この度マイナビ出版より3月23日書籍刊行の運びとなりましたので、内容をご紹介します。">
+<meta property="og:image" content="https://cldup.com/JgnE5LSm8C.png">
+<meta property="og:image" content="https://cldup.com/2luJ7SXFDm.jpg">
+<meta property="og:image" content="https://cldup.com/OLFBNiLPG4.jpg">
+<meta property="og:image" content="https://cldup.com/zsGwY9XeW8.jpg">
+<meta property="og:image" content="https://cldup.com/s8-v7Y5gFr.jpg">
+<meta property="og:updated_time" content="2018-03-11T02:59:38.000Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="連鎖律と計算グラフその3（誤差逆伝播法）">
-<meta name="twitter:description" content="前回 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。">
-<meta name="twitter:image" content="https://cldup.com/L2AXk2spDV.jpg">
+<meta name="twitter:title" content="スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売">
+<meta name="twitter:description" content="久しぶりのブログ更新となります。この度マイナビ出版より3月23日書籍刊行の運びとなりましたので、内容をご紹介します。">
+<meta name="twitter:image" content="https://cldup.com/JgnE5LSm8C.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -42,8 +44,8 @@
     
     
     
-        <meta property="og:image" content="https://cldup.com/yWUc9Uxvq9.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/yWUc9Uxvq9.jpg" />
+        <meta property="og:image" content="https://cldup.com/JgnE5LSm8C.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cldup.com/JgnE5LSm8C.png" />
     
     
     <!-- AMP
@@ -250,25 +252,25 @@
         <div class="post-header-cover
                     text-left
                     "
-             style="background-image:url('https://cldup.com/yWUc9Uxvq9.jpg');"
+             style="background-image:url('https://cldup.com/JgnE5LSm8C.png');"
              data-behavior="4">
             
                 <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            連鎖律と計算グラフその3（誤差逆伝播法）
+            スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-11-22T23:50:00+09:00">
+    <time itemprop="datePublished" datetime="2018-03-11T09:00:00+09:00">
 	
-		    2017/11/22
+		    2018/03/11
     	
     </time>
     
         <span>カテゴリー:  </span>
         
-    <a class="category-link" href="/categories/machine-learning/">machine-learning</a>
+    <a class="category-link" href="/categories/deep-learning/">deep-learning</a>
 
 
     
@@ -288,43 +290,39 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p><a href="https://pondad.net/machine-learning/2017/11/19/chain-rule-2.html" target="_blank" rel="external">前回</a> 誤差逆伝播法の詳細を見ていきたいと思います、と書きました。人工知能愛好家（Artificial Intelligence Hobbyist）ポンダッドです。</p>
+            <p>久しぶりのブログ更新となります。この度マイナビ出版より3月23日書籍刊行の運びとなりましたので、内容をご紹介します。</p>
 <a id="more"></a>
-<p>さらりとそんなことを書きましたが、そんなに甘いものではなく何度も何度も繰り返して講座を復習してみましたものの、しっかりと理解できたとは言い難い状況です。</p>
-<p>ふわっとした理解で恐縮ですが、まとめてみます。</p>
-<h2 id="浅いニューラルネットワーク（Shallow-neural-networks）"><a href="#浅いニューラルネットワーク（Shallow-neural-networks）" class="headerlink" title="浅いニューラルネットワーク（Shallow neural networks）"></a>浅いニューラルネットワーク（Shallow neural networks）</h2><p>ディープラーニングを見る前にまずは隠れ層が1層となるニューラルネットワークを考えていきます。</p>
-<p><img src="https://cldup.com/L2AXk2spDV.jpg" alt=""></p>
-<p>図で表すとこんな感じです。$m$ 個の学習データの特徴量 $X$ を元にラベル $y$ と学習した結果 $\hat{y}$ （ここでは $a^{[2]}$ ）であることを示します。</p>
-<p>損失関数を $\mathcal{L}$ としていますので、その最小値を求めていくことが目的となります。</p>
-<p>前回ロジスティック回帰の最急降下法をまとめました。隠れ層が増えることでその逆伝播にどんな変化が現れるのでしょうか？</p>
-<h2 id="誤差逆伝播法（Backpropagation-）"><a href="#誤差逆伝播法（Backpropagation-）" class="headerlink" title="誤差逆伝播法（Backpropagation ）"></a>誤差逆伝播法（Backpropagation ）</h2><p><img src="https://cldup.com/a-ew3ndXyW.jpg" alt=""></p>
-<p>上の図を計算グラフで書き直すとこのようになります。重み $W$ が大文字になっているのがポイントです。重み $w$ を配列に格納したものです。</p>
-<p>これも計算リソースを削減させる工夫のひとつです。膨大なデータをひとつひとつループ処理を使って計算するのでは無く行列を使い一気に計算していきます。</p>
-<p>機械学習講座の <a href="https://pondad.net/machine-learning/2017/10/01/forward-propagation.html" target="_blank" rel="external">ニューラルネットワークの順伝播</a> でまとめたように、ディープラーニングの出力層（分類の場合）はロジスティック回帰と同じ形になります。</p>
-<p>誤差逆伝播法を利用する場合でも、</p>
-<p>$$<br>dz^{[2]} = a^{[2]} - y<br>$$</p>
-<p>という逆伝播の微分式は同じ形になります。（図の右黄色い丸部分）</p>
-<p>連鎖率によって導き出す式ですが、出来過ぎな位良くできています。これは、計算結果 $a^{[2]}$ とラベル $y$ の誤差と全く一緒です。</p>
-<p>あまりにも整いすぎていて不思議だったのですが、これは「そのように設計しているから」という事の様です。すごいよ！</p>
-<p>さて、ここからが最大のポイントです。隠れ層の微分は以下の様になります。（図の左黄色い丸部分）</p>
-<p>$$<br>dz^{[1]} = W^{[2]T}dz^{[2]} * g^{[1]’}(z^{[1]})<br>$$</p>
-<p>あれ、なんか予想と違う（出力層と形が違う）。</p>
-<p>これは合成関数の処理の仕方が違うので形が変わっています。「連鎖律の原理」により$dz$ はこんな式で表せます。</p>
-<p>$$<br>\frac{dL}{dz}  = \frac{dL}{da} \frac{da}{dz}<br>$$</p>
-<p>この式を右の $dz^{[1]}$ にあてはめてみます。$\frac{da}{dz}$ はシグモイド関数の微分 $g^{[1]’}(z^{[1]})$ として表せます。</p>
-<p>そうするとのこりの $\frac{dL}{da} $ （省略すると $da$ ）は…</p>
-<p>隣りにある $da^{[1]}$ になります。ちょっと引用してみます。</p>
+<h2 id="スマートスピーカー-×-AIプログラミング-自分でつくる人工知能-Amazon-Echo、Google-Home対応"><a href="#スマートスピーカー-×-AIプログラミング-自分でつくる人工知能-Amazon-Echo、Google-Home対応" class="headerlink" title="スマートスピーカー × AIプログラミング 自分でつくる人工知能　Amazon Echo、Google Home対応"></a>スマートスピーカー × AIプログラミング 自分でつくる人工知能　Amazon Echo、Google Home対応</h2><p>「Raspberry PiとPythonでスマートスピーカーを更に賢く！」というキャッチコピーの通り、昨年末に日本発売となったスマートスピーカー「Amazon Echo」と「Google Home」を使って更に賢い人工知能をつくるPythonプログラミングと電子工作の実践本になります。</p>
+<p><img src="https://cldup.com/JgnE5LSm8C.png" alt=""></p>
+<p>image via: <a href="https://book.mynavi.jp/ec/products/detail/id=88754" target="_blank" rel="external">マイナビBOOKS</a></p>
+<p>書籍では解説役として双子のキャラクター「a子」と「g子」が登場します。ふとしたことでAIを自作してみようと思い立った「a子」と「g子」は無事自分たちの思い描くAIを作り上げることができるでしょうか。</p>
+<p>可愛らしいイラストは平井太朗（へいたろう）先生 <a href="https://twitter.com/heytaroh" target="_blank" rel="external">@heytaroh</a> に描いていただきました。</p>
+<h3 id="スマートスピーカー-×-Python"><a href="#スマートスピーカー-×-Python" class="headerlink" title="スマートスピーカー × Python"></a>スマートスピーカー × Python</h3><p><img src="https://cldup.com/2luJ7SXFDm.jpg" alt=""></p>
+<p>image via: <a href="https://book.mynavi.jp/ec/products/detail/id=88754" target="_blank" rel="external">マイナビBOOKS</a></p>
 <blockquote>
-<p>行列（多次元配列）を対象とした逆伝播を求める場合は、行列の要素ごとに書き下すことで、スカラ値を対象とした計算グラフと同じ手順で考えることが出来ます。実際に書き下してみると次の式が得られます<br>$$<br>\frac{dL}{dW}  = X^{[T]} \frac{dL}{dY}<br>$$</p>
-<p>式の $W^{[T]}$ の $T$ は転置を表します。<br><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4873117585/pondadamazon-22/ref=nosim/" target="_blank" rel="external">ゼロから作るDeep Learning - O’REILLYジャパン</a></p>
+<p>音声認識、合成音声発話に関して、スマートスピーカー「Amazon Echo」と「Google Home」、画像認識に関してはシングルボードコンピュータ「Raspberry Pi」とGoogle社のディープラーニングライブラリ「TensorFlow」とその拡張ライブラリ「Keras」の組み合わせでAIライクなPythonプログラミングを実践していきます。</p>
 </blockquote>
-<p>この式と同じです。$X$ は配列なので、転置するとちょうど上の図のように行列の形になります。</p>
-<h2 id="最急降下法"><a href="#最急降下法" class="headerlink" title="最急降下法"></a>最急降下法</h2><p>機械学習講座の<a href="https://pondad.net/machine-learning/2017/10/05/backward-propagation.html" target="_blank" rel="external">ニューラルネットワークの逆伝播</a> では目的関数の誤差を二乗誤差（のようなもの）で最小値をもとめる、と考えました。実際どのように計算するのでしょう。</p>
-<p><img src="https://cldup.com/iM6G_Y4jpI.png" alt=""></p>
-<p>画像引用：<a href="https://www.coursera.org/learn/neural-networks-deep-learning/" target="_blank" rel="external">Neural networks and Deep learning - Coursera</a></p>
-<p>計算グラフで考えた微分を使い二乗誤差（のようなもの）で最小値を求めていきます。計算式で表すよりもNumPy形式で考えたほうが分かりやすそうですね。</p>
-<p>…ふう。自分の理解力の限界を超えてしまいました。ふわっとしていますが今日はここまで。</p>
-<h2 id="参考にさせて頂きました"><a href="#参考にさせて頂きました" class="headerlink" title="参考にさせて頂きました"></a>参考にさせて頂きました</h2><p><a href="https://www.amazon.co.jp/exec/obidos/ASIN/4873117585/pondadamazon-22/ref=nosim/" target="_blank" rel="external">ゼロから作るDeep Learning - O’REILLYジャパン</a></p>
+<h3 id="スマートスピーカー-×-家電"><a href="#スマートスピーカー-×-家電" class="headerlink" title="スマートスピーカー × 家電"></a>スマートスピーカー × 家電</h3><p><img src="https://cldup.com/OLFBNiLPG4.jpg" alt=""></p>
+<p>image via: <a href="https://book.mynavi.jp/ec/products/detail/id=88754" target="_blank" rel="external">マイナビBOOKS</a></p>
+<blockquote>
+<p>ソニーのIoTブロック：MESHタグとPhilipsのスマート家電Hueを組み合わせ、照明の明るさやエアコンの制御をスマートスピーカーを通して行います。</p>
+</blockquote>
+<h3 id="スマートスピーカー-×-カメラ"><a href="#スマートスピーカー-×-カメラ" class="headerlink" title="スマートスピーカー × カメラ"></a>スマートスピーカー × カメラ</h3><p><img src="https://cldup.com/zsGwY9XeW8.jpg" alt=""></p>
+<p><img src="https://cldup.com/s8-v7Y5gFr.jpg" alt=""></p>
+<p>image via: <a href="https://book.mynavi.jp/ec/products/detail/id=88754" target="_blank" rel="external">マイナビBOOKS</a></p>
+<blockquote>
+<p>Raspberry Piにカメラを接続。コンピュータビジョンライブラリOpenCVを導入し顔認識に挑戦します。”双子”を見分けたり、顔の表情を読み取りそのときの感情に合わせた照明色へ変化させてみたりします。</p>
+</blockquote>
+<p>顔認識や感情認識のモデルとしてフリー素材アイドルMika+Rikaさん <a href="https://twitter.com/mikarika1125" target="_blank" rel="external">@mikarika1125</a> を使わせていただきました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>書籍の「はじめに」でこんな文章を書きました。</p>
+<blockquote>
+<p>人工知能に関連する技術に実際に触れて、身近な問題を解決したり、もっと便利な使い方を考えついたり、身の回りの人と一緒に楽しんだりと様々な変化を体感できるかもしれません。この書籍がそんなきっかけになれば幸いです。</p>
+</blockquote>
+<p>読んでいただく方の自由な発想を具現化する一助になればと思い、一生懸命書きました。各書籍購入サイトにてご予約承りを開始しておりますので是非ご予約ください。</p>
+<h2 id="商品リンク"><a href="#商品リンク" class="headerlink" title="商品リンク"></a>商品リンク</h2><p style="margin-top:10px;"><br><iframe src="https://book.mynavi.jp/ec_products_detail_html/id=88754" frameborder="0" width="220" height="250" scrolling="yes"></iframe><br></p>
+
+<p><a href="https://www.amazon.co.jp/o/ASIN/4839965803/mynavibooks-22/" target="_blank" rel="external">amazon.co.jp</a></p>
+<p><a href="https://books.rakuten.co.jp/rb/15360270/" target="_blank" rel="external">Rakutenブックス</a></p>
 
             
         </div>
@@ -334,7 +332,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">タグ: </span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/machine-learning/">machine-learning</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/deep-learning/">deep-learning</a> <a class="tag tag--primary tag--small t-link" href="/tags/iot/">iot</a>
 
             </div>
         
@@ -343,7 +341,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/deep-learning/2018/03/11/smart-speakers-ai-programming.html"  data-tooltip="スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -351,7 +349,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/19/chain-rule-2.html" data-tooltip="連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/22/chain-rule-3.html" data-tooltip="連鎖律と計算グラフその3（誤差逆伝播法）">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -367,18 +365,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/deep-learning/2018/03/11/smart-speakers-ai-programming.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/deep-learning/2018/03/11/smart-speakers-ai-programming.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその3（誤差逆伝播法）">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -437,7 +435,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/deep-learning/2018/03/11/smart-speakers-ai-programming.html"  data-tooltip="スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">前</span>
@@ -445,7 +443,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/19/chain-rule-2.html" data-tooltip="連鎖律と計算グラフその２（ロジスティック回帰と最急降下法）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/machine-learning/2017/11/22/chain-rule-3.html" data-tooltip="連鎖律と計算グラフその3（誤差逆伝播法）">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">次</span>
                     <i class="fa fa-angle-right"></i>
@@ -461,18 +459,18 @@
         </li>
         <!--
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/deep-learning/2018/03/11/smart-speakers-ai-programming.html">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
       -->
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/deep-learning/2018/03/11/smart-speakers-ai-programming.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその3（誤差逆伝播法）">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -498,18 +496,18 @@
     <ul class="share-options">
       <!--
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/deep-learning/2018/03/11/smart-speakers-ai-programming.html">
                 <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
             </a>
         </li>
       -->
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/deep-learning/2018/03/11/smart-speakers-ai-programming.html">
                 <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=連鎖律と計算グラフその3（誤差逆伝播法）">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=スマートスピーカー × AIプログラミング（マイナビ出版）3月23日発売">
                 <i class="fa fa-twitter"></i><span>Twitterで共有</span>
             </a>
         </li>
@@ -568,9 +566,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://pondad.github.io/machine-learning/2017/11/22/chain-rule-3.html';
+                 this.page.url = 'https://pondad.github.io/deep-learning/2018/03/11/smart-speakers-ai-programming.html';
                  
-                    this.page.identifier = 'machine-learning/2017/11/22/chain-rule-3.html';
+                    this.page.identifier = 'deep-learning/2018/03/11/smart-speakers-ai-programming.html';
                  
              };
             (function() {
@@ -594,24 +592,7 @@
      }
      var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
     </body>
 </html>
