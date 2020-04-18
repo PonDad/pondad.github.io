@@ -8,7 +8,7 @@
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 900;
   src: local("Open Sans Bold"), local("OpenSans-Bold"), url(https://fonts.gstatic.com/s/opensans/v10/k3k702ZOKiLJc3WVjuplzJS3E-kSBmtLoNJPDtbj2Pk.ttf) format("truetype"); }
 
 @font-face {
@@ -26,7 +26,7 @@
 @font-face {
   font-family: 'Merriweather';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 900;
   src: local("Merriweather Bold"), local("Merriweather-Bold"), url(https://fonts.gstatic.com/s/merriweather/v8/ZvcMqxEwPfh2qDWBPxn6nv83cGrqhiQgWmjXfohD0fc.ttf) format("truetype"); }
 
 @font-face {
@@ -38,7 +38,7 @@
 @font-face {
   font-family: 'Merriweather';
   font-style: italic;
-  font-weight: 700;
+  font-weight: 900;
   src: local("Merriweather Bold Italic"), local("Merriweather-BoldItalic"), url(https://fonts.gstatic.com/s/merriweather/v8/EYh7Vl4ywhowqULgRdYwII1kRdeHIFWYEsp6A2f99b0.ttf) format("truetype"); }
 
 @font-face {
