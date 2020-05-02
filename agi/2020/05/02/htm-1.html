@@ -25,8 +25,8 @@
 <meta property="og:site_name" content="ポンダッドの日記">
 <meta property="og:description" content="2045年まであと15年。こんにちは、ポンダッドです。
 数回にわたってまとめてきたジェフ・ホーキンスの理論により、知能の未来が見えたように感じました。">
-<meta property="og:image" content="https://cldup.com/7jJohovZFK.png">
-<meta property="og:image" content="https://cldup.com/KEvEG5v80I.png">
+<meta property="og:image" content="https://cldup.com/S5SXK_gWcO.png">
+<meta property="og:image" content="https://cldup.com/c35EXbBuvS.png">
 <meta property="og:image" content="https://cldup.com/_LEMkLoLD9.png">
 <meta property="og:image" content="https://cldup.com/NfukhOz6vT.png">
 <meta property="og:image" content="https://cldup.com/feNUz_dMYs.png">
@@ -35,12 +35,12 @@
 <meta property="og:image" content="https://cldup.com/DsODMOcQle.png">
 <meta property="og:image" content="https://cldup.com/6-jvTFJ9tj.png">
 <meta property="og:image" content="https://cldup.com/XJubeAYMHf.png">
-<meta property="og:updated_time" content="2020-05-02T13:27:42.500Z">
+<meta property="og:updated_time" content="2020-05-02T22:41:42.355Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
 <meta name="twitter:description" content="2045年まであと15年。こんにちは、ポンダッドです。
 数回にわたってまとめてきたジェフ・ホーキンスの理論により、知能の未来が見えたように感じました。">
-<meta name="twitter:image" content="https://cldup.com/7jJohovZFK.png">
+<meta name="twitter:image" content="https://cldup.com/S5SXK_gWcO.png">
 <meta name="twitter:creator" content="@pon_dad">
 <meta property="fb:app_id" content="1040778976039074">
     
@@ -303,12 +303,12 @@
 <p>今回は機械知能の奥底へ潜り込み、その理論にせまります。みなさんも電脳世界へダイブしてみましょう。</p>
 <h2 id="階層的一時記憶（HTM-Hierarchical-temporal-memory）"><a href="#階層的一時記憶（HTM-Hierarchical-temporal-memory）" class="headerlink" title="階層的一時記憶（HTM/Hierarchical temporal memory）"></a>階層的一時記憶（HTM/Hierarchical temporal memory）</h2><p>ホーキンスが『考える脳考えるコンピューター』執筆した後、構築したシステムは階層的一時記憶（以下HTM）と名付けられました。</p>
 <p>今回考察するのは、第二世代アルゴリズムになります。主にNumenta社の公開している情報<sup>※1</sup>を参照します。</p>
-<p><img src="https://cldup.com/7jJohovZFK.png" alt="図1"></p>
+<p><img src="https://cldup.com/S5SXK_gWcO.png" alt="図1"></p>
 <p><small><strong>図1:HTM概念図</strong></small></p>
 <p>HTMは、新皮質の領域（リージョン/Region）の構造をもとにしています。旧脳は含まれず、脳全体を再現したものでないことに注意してください。</p>
 <p>新皮質はどの領域でも均一にはたらきますので（マウントキャッスルの発見）、ひとつの領域は「記憶による予測」をおこなう最小単位として機能します。</p>
 <p>HTMのリージョンは新皮質の柱状構造を模しており、ミニカラム（Mini-Columns）の集合からできています。ミニカラムは複数のセル（Cell）をもちます。</p>
-<p><img src="https://cldup.com/KEvEG5v80I.png" alt="図2"></p>
+<p><img src="https://cldup.com/c35EXbBuvS.png" alt="図2"></p>
 <p><small><strong>図2:HTMにおけるセルの機能</strong></small></p>
 <p>HTMのセルは、新皮質の錐体細胞の機能を再現します。「入力データ」をフィードフォワード（Feedfoward）「普遍の表現」をフィードバック（Feedback）として受け取ります。</p>
 <p>入力データは視床を通じて第1層に戻り、領域全体に広がります。それをもとに新皮質は「自己連想記憶」を呼び出しました。HTMセルは、シナプスの結合状態から「文脈」（Context）をとらえ、「自己連想記憶」を呼び出します。</p>
