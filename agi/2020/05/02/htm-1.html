@@ -1,0 +1,654 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,deep-learning,agi,machine-intelligence,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="2045年まであと15年。こんにちは、ポンダッドです。
+数回にわたってまとめてきたジェフ・ホーキンスの理論により、知能の未来が見えたように感じました。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
+<meta property="og:url" content="https://pondad.github.io/agi/2020/05/02/htm-1.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="2045年まであと15年。こんにちは、ポンダッドです。
+数回にわたってまとめてきたジェフ・ホーキンスの理論により、知能の未来が見えたように感じました。">
+<meta property="og:image" content="https://cldup.com/7jJohovZFK.png">
+<meta property="og:image" content="https://cldup.com/KEvEG5v80I.png">
+<meta property="og:image" content="https://cldup.com/_LEMkLoLD9.png">
+<meta property="og:image" content="https://cldup.com/NfukhOz6vT.png">
+<meta property="og:image" content="https://cldup.com/feNUz_dMYs.png">
+<meta property="og:image" content="https://cldup.com/F2ZnYY_uLI.png">
+<meta property="og:image" content="https://cldup.com/_Bc1D0iqOi.png">
+<meta property="og:image" content="https://cldup.com/DsODMOcQle.png">
+<meta property="og:image" content="https://cldup.com/6-jvTFJ9tj.png">
+<meta property="og:image" content="https://cldup.com/XJubeAYMHf.png">
+<meta property="og:updated_time" content="2020-05-02T10:08:47.043Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
+<meta name="twitter:description" content="2045年まであと15年。こんにちは、ポンダッドです。
+数回にわたってまとめてきたジェフ・ホーキンスの理論により、知能の未来が見えたように感じました。">
+<meta name="twitter:image" content="https://cldup.com/7jJohovZFK.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://book.mynavi.jp/ec/products/detail/id=88754" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-book"></i>
+                        <span class="sidebar-button-desc">著作物</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://medium.com/@pon_dad" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-medium"></i>
+                        <span class="sidebar-button-desc">Mediun</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2020-05-02T00:00:00+09:00">
+	
+		    2020/05/02
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/agi/">agi</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>2045年まであと15年。こんにちは、ポンダッドです。</p>
+<p>数回にわたってまとめてきたジェフ・ホーキンスの理論により、知能の未来が見えたように感じました。</p>
+<a id="more"></a>
+<p>「脳をリバース・エンジニアリング」した「機械知能」と聞くと、スーパーコンピューターでも使うのかと想像しますが、64ビットのパソコンと公開されているプラットフォームで誰でも使うことができます。</p>
+<p>今回は機械知能の奥底へ潜り込み、その理論にせまります。みなさんも電脳世界へダイブしてみましょう。</p>
+<h2 id="階層的一時記憶（HTM-Hierarchical-temporal-memory）"><a href="#階層的一時記憶（HTM-Hierarchical-temporal-memory）" class="headerlink" title="階層的一時記憶（HTM/Hierarchical temporal memory）"></a>階層的一時記憶（HTM/Hierarchical temporal memory）</h2><p>ホーキンスが『考える脳考えるコンピューター』執筆した後、構築したシステムは階層的一時記憶（以下HTM）と名付けられました。</p>
+<p>今回考察するのは、第二世代アルゴリズムになります。主にNumenta社の公開している情報<sup>※1</sup>を参照します。</p>
+<p><img src="https://cldup.com/7jJohovZFK.png" alt="図1"></p>
+<p><small><strong>図1:HTM概念図</strong></small></p>
+<p>HTMは、新皮質の領域（リージョン/Region）の構造をもとにしています。旧脳は含まれず、脳全体を再現したものでないことに注意してください。</p>
+<p>新皮質はどの領域でも均一にはたらきますので（マウントキャッスルの発見）、ひとつの領域は「記憶による予測」をおこなう最小単位として機能します。</p>
+<p>HTMのリージョンは新皮質の柱状構造を模しており、ミニカラム（Mini-Columns）の集合からできています。ミニカラムは複数のセル（Cell）をもちます。</p>
+<p><img src="https://cldup.com/KEvEG5v80I.png" alt="図2"></p>
+<p><small><strong>図2:HTMにおけるセルの機能</strong></small></p>
+<p>HTMのセルは、新皮質の錐体細胞の機能を再現します。「入力データ」をフィードフォワード（Feedfoward）「普遍の表現」をフィードバック（Feedback）として受け取ります。</p>
+<p>入力データは視床を通じて第1層に戻り、領域全体に広がります。それをもとに新皮質は「自己連想記憶」を呼び出しました。HTMセルは、シナプスの結合状態から「文脈」（Context）をとらえ、「自己連想記憶」を呼び出します。</p>
+<h2 id="スパース分散表現（SDR-Sparse-Distributed-Representations）"><a href="#スパース分散表現（SDR-Sparse-Distributed-Representations）" class="headerlink" title="スパース分散表現（SDR/Sparse Distributed Representations）"></a>スパース分散表現（SDR/Sparse Distributed Representations）</h2><p>HTMでは情報をスパース分散表現（SDR）で表現します。これは、新皮質のニューロンがまばらに活性化されることにヒントを得ました。</p>
+<p>SDRでは記憶をバイナリデータ<sup>※2</sup>で表現します。「アクティブ」と判断されたものはオンビット<code>1</code>で表現され、「非アクティブ」と判断されたものはオフビット<code>0</code>で表現されます。オンビットはSDRの2%ほどで設定され、オフビットは98%の疎状態（Sparsity/スパース状態）になります。</p>
+<p><img src="https://cldup.com/_LEMkLoLD9.png" alt="図3"></p>
+<p><small><strong>図3:スパース分散表現</strong></small></p>
+<p>SDRが疎状態であることから得られる特性は以下のようになります。</p>
+<ul>
+<li>1兆を超える（2<sup>40</sup>）容量を持ち<sup>※3</sup>、ミスマッチの発生確率が低い</li>
+<li>疎状態であるため堅牢性が高く、ノイズによる誤差確率が低い</li>
+<li>疎状態のベクトルを処理するため、分類エラー率が低い<sup>※4</sup></li>
+<li>SDRは結合（ユニオン/Union）<sup>※5</sup>できるため、複数同時の予測が可能になる</li>
+<li>ノイズが存在する場合でも、SDRユニオンは堅牢性が高い</li>
+</ul>
+<p>一般的なニューラル・ネットワークは、密な情報である特徴量を細かく学習します。スパース分散表現はその真逆の発想であることが分かります。</p>
+<h2 id="エンコード（Encode）"><a href="#エンコード（Encode）" class="headerlink" title="エンコード（Encode）"></a>エンコード（Encode）</h2><p>さまざまな入力データを、SDRにエンコードすることで新皮質と同じ処理が可能になります。HTMシステムでは、エンコード用のAPIが用意されています。いくつか例をあげます。</p>
+<p><img src="https://cldup.com/NfukhOz6vT.png" alt="図:4"></p>
+<p><small><strong>図4: 周波数のエンコード</strong></small></p>
+<p>もっとも一般的な入力データは数値といえます。たとえば、音階周波数ごとに入力データをSDRに変換することで、HTMで音階の学習、予測がおこなえます。</p>
+<p><img src="https://cldup.com/feNUz_dMYs.png" alt="図5"></p>
+<p><small><strong>図5: 分類のエンコード</strong></small></p>
+<p>数値データを伴わない場合、値の変化から意味を表現できます。</p>
+<p><img src="https://cldup.com/F2ZnYY_uLI.png" alt="図6"></p>
+<p><small><strong>図6: 日時のエンコード</strong></small></p>
+<p>複数の意味空間を含んだ入力データをエンコードできるAPIも用意されています。汎用性のたかい日時に関しては細かい条件でエンコードが可能です。</p>
+<h2 id="空間プーリング（SP-Spatial-Pooling）"><a href="#空間プーリング（SP-Spatial-Pooling）" class="headerlink" title="空間プーリング（SP/Spatial Pooling）"></a>空間プーリング（SP/Spatial Pooling）</h2><p>HTMの入力に対する学習と推論<sup>※6</sup>は、空間プーリング（Spatial Pooling）と呼ばれるアルゴリズムによっておこなわれます。</p>
+<p><img src="https://cldup.com/_Bc1D0iqOi.png" alt="図7"></p>
+<p><small><strong>図7: 空間プーリング</strong></small></p>
+<p>空間プーリングを実行するHTMリージョンを空間プーラーと呼びます。図7の例でいうとデータ構造はSDRを4枚重ねたもので表すことができます。空間プーリングは、<strong>入力データとミニカラム間</strong>のフィードフォワード接続を学習します。</p>
+<p>空間プーラー内のミニカラムにあるセルは、樹状突起（じゅじょうとっき/Dendrite）セグメントを通じ、シナプス（Synapse）によって入力データと接続します。</p>
+<p>シナプスは入力データと空間プーラーの情報を比較し、その結合度によって<strong>抑制</strong>をおこないます。抑制の結合度を示すしきい値は初期値ではランダムに設定されます。（図2ではステップ関数で示されています）</p>
+<p>また、シナプスは入力データを、より多く空間プーラーに接続しようとします。これを<strong>ブースティング</strong>（Boosting）とよびます。接続するシナプスの数は、任意のミニカラムが隣接するミニカラムに対してアクティブになる頻度によって決まります。（図2では一次関数で示されています）</p>
+<p>ブースティング後、抑制値が高いミニカラムはアクティブな状態を保ち、それ以外のミニカラムは非アクティブな状態となります。</p>
+<p>アクティブなミニカラムに接続したシナプスは<strong>永続値</strong>（parmanence）が上昇し、非アクティブなミニカラムに接続したシナプスは永続値が減少します。これにより接続から非接続に、その逆に変更されます。</p>
+<p>まとめると空間プーリングは、入力データとミニカラム間の永続値を学習し、接続状態を更新します。</p>
+<h2 id="一時記憶（TM-Temporal-Memory）"><a href="#一時記憶（TM-Temporal-Memory）" class="headerlink" title="一時記憶（TM/Temporal Memory）"></a>一時記憶（TM/Temporal Memory）</h2><p>HTMのシーケンス学習と入力に対する予測は、一時記憶（Temporal Memory）アルゴリズムによっておこなわれます。</p>
+<p><img src="https://cldup.com/DsODMOcQle.png" alt="図8"></p>
+<p><small><strong>図8:一時記憶</strong></small></p>
+<p>一時記憶を実行するHTMリージョンを時間プーラーと呼びます。空間プーラーと同様、図8の例でいうとデータ構造はSDRを4枚重ねたもので表すことができます。時間プーラーは同じリージョンの<strong>セル間</strong>の接続を学習します。</p>
+<p>時間プーラー内のセルは、樹状突起セグメントを通じ、シナプスによってその他のセルと接続します。</p>
+<p>一時記憶は学習後、2つのステップに分かれてアルゴリズムを実行します。</p>
+<p>学習時、ミニカラムがはじめてのデータを参照する際、それらは予測にないためバースト（Burst）が発生します。つまり、ミニカラムのすべてのセルがそのシーケンスを学習しようとします。</p>
+<p>学習後、ひとつめのステップが実行されます。バーストしたミニカラムでは、特定のセルのみがアクティブになります。</p>
+<p>ふたつめのステップでは、特定のセルがアクティブになったと識別されると、次に発火する複数のセルが予測されます。</p>
+<p><img src="https://cldup.com/6-jvTFJ9tj.png" alt="図8"></p>
+<p><small><strong>図8: 一次記憶の学習前、学習後 （引用: <a href="https://www.mitpressjournals.org/doi/full/10.1162/NECO_a_00893#.WMBBGBLytE6" target="_blank" rel="external">The MIT Pless Jpuenals</a>）</strong></small></p>
+<p>論文の図をみると分かりやすいので引用します。A→B→C→D→X→B→C→Yの順で学習したのち、Cを入力した時の予測をみてみましょう。</p>
+<p>Cの入力時、一時記憶によってセルがシーケンスを学習しているため、Cの入力前がB’であればD’が予測されます。また、Cの入力前がB’’であればY’’が予測できます。</p>
+<p>まとめると一時記憶は、HTMリージョンのセル間の接続の永続値を学習し、接続状態を更新します。そして、入力の次のシーケンスを予測します。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>第2世代アルゴリズムはオンラインで教師なし学習ができるなため、異常検知などの分野での活用が見込まれています。</p>
+<p>今回は機械知能の秘密にせまりました。はじめは難解に思えましたが、『考える脳考えるコンピューター』で論じられた脳の構造と照らし合わせると、理解が深まりました。</p>
+<p>ホーキンスは「優れた理論とは簡単に理解されるものである」というモットーを持っているようです。ブラックボックス部分がないので、今後はひろく世の中に受け入れられるような気がします。</p>
+<p>とくに根拠はないのですが。<strong>そう囁くのです、私の中のゴーストが</strong>。</p>
+<p>来週はHTMを実際に使ってみます。次回「機械知能に歌おぼえさせてみた」おたのしみ！</p>
+<h2 id="引用-注釈"><a href="#引用-注釈" class="headerlink" title="引用/注釈"></a>引用/注釈</h2><p> ※1: 以下のアドレスで公開されている論文・動画・文献をGoogle/DeepLにて翻訳し、参考にしました。</p>
+<ul>
+<li>Research Papers（<a href="https://numenta.com/neuroscience-research/research-publications/papers/" target="_blank" rel="external">Numenta</a>）</li>
+<li>HTM School （<a href="https://www.youtube.com/playlist?list=PL3yXMgtrZmDqhsFQzwUC9V8MeeVOQ7eZ9" target="_blank" rel="external">YouTube</a>）</li>
+<li>Numenta@Medium（<a href="https://medium.com/@Numenta" target="_blank" rel="external">Medium</a>）</li>
+<li>numenta/nupic（<a href="https://github.com/numenta/nupic" target="_blank" rel="external">GitHub</a>）</li>
+</ul>
+<p><strong>Hawkins, J. et al. 2016-2020. Biological and Machine Intelligence. Release 0.4. Accessed at<a href="https://numenta.com/resources/biological-and-machine-intelligence/" target="_blank" rel="external">https://numenta.com/resources/biological-and-machine-intelligence/</a>.</strong></p>
+<p>※2: バイナリ（<a href="https://ja.wikipedia.org/wiki/%E3%83%90%E3%82%A4%E3%83%8A%E3%83%AA" target="_blank" rel="external">wikipedia</a>）</p>
+<p>※3: SDRがデフォルト値の場合。2048ビットの2%で40ビットになり容量は2<sup>40</sup>になります。</p>
+<p>※4: 疎状態と密状態の比較は、補足図のBとCを参照してください。</p>
+<p><img src="https://cldup.com/XJubeAYMHf.png" alt="補足図"></p>
+<p><small><strong>補足図: 疎状態と密状態の比較</strong></small></p>
+<p>※5: SDRユニオンはOR演算をおこないます。その際、一種の正則化おこないスパース値を2％で保ちます。</p>
+<p>※6: シーケンスを伴わないものは、予測ではなく「推論」としました。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/agi/">agi</a> <a class="tag tag--primary tag--small t-link" href="/tags/machine-intelligence/">machine-intelligence</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/agi/2020/04/25/on-intelligence-3.html" data-tooltip="知能の未来〜その後のジェフ・ホーキンス">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/agi/2020/05/02/htm-1.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/agi/2020/05/02/htm-1.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2020 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/agi/2020/04/25/on-intelligence-3.html" data-tooltip="知能の未来〜その後のジェフ・ホーキンス">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/agi/2020/05/02/htm-1.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/agi/2020/05/02/htm-1.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/agi/2020/05/02/htm-1.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/agi/2020/05/02/htm-1.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/agi/2020/05/02/htm-1.html';
+                 
+                    this.page.identifier = 'agi/2020/05/02/htm-1.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </body>
+</html>
