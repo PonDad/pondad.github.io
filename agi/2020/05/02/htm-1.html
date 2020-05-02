@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://cldup.com/DsODMOcQle.png">
 <meta property="og:image" content="https://cldup.com/6-jvTFJ9tj.png">
 <meta property="og:image" content="https://cldup.com/XJubeAYMHf.png">
-<meta property="og:updated_time" content="2020-05-02T22:42:35.598Z">
+<meta property="og:updated_time" content="2020-05-02T22:45:58.197Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
 <meta name="twitter:description" content="2045年まであと15年。こんにちは、ポンダッドです。
@@ -339,7 +339,7 @@
 <p><img src="https://cldup.com/_Bc1D0iqOi.png" alt="図7"></p>
 <p><small><strong>図7: 空間プーリング</strong></small></p>
 <p>空間プーリングを実行するHTMリージョンを空間プーラーと呼びます。図7の例でいうとデータ構造はSDRを4枚重ねたもので表すことができます。空間プーリングは、<strong>入力データとミニカラム間</strong>のフィードフォワード接続を学習します。</p>
-<p>空間プーラー内のミニカラムにあるセルは、樹状突起（じゅじょうとっき/Dendrite）セグメントを通じ、シナプス（Synapse）によって入力データと接続します。</p>
+<p>空間プーラー内のミニカラムにあるセルは、樹状突起（じゅじょうとっき/Dendrite）セグメント（Segment）を通じ、シナプス（Synapse）によって入力データと接続します。</p>
 <p>シナプスは入力データと空間プーラーの情報を比較し、その結合度によって<strong>抑制</strong>をおこないます。抑制の結合度を示すしきい値は初期値ではランダムに設定されます。（図2ではステップ関数で示されています）</p>
 <p>また、シナプスは入力データを、より多く空間プーラーに接続しようとします。これを<strong>ブースティング</strong>（Boosting）とよびます。接続するシナプスの数は、任意のミニカラムが隣接するミニカラムに対してアクティブになる頻度によって決まります。（図2では一次関数で示されています）</p>
 <p>ブースティング後、抑制値が高いミニカラムはアクティブな状態を保ち、それ以外のミニカラムは非アクティブな状態となります。</p>
