@@ -1,0 +1,647 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ポンダッドの日記">
+    <title>機械知能に歌おぼえさせてみた〜HTM／Hierarchical temporal memory - ポンダッドの日記</title>
+    <meta name="author" content="ポンダッド">
+    
+        <meta name="keywords" content="bot,ai,iot,deep-learning,agi,machine-intelligence,">
+    
+    
+        <link rel="icon" href="https://pondad.github.io/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="こどもの頃は少年合唱団、ポンダッドです。
+前回はHTMの理論についてまとめました。今回は実際につかってみることで、その仕組の理解を深めようと思います。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="機械知能に歌おぼえさせてみた〜HTM／Hierarchical temporal memory">
+<meta property="og:url" content="https://pondad.github.io/machine-intelligence/2020/05/10/htm-2.html">
+<meta property="og:site_name" content="ポンダッドの日記">
+<meta property="og:description" content="こどもの頃は少年合唱団、ポンダッドです。
+前回はHTMの理論についてまとめました。今回は実際につかってみることで、その仕組の理解を深めようと思います。">
+<meta property="og:image" content="https://cldup.com/BAoVClShsf.png">
+<meta property="og:image" content="https://cldup.com/P4JoEUnxxq.png">
+<meta property="og:image" content="https://cldup.com/qwrCWHVzNk.png">
+<meta property="og:image" content="https://cldup.com/lkq16luYC0.png">
+<meta property="og:image" content="https://cldup.com/JekWDhu1WW.png">
+<meta property="og:image" content="https://cldup.com/6Ea5_Gy4Hi.png">
+<meta property="og:image" content="https://cldup.com/PlwjihEOg0.gif">
+<meta property="og:image" content="https://cldup.com/B-mINOVOXV.gif">
+<meta property="og:image" content="https://cldup.com/ap-dBNqcig.png">
+<meta property="og:image" content="https://cldup.com/Ap5iPvcpem.png">
+<meta property="og:updated_time" content="2020-05-10T10:55:31.923Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="機械知能に歌おぼえさせてみた〜HTM／Hierarchical temporal memory">
+<meta name="twitter:description" content="こどもの頃は少年合唱団、ポンダッドです。
+前回はHTMの理論についてまとめました。今回は実際につかってみることで、その仕組の理解を深めようと思います。">
+<meta name="twitter:image" content="https://cldup.com/BAoVClShsf.png">
+<meta name="twitter:creator" content="@pon_dad">
+<meta property="fb:app_id" content="1040778976039074">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://pondad.github.io/assets/images/icon.png"/>
+    
+    
+    
+    
+    <!-- AMP
+    
+    -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">ポンダッドの日記</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+                </a>
+                <h4 class="sidebar-profile-name">ポンダッド</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">ホーム</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">カテゴリー</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">タグ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">アーカイブ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="/search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">検索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">プロフィール</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://book.mynavi.jp/ec/products/detail/id=88754" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-book"></i>
+                        <span class="sidebar-button-desc">著作物</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://qiita.com/PonDad/" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                        <span class="sidebar-button-desc">Qiita</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://medium.com/@pon_dad" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-medium"></i>
+                        <span class="sidebar-button-desc">Mediun</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            機械知能に歌おぼえさせてみた〜HTM／Hierarchical temporal memory
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2020-05-10T00:00:00+09:00">
+	
+		    2020/05/10
+    	
+    </time>
+    
+        <span>カテゴリー:  </span>
+        
+    <a class="category-link" href="/categories/machine-intelligence/">machine-intelligence</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>こどもの頃は少年合唱団、ポンダッドです。</p>
+<p>前回はHTMの理論についてまとめました。今回は実際につかってみることで、その仕組の理解を深めようと思います。</p>
+<a id="more"></a>
+<p>『考える脳考えるコンピューター』では、自己連想記憶の例として歌の記憶があげられていました。歌の最初のフレーズを聞くだけで、人間はその歌がなんであるか聞き分けます。</p>
+<p>また、歌のキーが変化していても同様に聞き分けることができます。これらは歌のフレーズを普遍の表現として記憶し、音の入力からそれを予測することで可能になります。</p>
+<p>HTMが新皮質を再現したのであれば、同じ処理ができるはずです。そこで実際にどのような処理をおこなうか試してみました。</p>
+<p>記事の最後にはJupyter-Notebookのノートを添付しています。ぜひ一緒に試してみましょう。</p>
+<h2 id="NuPIC（Numenta-Platform-for-Intelligent-Computing）"><a href="#NuPIC（Numenta-Platform-for-Intelligent-Computing）" class="headerlink" title="NuPIC（Numenta Platform for Intelligent Computing）"></a>NuPIC（Numenta Platform for Intelligent Computing）</h2><p>2013年にNumentaはオープンソースプラットフォーム <a href="https://github.com/numenta/nupic" target="_blank" rel="external">NuPIC</a>（Numenta Platform for Intelligent Computing）を公開しました。これはコア部はC ++で書かれていますが、APIによりPython、JAVA 、JavaScriptなど様々な言語で利用することができます。</p>
+<p>64bitの各OSに対応していますが<sup>※1</sup>、ひとつ注意点があります。Pythonライブラリは2系にのみ対応しています。</p>
+<p>2020年現在、有志の方によりPython3系の移植版 <a href="https://github.com/htm-community/htm.core" target="_blank" rel="external">htm.core</a> が作成されています。Numentaは今後3系の開発はしない意向のようです。</p>
+<p>今回はUbuntu18.04とPython2.7をつかいます。<sup>※2</sup></p>
+<h2 id="音源ファイルの作成"><a href="#音源ファイルの作成" class="headerlink" title="音源ファイルの作成"></a>音源ファイルの作成</h2><p><img src="https://cldup.com/BAoVClShsf.png" alt="図1"></p>
+<h3 id="Scratchで音楽の再生"><a href="#Scratchで音楽の再生" class="headerlink" title="Scratchで音楽の再生"></a>Scratchで音楽の再生</h3><p>音源はWAVファイルであれば何でも良いのですが、今回の実験ではHTMに学習させるため周波数を変えた同じ音楽が必要になります。</p>
+<p>そこでビジュアルプログラミングエディター<a href="https://scratch.mit.edu/" target="_blank" rel="external">Scratch</a>を使うことにしました。Scratchの「音楽」ブロックは「楽器」を21種類選択できます。この機能を使い、音楽の周波数を変えて再生します。</p>
+<p>今回は「キラキラ星」を楽器を変えて10回、検証用に「メリーさんのひつじ」を1回演奏するプログラムを組みました。サンプルプログラムは下記リンクより利用して下さい。</p>
+<p><a href="https://scratch.mit.edu/projects/390512046" target="_blank" rel="external">サウンド・リピーター - Scratch</a></p>
+<h3 id="Chrome拡張機能で音楽の録音"><a href="#Chrome拡張機能で音楽の録音" class="headerlink" title="Chrome拡張機能で音楽の録音"></a>Chrome拡張機能で音楽の録音</h3><p>音源の録音にはMacであればQuickTimeで録音すればよいでしょう。今回はChrome拡張機能<a href="https://chrome.google.com/webstore/detail/audiorecorder/enhfkjkjfhhdibpgjmiamdcdgmcjpplk?hl=ja" target="_blank" rel="external">AudioRecorder</a>を使って音源を録音します。</p>
+<p>以上で5分弱の音源WAVファイルが生成できました。</p>
+<p><iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/811111441&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"></div></p>
+<h2 id="HTMアプリケーションをつかう"><a href="#HTMアプリケーションをつかう" class="headerlink" title="HTMアプリケーションをつかう"></a>HTMアプリケーションをつかう</h2><p><img src="https://cldup.com/P4JoEUnxxq.png" alt="図2"></p>
+<p>今回は、Numentaが公開しているHTMのサンプルアプリ<code>nupic.critic</code>をつかいます。これは発生音のストリーミングデータをもとに異常検知をおこなうアプリです。</p>
+<p>HTMではリアルタイムで学習と予測をおこなうため、異常値でないシーケンスは、記憶していると判断できます。</p>
+<h3 id="1-アプリケーションのクローン"><a href="#1-アプリケーションのクローン" class="headerlink" title="1. アプリケーションのクローン"></a>1. アプリケーションのクローン</h3><p>以下のソフトが必要になりますので、Python2系のものを事前にインストールして下さい。</p>
+<ul>
+<li><a href="https://github.com/numenta/nupic" target="_blank" rel="external">NuPIC</a></li>
+<li><a href="https://matplotlib.org/" target="_blank" rel="external">matplotlib</a></li>
+<li><a href="https://numpy.org/" target="_blank" rel="external">numpy</a></li>
+</ul>
+<p>HTMのサンプルアプリ<code>nupic.critic</code>をレポジトリ<a href="https://github.com/htm-community/nupic.critic" target="_blank" rel="external">htm-community/nupic.critic</a>からクローンします。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/htm-community/nupic.critic.git</div></pre></td></tr></table></figure>
+<h3 id="2-音源をCSVに変換する"><a href="#2-音源をCSVに変換する" class="headerlink" title="2. 音源をCSVに変換する"></a>2. 音源をCSVに変換する</h3><p><img src="https://cldup.com/qwrCWHVzNk.png" alt="図3"></p>
+<p>先程ダウンロードしたwavファイルをカレントディレクトリに移動して下さい。<code>convert_wav.py</code>でWAVファイルをCSVファイルに変換します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ python nupic.critic/convert_wav.py myRecording00.wav</div></pre></td></tr></table></figure>
+<h3 id="3-SDRへ変換し学習・予測をおこなう"><a href="#3-SDRへ変換し学習・予測をおこなう" class="headerlink" title="3. SDRへ変換し学習・予測をおこなう"></a>3. SDRへ変換し学習・予測をおこなう</h3><p><img src="https://cldup.com/lkq16luYC0.png" alt="図4"></p>
+<p>ディレクトリ内に<code>data/myRecording00_5hz_10b/input</code>フォルダが生成されました。この中にWAVファイルを音階ごとにCSV化したファイルが保存されています。保存されたファイルをSDRに変換後、学習と予測を同時におこないます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ python nupic.critic/run.py data/myRecording00_5hz_10b/input</div></pre></td></tr></table></figure>
+<p><img src="https://cldup.com/JekWDhu1WW.png" alt="図5"></p>
+<p>サンプルアプリでは1秒に5回学習と予測をおこないます。時間ごとに前のステップで予測した周波数と、実際の周波数の誤差を計測しているのがわかります。</p>
+<h3 id="4-予測の可視化"><a href="#4-予測の可視化" class="headerlink" title="4. 予測の可視化"></a>4. 予測の可視化</h3><p>今度はディレクトリ内に<code>data/myRecording00_5hz_10b/input</code>フォルダが生成されました。この中に時間ごとの予測と、誤差が保存されています。保存したデータをプロットして可視化出来ます。音楽の再生と合わせてどの部分が記憶できたか確認してみましょう。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ python nupic.critic/plotter.py data/myRecording00_5hz_10b/output -w <span class="string">'myRecording00.wav'</span></div></pre></td></tr></table></figure>
+<p><img src="https://cldup.com/6Ea5_Gy4Hi.png" alt="図3"></p>
+<p>上のグラフが各音階のデータ、下のグラフが予測に対しての誤差をあらわします。</p>
+<p>学習フェーズでは、空間プーリングによる推論のみおこなわれているため予測はおこなわれません。ミニカラムはバースト状態にあり、普遍の表現を形成します。</p>
+<p><img src="https://cldup.com/PlwjihEOg0.gif" alt="図4"></p>
+<p>時間プーリングをつかった予測がはじまりました。セル同士のシナプスが結びついていないため、赤い部分が目立ちます。</p>
+<p><img src="https://cldup.com/B-mINOVOXV.gif" alt="図5"></p>
+<p>シナプスの結合がすすみ、赤い部分が目立たなくなってきました。時間プーリングの学習と予測は同時におこなわれるため、新しい楽器で演奏され最初フレーズが予測されなかった場合でも修正がおこなわれていることが分かります。</p>
+<p><img src="https://cldup.com/ap-dBNqcig.png" alt="図6"></p>
+<p>青線の部分がクラリネットで演奏した「キラキラ星」、赤線の部分が同じくクラリネットで演奏した「メリーさんのひつじ」です。（音源ファイル<a href="https://soundcloud.com/toshio-ohta/myrecording00#t=3:57" target="_blank" rel="external">3:57以降</a>の部分）</p>
+<p>概ね「キラキラ星」を記憶し、「メリーさんのひつじ」は違う歌だと予測できている結果となりました。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>無事、機械知能が自己連想記憶をよびだすのを確認することができました。音楽のフレーズをきっかけに記憶を思い出すなんて、<strong>『ノルウェイの森』の主人公ワタナベみたいだな</strong>と感じました。</p>
+<p>新皮質の構造をもとにしているので、今なにをしているのかが直感的にわかりやすいと感じました。今回はデモ用のアプリをそのまま使っただけなので、ライブラリの使い方をすこしずつおぼえていきたいですね。</p>
+<p>ではまた。</p>
+<h2 id="Jupyterノートブック"><a href="#Jupyterノートブック" class="headerlink" title="Jupyterノートブック"></a>Jupyterノートブック</h2><p>ノートブックは以下のリンクからアクセスしてください。</p>
+<p><a href="https://github.com/PonDad/My-HTM-learning/blob/master/my-htm-learning-1/my-htm-learning-1-ja.ipynb" target="_blank" rel="external">HTM-learning-1-ja.ipynb</a></p>
+<h2 id="注釈"><a href="#注釈" class="headerlink" title="注釈"></a>注釈</h2><p>※1: MacOS Catalinaでインストールを試したのですが、ライブラリの依存関係でエラーが出るためインストールできません。Ubuntuの仮想環境をつくるか、もしくはhtm.coreをインストールしてください。</p>
+<p>※2: RaspberryPi4は64BitのUbuntuが動作するため、NuPICのインストールが可能です。ただし、Arm64版のインストールは依存関係が複雑で、ビルドにすごく手間がかかるのでここでは説明を割愛します。</p>
+<p><img src="https://cldup.com/Ap5iPvcpem.png" alt="補足図"> </p>
+<p>それでも試してみたいというマニアックな方は <a href="https://github.com/PonDad/My-HTM-learning/blob/master/appendix-1/rpi4-install-nupic.md" target="_blank" rel="external">こちら</a> を参考にしてください。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">タグ: </span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/agi/">agi</a> <a class="tag tag--primary tag--small t-link" href="/tags/machine-intelligence/">machine-intelligence</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/agi/2020/05/02/htm-1.html" data-tooltip="『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-intelligence/2020/05/10/htm-2.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-intelligence/2020/05/10/htm-2.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=機械知能に歌おぼえさせてみた〜HTM／Hierarchical temporal memory">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+  <div class="adsense">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- ad-responsive -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2436310414399269"
+       data-ad-slot="2225439572"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+    <span class="copyrights">
+        Copyrights &copy; 2020 ポンダッド. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">前</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/agi/2020/05/02/htm-1.html" data-tooltip="『階層的一時記憶』を紐解く〜HTM／Hierarchical temporal memory">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">次</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <!--
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-intelligence/2020/05/10/htm-2.html">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      -->
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-intelligence/2020/05/10/htm-2.html">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/share?text=機械知能に歌おぼえさせてみた〜HTM／Hierarchical temporal memory">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+      <!--
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://pondad.github.io/machine-intelligence/2020/05/10/htm-2.html">
+                <i class="fa fa-google-plus"></i><span>Google Plusで共有</span>
+            </a>
+        </li>
+      -->
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pondad.github.io/machine-intelligence/2020/05/10/htm-2.html">
+                <i class="fa fa-facebook-official"></i><span>Facebookで共有</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/share?text=機械知能に歌おぼえさせてみた〜HTM／Hierarchical temporal memory">
+                <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="著者の絵"/>
+        
+            <h4 id="about-card-name">ポンダッド</h4>
+        
+            <div id="about-card-bio" class="text-medium"><p>人工知能はチーズバーガーの夢を見るか<br><a href="/and-more">and more</a></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-heart"></i>
+                <br/>
+                <p>Love,futago</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Asia/Tokyo
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/rainbow.png');"></div>
+
+        <!--SCRIPTS-->
+<script src="/assets/js/script-rt08quwts7iav5x0cfd2ym0gb5qkd1lvrsmwrakxtkhefmaaes4ywkmnjnwf.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://pondad.github.io/machine-intelligence/2020/05/10/htm-2.html';
+                 
+                    this.page.identifier = 'machine-intelligence/2020/05/10/htm-2.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'pondad';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+     var search_path = "search.xml";
+     if (search_path.length == 0) {
+     	search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    </body>
+</html>
